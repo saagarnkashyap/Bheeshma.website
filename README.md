@@ -1,45 +1,46 @@
-# 🕉️ Bheeshma - Divine Bhagavad Gita
+# <img src="Bheeshma%20logo.png" alt="Bheeshma Logo" width="25" height="25"> Bheeshma - Divine Bhagavad Gita
 
 A modern, interactive React web application that brings the timeless wisdom of the Bhagavad Gita to the digital age. Named after the great warrior-sage Bhishma, this platform offers an immersive spiritual experience for exploring the 18 chapters and 700 verses of this sacred text.
+<p align="center">
+  <img src="Bheeshma%20logo.png" alt="Bheeshma Logo" width="150" height="150">
+</p>
 
-![Bheeshma Screenshot](Bheeshma logo.png)
+## Features
 
-## ✨ Features
-
-### 📖 Complete Sacred Text
+### Complete Sacred Text
 - All 18 chapters with 700 verses
 - Sanskrit text with accurate transliterations
 - English meanings and interpretations
 - Life applications for practical wisdom
 
-### 💝 Emotion-Based Guidance
+### Emotion-Based Guidance
 - Search verses by emotions and life challenges
 - 20+ categories including Fear, Anger, Depression, Confusion
 - Personalized spiritual guidance for modern problems
 - Interactive emotion cards with verse recommendations
 
-### 🎵 Audio Experience
+### Audio Experience
 - High-quality Sanskrit recitations from Gita Supersite
 - Full-featured audio player with controls
 - Chapter and verse navigation
 - Download audio for offline listening
 - Autoplay and repeat functionality
 
-### 🎨 Divine Aesthetics
+### Divine Aesthetics
 - Floating sacred particles and Om symbols
 - Chakra-themed color palette
 - Glass morphism effects and smooth animations
 - Responsive design for all devices
 - Custom Sanskrit typography
 
-### 🔮 Interactive Features
+### Interactive Features
 - Progress tracking with localStorage
 - Bookmarking favorite verses
 - Share verses on social media
 - Quick navigation between chapters
 - Expandable life application sections
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Frontend**: React 19 with Vite
 - **Styling**: TailwindCSS with custom divine theme
@@ -49,7 +50,7 @@ A modern, interactive React web application that brings the timeless wisdom of t
 - **Data**: JSON-based verse database
 - **Deployment**: Vercel/Netlify ready
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js 18+ 
@@ -77,7 +78,7 @@ A modern, interactive React web application that brings the timeless wisdom of t
    npm run dev
    ```
 
-## 📱 Responsive Design
+## Responsive Design
 
 Bheeshma is fully responsive and optimized for:
 - 📱 Mobile devices (375px+)
@@ -86,7 +87,7 @@ Bheeshma is fully responsive and optimized for:
 - 🖥️ Desktop (1440px+)
 
 
-## 📚 Data Structure
+## Data Structure
 
 The comprehensive JSON database:
 
@@ -108,7 +109,7 @@ The comprehensive JSON database:
 }
 ```
 
-## 🎵 Audio Integration
+## Audio Integration
 
 Audio recitations are sourced from the prestigious **Gita Supersite (IIT Kanpur)**:
 - URL Pattern: `https://www.gitasupersite.iitk.ac.in/srimad/sloka/audio/{chapter}/{chapter}_{verse}.mp3`
@@ -116,7 +117,7 @@ Audio recitations are sourced from the prestigious **Gita Supersite (IIT Kanpur)
 - Chapter-wise organization
 - Graceful fallback for unavailable audio
 
-## 🔍 Emotion-Based Search
+## Emotion-Based Search
 
 The application maps verses to human emotions and challenges:
 
@@ -132,7 +133,7 @@ The application maps verses to human emotions and challenges:
 4. Filtered results with explanations
 
 
-## 🤝 Contributing
+## Contributing 🤝
 
 We welcome contributions to make Bheeshma even more divine! Please:
 
@@ -143,11 +144,11 @@ We welcome contributions to make Bheeshma even more divine! Please:
 5. Submit a pull request
 
 
-## 📄 License
+## License 📄 
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 🙏 Credits & Acknowledgments
+## Credits & Acknowledgments 🙏 
 
 ### Data Sources
 - **Gita Supersite (IIT Kanpur)** - Sanskrit audio recitations and verse data
@@ -156,7 +157,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ### Inspiration
 This project is dedicated to Lord Krishna and all the great teachers who have preserved and shared the wisdom of the Bhagavad Gita throughout the ages.
 
-## 📞 Support
+## Support 📞
 
 For questions, suggestions, or spiritual discussions:
 - Create an issue on GitHub
