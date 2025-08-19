@@ -2,7 +2,7 @@
 
 A modern, interactive React web application that brings the timeless wisdom of the Bhagavad Gita to the digital age. Named after the great warrior-sage Bhishma, this platform offers an immersive spiritual experience for exploring the 18 chapters and 700 verses of this sacred text.
 
-![Bheeshma Screenshot](https://via.placeholder.com/800x400/1a1b3a/f4a261?text=Bheeshma+Divine+Interface)
+![Bheeshma Screenshot](Bheeshma logo.png)
 
 ## ✨ Features
 
@@ -77,21 +77,6 @@ A modern, interactive React web application that brings the timeless wisdom of t
    npm run dev
    ```
 
-4. **Open in browser**
-   ```
-   http://localhost:5173
-   ```
-
-### Build for Production
-
-```bash
-pnpm build
-# or
-npm run build
-```
-
-The built files will be in the `dist/` directory, ready for deployment.
-
 ## 📱 Responsive Design
 
 Bheeshma is fully responsive and optimized for:
@@ -100,23 +85,10 @@ Bheeshma is fully responsive and optimized for:
 - 💻 Laptops (1024px+)
 - 🖥️ Desktop (1440px+)
 
-## 🎨 Design System
-
-### Color Palette
-- **Cosmic Blue**: `#1a1b3a` - Primary background
-- **Golden Amber**: `#f4a261` - Primary accent
-- **Sacred Saffron**: `#e76f51` - Secondary accent
-- **Soft Gold**: `#e9c46a` - Text highlights
-- **Chakra Colors**: Full spectrum for emotion categories
-
-### Typography
-- **Sanskrit Font**: For Devanagari script
-- **Diomag**: Headings and titles
-- **Barter**: Body text and UI elements
 
 ## 📚 Data Structure
 
-The application uses a comprehensive JSON database containing:
+The comprehensive JSON database:
 
 ```json
 {
@@ -159,29 +131,6 @@ The application maps verses to human emotions and challenges:
 3. Relevance scoring based on context
 4. Filtered results with explanations
 
-## 🚀 Deployment
-
-### Vercel (Recommended)
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
-
-### Netlify
-```bash
-# Build the project
-pnpm build
-
-# Deploy dist/ folder to Netlify
-```
-
-### Manual Deployment
-1. Run `pnpm build`
-2. Upload `dist/` contents to your web server
-3. Configure server for SPA routing
 
 ## 🤝 Contributing
 
@@ -193,12 +142,6 @@ We welcome contributions to make Bheeshma even more divine! Please:
 4. Test thoroughly
 5. Submit a pull request
 
-### Development Guidelines
-- Follow React best practices
-- Maintain responsive design
-- Preserve spiritual aesthetics
-- Test on multiple devices
-- Document new features
 
 ## 📄 License
 
@@ -210,12 +153,6 @@ This project is open source and available under the [MIT License](LICENSE).
 - **Gita Supersite (IIT Kanpur)** - Sanskrit audio recitations and verse data
 - **Traditional Sanskrit Texts** - Authentic verses and translations
 
-### Technology
-- **React Team** - Amazing framework
-- **Framer Motion** - Beautiful animations
-- **TailwindCSS** - Utility-first styling
-- **Lucide** - Beautiful icons
-
 ### Inspiration
 This project is dedicated to Lord Krishna and all the great teachers who have preserved and shared the wisdom of the Bhagavad Gita throughout the ages.
 
@@ -223,12 +160,11 @@ This project is dedicated to Lord Krishna and all the great teachers who have pr
 
 For questions, suggestions, or spiritual discussions:
 - Create an issue on GitHub
-- Email: [your-email@domain.com]
-- Twitter: [@your-handle]
+- Email: saagarcourses@gmail.com
+- Linkedin: [[@saagarnkashyap](https://www.linkedin.com/in/saagar-n-kashyap/)]
 
 ---
 
-## 🕉️ Spiritual Note
 
 > *"You have the right to perform your actions, but never to the fruits of action"*  
 > — Bhagavad Gita 2.47
@@ -240,5 +176,6 @@ This digital offering is created with devotion and offered freely to all seekers
 
 ---
 
-Made with 💝 and devotion for the divine wisdom of the Bhagavad Gita.
+Made with Bhakti and Devotion towards Lord Krishna
 
+Sarva Loka Sukhino Bhavantu 🙏
