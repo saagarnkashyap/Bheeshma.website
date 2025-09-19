@@ -24,7 +24,6 @@ A modern, interactive React web application that brings the timeless wisdom of t
 - Full-featured audio player with controls
 - Chapter and verse navigation
 - Download audio for offline listening
-- Autoplay and repeat functionality
 
 ### Divine Aesthetics
 - Floating sacred particles and Om symbols
