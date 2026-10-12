@@ -41,6 +41,12 @@
   --color-chakra-blue: var(--slate);
   --color-chakra-indigo: var(--slate);
   --color-chakra-violet: var(--slate);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-saffron-light: var(--saffron-light);
 }
 
 :root {
@@ -236,6 +242,78 @@
   background: rgba(41, 39, 33, 0.985);
   border-right: 1px solid rgba(255, 250, 241, 0.12);
   box-shadow: 12px 0 30px rgba(41, 39, 33, 0.08);
+}
+
+.nav-mark {
+  display: grid;
+  height: 2.65rem;
+  width: 2.65rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid rgba(196, 154, 104, 0.55);
+  border-radius: 999px;
+  color: var(--saffron-light);
+  font-size: 1.35rem;
+}
+
+.nav-section-label {
+  margin-bottom: 0.7rem;
+  color: rgba(247, 244, 237, 0.42);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.nav-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.8rem;
+  border-left: 2px solid transparent;
+  border-radius: 0.4rem;
+  padding: 0.68rem 0.8rem;
+  color: rgba(247, 244, 237, 0.6);
+  font-size: 0.88rem;
+  text-align: left;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-item:hover {
+  background: rgba(247, 244, 237, 0.07);
+  color: var(--paper);
+}
+
+.nav-item-active {
+  border-left-color: var(--saffron-light);
+  background: rgba(196, 154, 104, 0.14);
+  color: var(--paper);
+}
+
+.chapter-item {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 0.65rem;
+  border-radius: 0.4rem;
+  padding: 0.5rem 0.55rem;
+  color: rgba(247, 244, 237, 0.57);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.chapter-item:hover,
+.chapter-item-active {
+  background: rgba(247, 244, 237, 0.07);
+  color: var(--paper);
+}
+
+.chapter-item-active {
+  color: var(--saffron-light);
+}
+
+.nav-quote {
+  border-left: 1px solid rgba(196, 154, 104, 0.5);
+  padding-left: 0.9rem;
 }
 
 .progress-bar {
