@@ -7,29 +7,27 @@ const AboutView = () => (
   <div className="reading-shell px-5 py-10 lg:px-16 lg:py-14">
     <div className="mx-auto max-w-4xl">
       <header className="about-intro">
-        <p className="section-kicker mb-4">An offering for study</p>
+        <p className="section-kicker mb-4">About this edition</p>
         <h1 className="font-heading text-4xl text-cosmic-blue sm:text-5xl">About Bheeshma</h1>
         <p className="mt-5 max-w-2xl text-base leading-8 text-soft-gold">
-          A small digital space for approaching the Bhagavad Gita with attention, reverence,
-          and enough quiet to hear what a verse is asking of us.
+          A focused digital edition of the Bhagavad Gita for reading, reference, and listening.
         </p>
       </header>
 
       <div className="about-content mt-16">
-        <AboutSection icon={Book} label="The project" title="A modern doorway into an old conversation.">
+        <AboutSection icon={Book} label="Purpose" title="A clear interface for a substantial text.">
           <p>
             Bheeshma brings the 18 chapters and 700 verses of the Bhagavad Gita into one calm,
             readable place. Sanskrit, transliteration, meaning, life applications, and audio sit
             together without asking the reader to rush.
           </p>
           <p>
-            It is named after Bhishma, the warrior and devotee whose final teachings are given
-            from a place of extraordinary stillness. The name is a reminder that wisdom often
-            arrives when attention becomes disciplined.
+            The project is named after Bhishma, a central figure in the Mahabharata and a
+            representative of duty, discipline, and sustained study.
           </p>
         </AboutSection>
 
-        <AboutSection icon={Heart} label="What is here" title="A few ways to stay with the text.">
+        <AboutSection icon={Heart} label="Contents" title="The main study tools.">
           <div className="about-feature-grid">
             <FeatureItem icon={Book} title="Complete text" description="All chapters with Sanskrit, transliteration, and English meaning." />
             <FeatureItem icon={Heart} title="Life guidance" description="A way to find passages for particular inner states and challenges." />
@@ -64,7 +62,7 @@ const AboutView = () => (
           transition={{ duration: 0.4 }}
         >
           <p className="font-sanskrit text-4xl text-golden-amber">ॐ</p>
-          <p className="mt-5 font-heading text-2xl text-paper">May this be useful.</p>
+          <p className="mt-5 font-heading text-2xl text-paper">For reading and study.</p>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-paper/65">
             This project is offered with gratitude to everyone who has preserved, studied, and
             shared the Gita. May it help one person find a little more steadiness.

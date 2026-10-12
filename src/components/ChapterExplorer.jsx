@@ -41,7 +41,7 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
             <p className="section-kicker mb-4">Bhagavad Gita · Chapter {chapterData.number}</p>
             <h1 className="font-heading text-4xl text-cosmic-blue sm:text-5xl">{chapterData.name}</h1>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-soft-gold">
-              Read without hurry. Let the chapter reveal its own pace.
+              Chapter context and verse-by-verse reading.
             </p>
           </div>
           <div className="chapter-arrows">
@@ -127,7 +127,7 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
         <section className="mt-14">
           <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
-              <p className="section-kicker mb-2">Your place in the chapter</p>
+              <p className="section-kicker mb-2">Verse index</p>
               <p className="font-heading text-2xl text-cosmic-blue">
                 Verse {currentShlokaIndex + 1} <span className="text-soft-gold/60">of {totalShlokas}</span>
               </p>
@@ -149,7 +149,7 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
         <section className="mt-12 border-t border-line pt-7">
           <div className="mb-4 flex items-center justify-between">
             <div>
-              <p className="section-kicker mb-2">Navigate quietly</p>
+              <p className="section-kicker mb-2">Verse navigation</p>
               <p className="text-sm text-soft-gold">Select another verse</p>
             </div>
             <div className="flex gap-2">

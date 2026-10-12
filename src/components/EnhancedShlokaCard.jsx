@@ -46,7 +46,7 @@ const EnhancedShlokaCard = ({ shloka, chapterNumber, onAudioPlay, isPlaying = fa
       <header className="shloka-card-header">
         <div>
           <p className="section-kicker mb-2">Bhagavad Gita {chapterNumber}.{shloka.shloka_number}</p>
-          <p className="text-xs uppercase tracking-[0.14em] text-soft-gold">A verse to sit with</p>
+          <p className="text-xs uppercase tracking-[0.14em] text-soft-gold">Sanskrit text and translation</p>
         </div>
         <div className="shloka-actions">
           <button
