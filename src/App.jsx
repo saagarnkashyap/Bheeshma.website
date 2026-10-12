@@ -99,7 +99,7 @@ function App() {
 
   return (
     <Router>
-      <div className="divine-bg sacred-pattern relative min-h-screen">
+      <div className="study-edition divine-bg sacred-pattern relative min-h-screen">
         <Navigation
           currentView={currentView}
           onViewChange={setCurrentView}
@@ -123,12 +123,12 @@ function App() {
 
         <Motion.button
           type="button"
-          aria-label="Open chat with Bheeshma"
+          aria-label="Open assistant"
           onClick={() => setCurrentView('chat')}
-          className="fixed bottom-6 right-6 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-cosmic-blue text-paper shadow-lg transition hover:-translate-y-1 hover:bg-golden-amber"
+          className="assistant-launch fixed bottom-6 right-6 z-30"
           whileTap={{ scale: 0.94 }}
         >
-          <span className="font-sanskrit text-lg">ॐ</span>
+          Ask
         </Motion.button>
 
         <FloatingAudioPlayer
@@ -154,14 +154,14 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
         transition={{ duration: 0.7 }}
       >
         <div className="max-w-2xl">
-          <p className="section-kicker mb-6">A place for study and stillness</p>
+          <p className="section-kicker mb-6">Digital study edition</p>
           <h1 className="font-heading text-5xl leading-[1.05] text-cosmic-blue sm:text-6xl lg:text-7xl">
-            Return to the<br />
-            <span className="text-golden-amber">essential.</span>
+            Bhagavad<br />
+            <span className="text-golden-amber">Gita.</span>
           </h1>
           <p className="mt-7 max-w-xl text-base leading-8 text-soft-gold sm:text-lg">
-            Read the Bhagavad Gita slowly. Sit with each verse, listen to its sound,
-            and carry one clear thought into the day.
+            A focused interface for reading the text, studying its context, and listening to
+            the verses in Sanskrit.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <button
@@ -169,7 +169,7 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
               onClick={() => onViewChange('chapters')}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-cosmic-blue px-6 py-3 text-sm font-medium text-paper transition hover:-translate-y-0.5 hover:bg-golden-amber"
             >
-              Begin reading
+                Open chapters
               <ArrowRight className="h-4 w-4" />
             </button>
             <button
@@ -177,7 +177,7 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
               onClick={() => onViewChange('emotions')}
               className="inline-flex items-center justify-center rounded-full border border-line-strong px-6 py-3 text-sm font-medium text-cosmic-blue transition hover:border-golden-amber hover:text-golden-amber"
             >
-              Find a verse for today
+                Find guidance
             </button>
           </div>
           <div className="mt-10 flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.16em] text-soft-gold/75 sm:gap-7">
@@ -185,42 +185,43 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
             <span className="h-1 w-1 rounded-full bg-golden-amber" />
             <span>700 verses</span>
             <span className="h-1 w-1 rounded-full bg-golden-amber" />
-            <span>One quiet practice</span>
+            <span>For reading and study</span>
           </div>
         </div>
 
-        <div className="home-hero-mark" aria-hidden="true">
-          <div className="home-om font-sanskrit">ॐ</div>
-          <div className="quiet-rule" />
-          <p className="font-sanskrit text-lg text-golden-amber/80">शान्तिः शान्तिः शान्तिः</p>
-          <p className="mt-3 max-w-[12rem] text-center text-xs leading-6 text-soft-gold">
-            May attention become a form of prayer.
+        <div className="home-hero-index" aria-label="Edition contents">
+          <p className="section-kicker mb-7">Edition contents</p>
+          <div className="home-index-row"><strong>18</strong><span>Chapters</span></div>
+          <div className="home-index-row"><strong>700</strong><span>Verses</span></div>
+          <div className="home-index-row"><strong>02</strong><span>Languages</span></div>
+          <p className="mt-8 border-t border-line pt-5 text-xs leading-6 text-soft-gold">
+            Sanskrit text, transliteration, English meaning, and recitation.
           </p>
         </div>
       </Motion.section>
 
       <section className="mt-24">
         <div className="mb-8 max-w-xl">
-          <p className="section-kicker mb-3">Begin anywhere</p>
-          <h2 className="font-heading text-3xl text-cosmic-blue sm:text-4xl">Choose your way in.</h2>
+            <p className="section-kicker mb-3">Primary sections</p>
+            <h2 className="font-heading text-3xl text-cosmic-blue sm:text-4xl">Study the text.</h2>
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">
           <FeatureCard
-            title="Read the chapters"
-            description="Move through the text with Sanskrit, transliteration, meaning, and context."
+            title="Chapters"
+            description="Read the complete text with verse context and chapter summaries."
             icon={BookOpen}
             onClick={() => onViewChange('chapters')}
           />
           <FeatureCard
-            title="Meet the moment"
-            description="Find a passage for fear, doubt, grief, anger, or the need for peace."
+            title="Guidance"
+            description="Locate passages associated with particular emotions and challenges."
             icon={Heart}
             onClick={() => onViewChange('emotions')}
           />
           <FeatureCard
-            title="Listen closely"
-            description="Let the recitation slow you down and give the verse another texture."
+            title="Audio"
+            description="Listen to Sanskrit recitations while moving through the text."
             icon={Music}
             onClick={() => onViewChange('audio')}
           />
@@ -230,11 +231,11 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
       <section className="home-chapter-panel mt-24">
         <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
-            <p className="section-kicker mb-3">The whole path</p>
-            <h2 className="font-heading text-3xl text-cosmic-blue sm:text-4xl">Choose a chapter.</h2>
+            <p className="section-kicker mb-3">Chapter index</p>
+            <h2 className="font-heading text-3xl text-cosmic-blue sm:text-4xl">All chapters.</h2>
           </div>
           <p className="max-w-xs text-sm leading-6 text-soft-gold">
-            There is no correct place to begin. Follow your attention.
+            Select a chapter to begin reading.
           </p>
         </div>
         <div className="mt-8 grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-9">
@@ -249,7 +250,7 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
               className="home-chapter-link"
             >
               <span className="font-mono text-xs text-soft-gold/70">{String(chapterNum).padStart(2, '0')}</span>
-              <span className="mt-1 text-sm font-medium">Chapter</span>
+              <span className="mt-1 text-sm font-medium">Open</span>
             </button>
           ))}
         </div>
@@ -289,15 +290,13 @@ const AudioViewComponent = ({ onPlayAudio }) => <AudioView onPlayAudio={onPlayAu
 const ChatView = () => (
   <div className="min-h-screen px-5 py-16 lg:px-16">
     <div className="mx-auto max-w-3xl">
-      <p className="section-kicker mb-4">A future companion</p>
-      <h2 className="font-heading text-4xl text-cosmic-blue">Ask Bheeshma.</h2>
+      <p className="section-kicker mb-4">Assistant</p>
+      <h2 className="font-heading text-4xl text-cosmic-blue">Ask about the text.</h2>
       <div className="mt-8 max-w-2xl border-l border-golden-amber pl-6 sm:pl-8">
         <p className="text-lg leading-8 text-soft-gold">
-          A contemplative guide for when you want to understand a verse, not rush past it.
-          The conversation layer is still being prepared.
+          An assistant for questions about chapters, verses, and meanings. This feature is
+          currently being prepared.
         </p>
-        <p className="mt-5 font-sanskrit text-lg text-golden-amber">तत्त्वमसि</p>
-        <p className="mt-1 text-xs uppercase tracking-[0.14em] text-soft-gold">You are that.</p>
       </div>
     </div>
   </div>

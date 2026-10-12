@@ -49,11 +49,11 @@ const EmotionSearch = () => {
             className="mb-12 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-soft-gold transition hover:text-golden-amber"
           >
             <ArrowLeft className="h-4 w-4" />
-            All life guidance
+            All subjects
           </button>
           <header className="mb-12 flex flex-col justify-between gap-5 border-b border-line pb-8 sm:flex-row sm:items-end">
             <div>
-              <p className="section-kicker mb-4">A place to begin</p>
+              <p className="section-kicker mb-4">Selected subject</p>
               <h1 className="font-heading text-4xl text-cosmic-blue sm:text-5xl">{selectedEmotion.name}</h1>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-soft-gold">{selectedEmotion.description}</p>
             </div>
@@ -91,10 +91,10 @@ const EmotionSearch = () => {
     <div className="reading-shell px-5 py-10 lg:px-16 lg:py-14">
       <div className="mx-auto max-w-5xl">
         <header className="mb-12 max-w-2xl">
-          <p className="section-kicker mb-4">When the mind is restless</p>
-          <h1 className="font-heading text-4xl text-cosmic-blue sm:text-5xl">Find a verse for the moment.</h1>
+          <p className="section-kicker mb-4">Guidance by subject</p>
+          <h1 className="font-heading text-4xl text-cosmic-blue sm:text-5xl">Find a relevant passage.</h1>
           <p className="mt-5 text-base leading-8 text-soft-gold">
-            Start with what is present. The Gita offers no quick escape, only a clearer way to look.
+            Browse passages associated with common emotions, questions, and life challenges.
           </p>
         </header>
 

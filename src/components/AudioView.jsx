@@ -28,10 +28,10 @@ const AudioView = ({ onPlayAudio }) => {
     <div className="reading-shell px-5 py-10 lg:px-16 lg:py-14">
       <div className="mx-auto max-w-5xl">
         <header className="mb-12 max-w-2xl">
-          <p className="section-kicker mb-4">Sound as practice</p>
-          <h1 className="font-heading text-4xl text-cosmic-blue sm:text-5xl">Listen to the verse.</h1>
+          <p className="section-kicker mb-4">Audio reference</p>
+          <h1 className="font-heading text-4xl text-cosmic-blue sm:text-5xl">Sanskrit recitation.</h1>
           <p className="mt-5 text-base leading-8 text-soft-gold">
-            Choose a chapter, choose a verse, and give the spoken word enough room to arrive.
+            Select a chapter and verse to hear its Sanskrit recitation.
           </p>
         </header>
 
@@ -121,15 +121,15 @@ const AudioView = ({ onPlayAudio }) => {
         </section>
 
         <section className="mt-14 border-t border-line pt-8">
-          <p className="section-kicker mb-4">A small ritual</p>
+          <p className="section-kicker mb-4">Listening notes</p>
           <div className="grid gap-8 text-sm leading-7 text-soft-gold md:grid-cols-2">
             <div>
-              <p className="font-semibold text-cosmic-blue">Before listening</p>
-              <p className="mt-2">Choose one verse. Let the room become quiet. Listen once without trying to interpret.</p>
+              <p className="font-semibold text-cosmic-blue">For reading</p>
+              <p className="mt-2">Play a verse while reading the Sanskrit text and transliteration.</p>
             </div>
             <div>
-              <p className="font-semibold text-cosmic-blue">After listening</p>
-              <p className="mt-2">Read the translation slowly. Keep one phrase with you as you return to the day.</p>
+              <p className="font-semibold text-cosmic-blue">For pronunciation</p>
+              <p className="mt-2">Repeat the recitation to become familiar with the verse rhythm and sound.</p>
             </div>
           </div>
         </section>

@@ -5,10 +5,10 @@ import '../App.css';
 
 const navigationItems = [
   { id: 'home', label: 'Home', icon: Home },
-  { id: 'chapters', label: 'Read the Gita', icon: BookOpen },
-  { id: 'emotions', label: 'Life guidance', icon: Heart },
-  { id: 'audio', label: 'Listen', icon: Music },
-  { id: 'chat', label: 'Ask Bheeshma', icon: MessageCircle },
+  { id: 'chapters', label: 'Chapters', icon: BookOpen },
+  { id: 'emotions', label: 'Guidance', icon: Heart },
+  { id: 'audio', label: 'Audio', icon: Music },
+  { id: 'chat', label: 'Assistant', icon: MessageCircle },
   { id: 'about', label: 'About', icon: Info },
 ];
 
@@ -52,17 +52,17 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
             onClick={() => handleNavClick('home')}
             className="mb-10 flex items-center gap-3 text-left"
           >
-            <span className="nav-mark font-sanskrit">ॐ</span>
+            <span className="nav-mark">BG</span>
             <span>
               <span className="block font-heading text-2xl tracking-tight text-paper">Bheeshma</span>
               <span className="mt-0.5 block text-[0.65rem] uppercase tracking-[0.22em] text-paper/55">
-                A quiet study of the Gita
+                Digital study edition
               </span>
             </span>
           </button>
 
           <div className="mb-8">
-            <p className="nav-section-label">Explore</p>
+            <p className="nav-section-label">Navigate</p>
             <nav className="space-y-1.5" aria-label="Main navigation">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
@@ -85,7 +85,7 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
 
           {currentView === 'chapters' && gitaData && (
             <div className="border-t border-paper/10 pt-6">
-              <p className="nav-section-label">Chapters</p>
+            <p className="nav-section-label">Chapter index</p>
               <div className="space-y-1">
                 {gitaData.chapters.map((chapter) => {
                   const isActive = currentChapter === chapter.number;
@@ -119,7 +119,7 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
           <div className="mt-auto border-t border-paper/10 pt-6">
             <div className="mb-6">
               <div className="mb-2 flex items-center justify-between text-[0.68rem] uppercase tracking-[0.14em] text-paper/55">
-                <span>Reading path</span>
+                <span>Reading progress</span>
                 <span>{currentChapter}/18</span>
               </div>
               <div className="progress-bar">
@@ -135,7 +135,7 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
                 कर्मण्येवाधिकारस्ते मा फलेषु कदाचन
               </p>
               <p className="text-xs leading-relaxed text-paper/55">
-                Your work is yours. The result is not.
+                You have control over action, not its result.
               </p>
               <p className="mt-2 text-[0.65rem] uppercase tracking-[0.14em] text-saffron-light">
                 Gita 2.47
