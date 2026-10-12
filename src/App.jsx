@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowRight, BookOpen, Heart, Music } from 'lucide-react';
 import Navigation from './components/Navigation';
 import ChapterExplorer from './components/ChapterExplorer';
 import ChakraLoader from './components/ChakraLoader';
-import FloatingParticles from './components/FloatingParticles';
-import ModernDivineHeader from './components/ModernDivineHeader';
-import SacredGeometryBackground from './components/SacredGeometryBackground';
-import ScrollAnimations from './components/ScrollAnimations';
 import EmotionSearch from './components/EmotionSearch';
 import AudioView from './components/AudioView';
 import AboutView from './components/AboutView';
@@ -19,15 +16,11 @@ function App() {
   const [currentView, setCurrentView] = useState('home');
   const [currentChapter, setCurrentChapter] = useState(1);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
-  
-  // Floating Audio Player State
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
   const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
-  
   const { loading, error } = useGitaData();
 
-  // Audio Player Control Functions
   const showAudioPlayer = (chapter, verse) => {
     setAudioCurrentChapter(chapter);
     setAudioCurrentVerse(verse);
@@ -41,8 +34,7 @@ function App() {
   };
 
   const handleAudioNext = () => {
-    // Logic to go to next verse
-    if (audioCurrentVerse < 47) { // Assuming max verses per chapter
+    if (audioCurrentVerse < 47) {
       setAudioCurrentVerse(audioCurrentVerse + 1);
     } else if (audioCurrentChapter < 18) {
       setAudioCurrentChapter(audioCurrentChapter + 1);
@@ -51,35 +43,29 @@ function App() {
   };
 
   const handleAudioPrevious = () => {
-    // Logic to go to previous verse
     if (audioCurrentVerse > 1) {
       setAudioCurrentVerse(audioCurrentVerse - 1);
     } else if (audioCurrentChapter > 1) {
       setAudioCurrentChapter(audioCurrentChapter - 1);
-      setAudioCurrentVerse(47); // Assuming max verses, should be dynamic
+      setAudioCurrentVerse(47);
     }
   };
 
   useEffect(() => {
-    // Simulate initial loading with divine quotes
-    const timer = setTimeout(() => {
-      setIsInitialLoading(false);
-    }, 3000);
-
+    const timer = setTimeout(() => setIsInitialLoading(false), 1400);
     return () => clearTimeout(timer);
   }, []);
 
-  if (isInitialLoading) {
-    return <ChakraLoader isLoading={true} message="Loading Divine Wisdom..." />;
+  if (isInitialLoading || loading) {
+    return <ChakraLoader isLoading={true} message="Opening the text..." />;
   }
 
   if (error) {
     return (
-      <div className="divine-bg min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-heading text-sacred-saffron mb-4">
-            Error Loading Gita Data
-          </h2>
+      <div className="divine-bg flex min-h-screen items-center justify-center px-6">
+        <div className="max-w-md text-center">
+          <p className="section-kicker mb-4">A pause in the path</p>
+          <h2 className="font-heading mb-4 text-3xl text-cosmic-blue">The Gita could not be opened.</h2>
           <p className="text-soft-gold">{error}</p>
         </div>
       </div>
@@ -92,14 +78,14 @@ function App() {
         return <HomeView onViewChange={setCurrentView} onChapterChange={setCurrentChapter} />;
       case 'chapters':
         return (
-          <ChapterExplorer 
-            chapterNumber={currentChapter} 
+          <ChapterExplorer
+            chapterNumber={currentChapter}
             onChapterChange={setCurrentChapter}
             onPlayAudio={showAudioPlayer}
           />
         );
       case 'emotions':
-        return <EmotionsView />;
+        return <EmotionSearch />;
       case 'audio':
         return <AudioViewComponent onPlayAudio={showAudioPlayer} />;
       case 'chat':
@@ -113,48 +99,38 @@ function App() {
 
   return (
     <Router>
-      <div className="divine-bg min-h-screen sacred-pattern relative">
-        <FloatingParticles />
-        <ScrollAnimations />
-        
+      <div className="divine-bg sacred-pattern relative min-h-screen">
         <Navigation
           currentView={currentView}
           onViewChange={setCurrentView}
           currentChapter={currentChapter}
           onChapterChange={setCurrentChapter}
         />
-        
-        <main className="lg:ml-80 min-h-screen relative z-10">
+
+        <main className="relative z-10 min-h-screen lg:ml-80">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentView}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.28, ease: 'easeOut' }}
             >
               {renderMainContent()}
             </motion.div>
           </AnimatePresence>
         </main>
 
-        {/* Floating Chatbot */}
-        <motion.div 
-          className="fixed bottom-6 right-6 z-30"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+        <motion.button
+          type="button"
+          aria-label="Open chat with Bheeshma"
+          onClick={() => setCurrentView('chat')}
+          className="fixed bottom-6 right-6 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-cosmic-blue text-paper shadow-lg transition hover:-translate-y-1 hover:bg-golden-amber"
+          whileTap={{ scale: 0.94 }}
         >
-          <button
-            onClick={() => setCurrentView('chat')}
-            className="bg-golden-amber text-cosmic-blue p-4 rounded-full shadow-lg hover:bg-sacred-saffron divine-transition chakra-glow"
-          >
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.04 1.05 4.35L1 22l5.65-2.05C8.96 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.4 0-2.76-.3-4.05-.85L6 20l.85-1.95C6.3 16.76 6 15.4 6 14c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/>
-            </svg>
-          </button>
-        </motion.div>
+          <span className="font-sanskrit text-lg">ॐ</span>
+        </motion.button>
 
-        {/* Floating Audio Player */}
         <FloatingAudioPlayer
           currentChapter={audioCurrentChapter}
           currentVerse={audioCurrentVerse}
@@ -168,176 +144,163 @@ function App() {
   );
 }
 
-// Home View Component
-const HomeView = ({ onViewChange, onChapterChange }) => {
-  return (
-    <div className="relative">
-      <SacredGeometryBackground variant="geometry" opacity={0.08} />
-      <div className="relative z-10 p-6 lg:p-12">
-        <div className="max-w-6xl mx-auto">
-          {/* Modern Divine Header */}
-          <ModernDivineHeader 
-            title="Bheeshma"
-            subtitle="Experience the divine wisdom of the Bhagavad Gita in a modern, interactive format. Discover timeless teachings that guide you through life's challenges."
-            backgroundImage="cosmic"
-            height="h-96"
-          />
-          
-          {/* Action Buttons */}
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-          >
-            <motion.button
+const HomeView = ({ onViewChange, onChapterChange }) => (
+  <div className="relative min-h-screen px-5 py-10 lg:px-16 lg:py-16">
+    <div className="mx-auto max-w-6xl">
+      <motion.section
+        className="home-hero"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+      >
+        <div className="max-w-2xl">
+          <p className="section-kicker mb-6">A place for study and stillness</p>
+          <h1 className="font-heading text-5xl leading-[1.05] text-cosmic-blue sm:text-6xl lg:text-7xl">
+            Return to the<br />
+            <span className="text-golden-amber">essential.</span>
+          </h1>
+          <p className="mt-7 max-w-xl text-base leading-8 text-soft-gold sm:text-lg">
+            Read the Bhagavad Gita slowly. Sit with each verse, listen to its sound,
+            and carry one clear thought into the day.
+          </p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <button
+              type="button"
               onClick={() => onViewChange('chapters')}
-              className="emotion-tag text-lg px-8 py-4 rounded-full"
-              whileHover={{ scale: 1.05, boxShadow: "0 8px 32px rgba(244, 162, 97, 0.4)" }}
-              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-cosmic-blue px-6 py-3 text-sm font-medium text-paper transition hover:-translate-y-0.5 hover:bg-golden-amber"
             >
-              Start Reading
-            </motion.button>
-            <motion.button
+              Begin reading
+              <ArrowRight className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
               onClick={() => onViewChange('emotions')}
-              className="bg-sacred-saffron text-white px-8 py-4 rounded-full font-semibold hover:bg-golden-amber hover:text-cosmic-blue divine-transition"
-              whileHover={{ scale: 1.05, boxShadow: "0 8px 32px rgba(231, 111, 81, 0.4)" }}
-              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center justify-center rounded-full border border-line-strong px-6 py-3 text-sm font-medium text-cosmic-blue transition hover:border-golden-amber hover:text-golden-amber"
             >
-              Find Life Guidance
-            </motion.button>
-          </motion.div>
-
-          {/* Features Grid */}
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.4, staggerChildren: 0.2 }}
-          >
-            <FeatureCard
-              title="18 Sacred Chapters"
-              description="Explore all chapters with Sanskrit verses, transliterations, and profound meanings"
-              icon="📖"
-              onClick={() => onViewChange('chapters')}
-              delay={0}
-            />
-            <FeatureCard
-              title="Life Guidance"
-              description="Find verses that address your emotions and life challenges"
-              icon="💝"
-              onClick={() => onViewChange('emotions')}
-              delay={0.2}
-            />
-            <FeatureCard
-              title="Audio Experience"
-              description="Listen to beautiful Sanskrit recitations while you read"
-              icon="🎵"
-              onClick={() => onViewChange('audio')}
-              delay={0.4}
-            />
-          </motion.div>
-
-          {/* Quick Chapter Access */}
-          <motion.div 
-            className="glass-morphism p-8 rounded-2xl"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.8 }}
-          >
-            <h2 className="font-heading text-2xl text-golden-amber mb-6 text-center">
-              Quick Chapter Access
-            </h2>
-            <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-9 gap-3">
-              {Array.from({ length: 18 }, (_, i) => i + 1).map((chapterNum) => (
-                <motion.button
-                  key={chapterNum}
-                  onClick={() => {
-                    onChapterChange(chapterNum);
-                    onViewChange('chapters');
-                  }}
-                  className="aspect-square bg-gradient-to-br from-cosmic-blue to-deep-purple border border-golden-amber/30 rounded-xl text-golden-amber font-semibold hover:border-golden-amber hover:bg-golden-amber hover:text-cosmic-blue divine-transition flex items-center justify-center"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  {chapterNum}
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
+              Find a verse for today
+            </button>
+          </div>
+          <div className="mt-10 flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.16em] text-soft-gold/75 sm:gap-7">
+            <span>18 chapters</span>
+            <span className="h-1 w-1 rounded-full bg-golden-amber" />
+            <span>700 verses</span>
+            <span className="h-1 w-1 rounded-full bg-golden-amber" />
+            <span>One quiet practice</span>
+          </div>
         </div>
-      </div>
+
+        <div className="home-hero-mark" aria-hidden="true">
+          <div className="home-om font-sanskrit">ॐ</div>
+          <div className="quiet-rule" />
+          <p className="font-sanskrit text-lg text-golden-amber/80">शान्तिः शान्तिः शान्तिः</p>
+          <p className="mt-3 max-w-[12rem] text-center text-xs leading-6 text-soft-gold">
+            May attention become a form of prayer.
+          </p>
+        </div>
+      </motion.section>
+
+      <section className="mt-24">
+        <div className="mb-8 max-w-xl">
+          <p className="section-kicker mb-3">Begin anywhere</p>
+          <h2 className="font-heading text-3xl text-cosmic-blue sm:text-4xl">Choose your way in.</h2>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          <FeatureCard
+            title="Read the chapters"
+            description="Move through the text with Sanskrit, transliteration, meaning, and context."
+            icon={BookOpen}
+            onClick={() => onViewChange('chapters')}
+          />
+          <FeatureCard
+            title="Meet the moment"
+            description="Find a passage for fear, doubt, grief, anger, or the need for peace."
+            icon={Heart}
+            onClick={() => onViewChange('emotions')}
+          />
+          <FeatureCard
+            title="Listen closely"
+            description="Let the recitation slow you down and give the verse another texture."
+            icon={Music}
+            onClick={() => onViewChange('audio')}
+          />
+        </div>
+      </section>
+
+      <section className="home-chapter-panel mt-24">
+        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div>
+            <p className="section-kicker mb-3">The whole path</p>
+            <h2 className="font-heading text-3xl text-cosmic-blue sm:text-4xl">Choose a chapter.</h2>
+          </div>
+          <p className="max-w-xs text-sm leading-6 text-soft-gold">
+            There is no correct place to begin. Follow your attention.
+          </p>
+        </div>
+        <div className="mt-8 grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-9">
+          {Array.from({ length: 18 }, (_, i) => i + 1).map((chapterNum) => (
+            <button
+              key={chapterNum}
+              type="button"
+              onClick={() => {
+                onChapterChange(chapterNum);
+                onViewChange('chapters');
+              }}
+              className="home-chapter-link"
+            >
+              <span className="font-mono text-xs text-soft-gold/70">{String(chapterNum).padStart(2, '0')}</span>
+              <span className="mt-1 text-sm font-medium">Chapter</span>
+            </button>
+          ))}
+        </div>
+      </section>
     </div>
-  );
-};
+  </div>
+);
 
-// Feature Card Component
 const FeatureCard = ({ title, description, icon, onClick, delay = 0 }) => {
+  const Icon = icon;
+
   return (
-    <motion.div 
-      className="verse-card p-6 cursor-pointer"
+    <motion.button
+      type="button"
+      className="home-feature text-left"
       onClick={onClick}
-      initial={{ opacity: 0, y: 50, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.6, delay: 1.6 + delay, ease: "easeOut" }}
-      whileHover={{ 
-        y: -8, 
-        scale: 1.05,
-        boxShadow: "0 12px 40px rgba(244, 162, 97, 0.2)",
-        transition: { duration: 0.3 }
-      }}
-      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, delay }}
+      whileHover={{ y: -3 }}
+      whileTap={{ scale: 0.99 }}
     >
-      <motion.div 
-        className="text-4xl mb-4 text-center"
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{ duration: 0.8, delay: 1.8 + delay, ease: "easeOut" }}
-      >
-        {icon}
-      </motion.div>
-      <motion.h3 
-        className="font-heading text-xl text-golden-amber mb-3 text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 2.0 + delay }}
-      >
-        {title}
-      </motion.h3>
-      <motion.p 
-        className="font-body text-soft-gold text-center leading-relaxed"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 2.2 + delay }}
-      >
-        {description}
-      </motion.p>
-    </motion.div>
+      <span className="home-feature-icon"><Icon className="h-5 w-5" strokeWidth={1.6} /></span>
+      <span className="mt-8 block font-heading text-2xl text-cosmic-blue">{title}</span>
+      <span className="mt-3 block text-sm leading-7 text-soft-gold">{description}</span>
+      <span className="mt-7 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-golden-amber">
+        Open <ArrowRight className="h-3.5 w-3.5" />
+      </span>
+    </motion.button>
   );
 };
 
-// Placeholder Views
 const EmotionsView = () => <EmotionSearch />;
 
 const AudioViewComponent = ({ onPlayAudio }) => <AudioView onPlayAudio={onPlayAudio} />;
 
 const ChatView = () => (
-  <div className="p-6 lg:p-12">
-    <div className="max-w-4xl mx-auto text-center">
-      <h2 className="font-heading text-3xl text-golden-amber mb-6">Chat with Bheeshma</h2>
-      <div className="glass-morphism p-8 rounded-2xl">
-        <div className="text-6xl text-golden-amber mb-4">🕉️</div>
-        <p className="text-soft-gold mb-6">
-          Divine AI chatbot coming soon! This will be your spiritual guide to help you understand 
-          the deeper meanings of the Bhagavad Gita and apply its wisdom to your daily life.
+  <div className="min-h-screen px-5 py-16 lg:px-16">
+    <div className="mx-auto max-w-3xl">
+      <p className="section-kicker mb-4">A future companion</p>
+      <h2 className="font-heading text-4xl text-cosmic-blue">Ask Bheeshma.</h2>
+      <div className="mt-8 max-w-2xl border-l border-golden-amber pl-6 sm:pl-8">
+        <p className="text-lg leading-8 text-soft-gold">
+          A contemplative guide for when you want to understand a verse, not rush past it.
+          The conversation layer is still being prepared.
         </p>
-        <div className="text-sm text-golden-amber">
-          "Ask and you shall receive, seek and you shall find"
-        </div>
+        <p className="mt-5 font-sanskrit text-lg text-golden-amber">तत्त्वमसि</p>
+        <p className="mt-1 text-xs uppercase tracking-[0.14em] text-soft-gold">You are that.</p>
       </div>
     </div>
   </div>
 );
 
 export default App;
-

@@ -323,6 +323,112 @@
   overflow: hidden;
 }
 
+.section-kicker {
+  color: var(--terracotta);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.home-hero {
+  display: grid;
+  min-height: min(42rem, calc(100vh - 8rem));
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, 20rem);
+  gap: 4rem;
+}
+
+.home-hero-mark {
+  display: flex;
+  min-height: 22rem;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-left: 1px solid var(--line);
+}
+
+.home-om {
+  color: var(--saffron);
+  font-size: clamp(5rem, 12vw, 9rem);
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.quiet-rule {
+  width: 4rem;
+  height: 1px;
+  margin: 2rem 0 1.25rem;
+  background: var(--line-strong);
+}
+
+.home-feature {
+  display: block;
+  min-height: 20rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 253, 248, 0.5);
+  padding: 1.75rem;
+  box-shadow: 0 8px 24px rgba(67, 57, 44, 0.035);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.home-feature:hover {
+  border-color: var(--saffron-light);
+  box-shadow: 0 16px 34px rgba(67, 57, 44, 0.08);
+}
+
+.home-feature-icon {
+  display: inline-flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--saffron);
+}
+
+.home-chapter-panel {
+  border-top: 1px solid var(--line-strong);
+  padding-top: 1.5rem;
+}
+
+.home-chapter-link {
+  display: flex;
+  min-height: 5.5rem;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  text-align: left;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.home-chapter-link:hover {
+  border-color: var(--saffron-light);
+  background: rgba(196, 154, 104, 0.12);
+  color: var(--saffron);
+}
+
+@media (max-width: 900px) {
+  .home-hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding-top: 3rem;
+  }
+
+  .home-hero-mark {
+    min-height: 14rem;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 2rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

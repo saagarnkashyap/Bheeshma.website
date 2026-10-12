@@ -145,7 +145,6 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
         </div>
       </aside>
 
-      <div className="lg:ml-80" />
     </>
   );
 };
