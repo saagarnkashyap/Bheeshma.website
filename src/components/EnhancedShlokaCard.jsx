@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion as Motion } from 'framer-motion';
 import { BookOpen, Heart, Pause, Play, Plus, Share2 } from 'lucide-react';
 import '../App.css';
 
@@ -37,7 +37,7 @@ const EnhancedShlokaCard = ({ shloka, chapterNumber, onAudioPlay, isPlaying = fa
   };
 
   return (
-    <motion.article
+    <Motion.article
       className="shloka-card"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -107,7 +107,7 @@ const EnhancedShlokaCard = ({ shloka, chapterNumber, onAudioPlay, isPlaying = fa
           </button>
           <AnimatePresence initial={false}>
             {isExpanded && (
-              <motion.div
+              <Motion.div
                 initial={{ opacity: 0, height: 0, marginTop: 0 }}
                 animate={{ opacity: 1, height: 'auto', marginTop: 14 }}
                 exit={{ opacity: 0, height: 0, marginTop: 0 }}
@@ -116,7 +116,7 @@ const EnhancedShlokaCard = ({ shloka, chapterNumber, onAudioPlay, isPlaying = fa
                 <p className="border-l border-golden-amber pl-4 text-sm leading-7 text-soft-gold">
                   {shloka.life_application}
                 </p>
-              </motion.div>
+              </Motion.div>
             )}
           </AnimatePresence>
         </div>
@@ -132,7 +132,7 @@ const EnhancedShlokaCard = ({ shloka, chapterNumber, onAudioPlay, isPlaying = fa
           ))}
         </footer>
       )}
-    </motion.article>
+    </Motion.article>
   );
 };
 

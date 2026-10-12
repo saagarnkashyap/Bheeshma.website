@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Headphones, Music, Play, Settings, Volume2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import useGitaData from '../hooks/useGitaData';
 import '../App.css';
 
@@ -94,7 +94,7 @@ const AudioView = ({ onPlayAudio }) => {
         </section>
 
         {currentShloka && (
-          <motion.section
+          <Motion.section
             className="audio-verse mt-12"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -111,7 +111,7 @@ const AudioView = ({ onPlayAudio }) => {
             <div className="mt-8 border-t border-line pt-7">
               <p className="text-base leading-8 text-cosmic-blue">{currentShloka.meaning}</p>
             </div>
-          </motion.section>
+          </Motion.section>
         )}
 
         <section className="mt-12 grid gap-3 md:grid-cols-3">
@@ -138,9 +138,9 @@ const AudioView = ({ onPlayAudio }) => {
   );
 };
 
-const AudioFeature = ({ icon: Icon, title, description }) => (
+const AudioFeature = ({ icon, title, description }) => (
   <div className="audio-feature">
-    <span className="emotion-tile-icon"><Icon className="h-4 w-4" strokeWidth={1.7} /></span>
+    <span className="emotion-tile-icon">{React.createElement(icon, { className: 'h-4 w-4', strokeWidth: 1.7 })}</span>
     <p className="mt-5 font-heading text-xl text-cosmic-blue">{title}</p>
     <p className="mt-2 text-sm leading-6 text-soft-gold">{description}</p>
   </div>

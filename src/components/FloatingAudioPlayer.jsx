@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { 
   Play, 
   Pause, 
@@ -26,7 +26,7 @@ const FloatingAudioPlayer = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(1);
+  const [volume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -173,7 +173,7 @@ const FloatingAudioPlayer = ({
 
   return (
     <AnimatePresence>
-      <motion.div
+      <Motion.div
         initial={{ opacity: 0, y: 100, scale: 0.8 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 100, scale: 0.8 }}
@@ -281,7 +281,7 @@ const FloatingAudioPlayer = ({
             <audio ref={audioRef} src={currentAudioUrl} />
           </CardContent>
         </Card>
-      </motion.div>
+      </Motion.div>
     </AnimatePresence>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Book, Code, ExternalLink, Globe, Heart, Music } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import '../App.css';
 
 const AboutView = () => (
@@ -57,7 +57,7 @@ const AboutView = () => (
           />
         </AboutSection>
 
-        <motion.section
+        <Motion.section
           className="about-dedication"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -71,23 +71,23 @@ const AboutView = () => (
           </p>
           <p className="mt-7 font-sanskrit text-lg text-saffron-light">सर्वे भवन्तु सुखिनः</p>
           <p className="mt-1 text-xs uppercase tracking-[0.14em] text-paper/45">May all beings be happy.</p>
-        </motion.section>
+        </Motion.section>
       </div>
     </div>
   </div>
 );
 
-const AboutSection = ({ icon: Icon, label, title, children }) => (
+const AboutSection = ({ icon, label, title, children }) => (
   <section className="about-section">
-    <div className="about-section-label"><Icon className="h-4 w-4" /> {label}</div>
+    <div className="about-section-label">{React.createElement(icon, { className: 'h-4 w-4' })} {label}</div>
     <h2 className="font-heading text-2xl text-cosmic-blue sm:text-3xl">{title}</h2>
     <div className="about-section-copy mt-6">{children}</div>
   </section>
 );
 
-const FeatureItem = ({ icon: Icon, title, description }) => (
+const FeatureItem = ({ icon, title, description }) => (
   <div className="about-feature-item">
-    <Icon className="h-4 w-4 shrink-0 text-golden-amber" />
+    {React.createElement(icon, { className: 'h-4 w-4 shrink-0 text-golden-amber' })}
     <div>
       <p className="font-semibold text-cosmic-blue">{title}</p>
       <p className="mt-1 text-sm leading-6 text-soft-gold">{description}</p>
@@ -95,9 +95,9 @@ const FeatureItem = ({ icon: Icon, title, description }) => (
   </div>
 );
 
-const CreditItem = ({ icon: Icon, title, description, link }) => (
+const CreditItem = ({ icon, title, description, link }) => (
   <div className="about-credit-item">
-    <Icon className="mt-1 h-4 w-4 shrink-0 text-golden-amber" />
+    {React.createElement(icon, { className: 'mt-1 h-4 w-4 shrink-0 text-golden-amber' })}
     <div>
       <div className="flex items-center gap-2">
         <p className="font-semibold text-cosmic-blue">{title}</p>

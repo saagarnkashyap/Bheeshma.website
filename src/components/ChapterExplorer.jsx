@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, Lightbulb, Target } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion as Motion } from 'framer-motion';
 import EnhancedShlokaCard from './EnhancedShlokaCard';
 import useGitaData from '../hooks/useGitaData';
 import '../App.css';
@@ -87,7 +87,7 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
 
           <AnimatePresence initial={false}>
             {showChapterInfo && (
-              <motion.div
+              <Motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
@@ -119,7 +119,7 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
                     </div>
                   )}
                 </div>
-              </motion.div>
+              </Motion.div>
             )}
           </AnimatePresence>
         </section>

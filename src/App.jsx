@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion as Motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Heart, Music } from 'lucide-react';
 import Navigation from './components/Navigation';
 import ChapterExplorer from './components/ChapterExplorer';
@@ -109,7 +109,7 @@ function App() {
 
         <main className="relative z-10 min-h-screen lg:ml-80">
           <AnimatePresence mode="wait">
-            <motion.div
+            <Motion.div
               key={currentView}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -117,11 +117,11 @@ function App() {
               transition={{ duration: 0.28, ease: 'easeOut' }}
             >
               {renderMainContent()}
-            </motion.div>
+            </Motion.div>
           </AnimatePresence>
         </main>
 
-        <motion.button
+        <Motion.button
           type="button"
           aria-label="Open chat with Bheeshma"
           onClick={() => setCurrentView('chat')}
@@ -129,7 +129,7 @@ function App() {
           whileTap={{ scale: 0.94 }}
         >
           <span className="font-sanskrit text-lg">ॐ</span>
-        </motion.button>
+        </Motion.button>
 
         <FloatingAudioPlayer
           currentChapter={audioCurrentChapter}
@@ -147,7 +147,7 @@ function App() {
 const HomeView = ({ onViewChange, onChapterChange }) => (
   <div className="relative min-h-screen px-5 py-10 lg:px-16 lg:py-16">
     <div className="mx-auto max-w-6xl">
-      <motion.section
+      <Motion.section
         className="home-hero"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -197,7 +197,7 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
             May attention become a form of prayer.
           </p>
         </div>
-      </motion.section>
+      </Motion.section>
 
       <section className="mt-24">
         <div className="mb-8 max-w-xl">
@@ -262,7 +262,7 @@ const FeatureCard = ({ title, description, icon, onClick, delay = 0 }) => {
   const Icon = icon;
 
   return (
-    <motion.button
+    <Motion.button
       type="button"
       className="home-feature text-left"
       onClick={onClick}
@@ -278,7 +278,7 @@ const FeatureCard = ({ title, description, icon, onClick, delay = 0 }) => {
       <span className="mt-7 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-golden-amber">
         Open <ArrowRight className="h-3.5 w-3.5" />
       </span>
-    </motion.button>
+    </Motion.button>
   );
 };
 

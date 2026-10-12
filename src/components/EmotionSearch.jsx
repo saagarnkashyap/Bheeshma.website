@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion as Motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Brain, Heart, Moon, Search, Shield, Sparkles, Star, Sun, Zap } from 'lucide-react';
 import EnhancedShlokaCard from './EnhancedShlokaCard';
 import useGitaData from '../hooks/useGitaData';
@@ -65,14 +65,14 @@ const EmotionSearch = () => {
           <div className="space-y-8">
             <AnimatePresence>
               {verses.map((verse, index) => (
-                <motion.div
+                <Motion.div
                   key={`${verse.chapter}-${verse.shloka_number}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35, delay: index * 0.05 }}
                 >
                   <EnhancedShlokaCard shloka={verse} chapterNumber={verse.chapter} showChapterInfo />
-                </motion.div>
+                </Motion.div>
               ))}
             </AnimatePresence>
           </div>
@@ -113,7 +113,7 @@ const EmotionSearch = () => {
           {filteredEmotions.map((emotion, index) => {
             const Icon = emotionIcons[emotion.key] || emotionIcons.default;
             return (
-              <motion.button
+              <Motion.button
                 key={emotion.key}
                 type="button"
                 className="emotion-tile text-left"
@@ -130,7 +130,7 @@ const EmotionSearch = () => {
                   <span>{emotion.count} passage{emotion.count === 1 ? '' : 's'}</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </span>
-              </motion.button>
+              </Motion.button>
             );
           })}
         </div>
