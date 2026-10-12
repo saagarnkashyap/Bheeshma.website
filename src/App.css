@@ -26,260 +26,232 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Existing semantic classes, remapped to the new quiet palette. */
+  --color-cosmic-blue: var(--ink);
+  --color-golden-amber: var(--saffron);
+  --color-sacred-saffron: var(--terracotta);
+  --color-pure-white: var(--paper);
+  --color-soft-gold: var(--ink-soft);
+  --color-deep-purple: var(--paper-deep);
+  --color-chakra-red: var(--terracotta);
+  --color-chakra-orange: var(--saffron);
+  --color-chakra-yellow: var(--saffron-light);
+  --color-chakra-green: var(--sage);
+  --color-chakra-blue: var(--slate);
+  --color-chakra-indigo: var(--slate);
+  --color-chakra-violet: var(--slate);
 }
 
 :root {
-  --radius: 0.625rem;
-  
-  /* Divine Dark Theme Colors */
-  --cosmic-blue: #0B1426;
-  --golden-amber: #F4A261;
-  --sacred-saffron: #E76F51;
-  --pure-white: #FFFFFF;
-  --soft-gold: #F2E9E4;
-  --deep-purple: #2A1B3D;
-  --chakra-red: #C72C41;
-  --chakra-orange: #EE964B;
-  --chakra-yellow: #F4D03F;
-  --chakra-green: #27AE60;
-  --chakra-blue: #3498DB;
-  --chakra-indigo: #6C5CE7;
-  --chakra-violet: #A29BFE;
-  
-  --background: var(--cosmic-blue);
-  --foreground: var(--pure-white);
-  --card: rgba(42, 27, 61, 0.8);
-  --card-foreground: var(--pure-white);
-  --popover: var(--deep-purple);
-  --popover-foreground: var(--pure-white);
-  --primary: var(--golden-amber);
-  --primary-foreground: var(--cosmic-blue);
-  --secondary: var(--sacred-saffron);
-  --secondary-foreground: var(--pure-white);
-  --muted: rgba(244, 162, 97, 0.1);
-  --muted-foreground: var(--soft-gold);
-  --accent: var(--sacred-saffron);
-  --accent-foreground: var(--pure-white);
-  --destructive: var(--chakra-red);
-  --border: rgba(244, 162, 97, 0.2);
-  --input: rgba(244, 162, 97, 0.1);
-  --ring: var(--golden-amber);
-  --chart-1: var(--chakra-red);
-  --chart-2: var(--chakra-orange);
-  --chart-3: var(--chakra-yellow);
-  --chart-4: var(--chakra-green);
-  --chart-5: var(--chakra-blue);
-  --sidebar: rgba(11, 20, 38, 0.95);
-  --sidebar-foreground: var(--pure-white);
-  --sidebar-primary: var(--golden-amber);
-  --sidebar-primary-foreground: var(--cosmic-blue);
-  --sidebar-accent: var(--sacred-saffron);
-  --sidebar-accent-foreground: var(--pure-white);
-  --sidebar-border: rgba(244, 162, 97, 0.2);
-  --sidebar-ring: var(--golden-amber);
-}
+  --radius: 0.75rem;
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --ink: #292721;
+  --ink-soft: #6e685d;
+  --paper: #f7f4ed;
+  --paper-deep: #eee8dc;
+  --paper-warm: #e5dccb;
+  --saffron: #a86f3f;
+  --saffron-light: #c49a68;
+  --terracotta: #9a5543;
+  --sage: #687668;
+  --slate: #66717a;
+  --line: #d9d1c3;
+  --line-strong: #c8bdad;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: rgba(255, 253, 248, 0.86);
+  --card-foreground: var(--ink);
+  --popover: #fffdf8;
+  --popover-foreground: var(--ink);
+  --primary: var(--saffron);
+  --primary-foreground: #fffaf1;
+  --secondary: var(--paper-deep);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-deep);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--terracotta);
+  --accent-foreground: #fffaf1;
+  --destructive: #a84c43;
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--saffron-light);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
+  html {
+    background: var(--paper);
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-family: "Inter", "Segoe UI", sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background: rgba(168, 111, 63, 0.2);
+    color: var(--ink);
   }
 }
 
-
-/* Custom Font Families */
 .font-sanskrit {
-  font-family: 'Noto Sans Devanagari', sans-serif;
-  font-feature-settings: 'kern' 1, 'liga' 1;
+  font-family: "Noto Serif Devanagari", "Noto Sans Devanagari", serif;
+  font-feature-settings: "kern" 1, "liga" 1;
 }
 
 .font-heading {
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.025em;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
 }
 
 .font-body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", "Segoe UI", sans-serif;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
-/* Divine Background Gradient */
 .divine-bg {
-  background: linear-gradient(135deg, var(--cosmic-blue) 0%, #1a1a2e 50%, #16213e 100%);
+  background:
+    radial-gradient(circle at 78% 4%, rgba(196, 154, 104, 0.14), transparent 27rem),
+    linear-gradient(135deg, var(--paper) 0%, #f4f0e7 52%, #eee8dc 100%);
   min-height: 100vh;
 }
 
-/* Chakra Glow Effects */
+.sacred-pattern {
+  background-image: linear-gradient(rgba(110, 104, 93, 0.045) 1px, transparent 1px);
+  background-size: 100% 4.5rem;
+}
+
 .chakra-glow {
-  box-shadow: 0 0 20px rgba(244, 162, 97, 0.3);
-  transition: box-shadow 0.3s ease;
+  box-shadow: 0 10px 30px rgba(67, 57, 44, 0.12);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .chakra-glow:hover {
-  box-shadow: 0 0 30px rgba(244, 162, 97, 0.5);
-}
-
-/* Sacred Geometry Patterns */
-.sacred-pattern {
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(244, 162, 97, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(231, 111, 81, 0.1) 0%, transparent 50%);
-}
-
-/* Floating Animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  box-shadow: 0 14px 34px rgba(67, 57, 44, 0.18);
 }
 
 .float-animation {
-  animation: float 3s ease-in-out infinite;
+  animation: float 5s ease-in-out infinite;
 }
 
-/* Chakra Spin Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.chakra-spin {
+  animation: chakra-spin 24s linear infinite;
+}
+
 @keyframes chakra-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.chakra-spin {
-  animation: chakra-spin 20s linear infinite;
-}
-
-/* Smooth Transitions */
 .divine-transition {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--cosmic-blue);
+  background: var(--paper-deep);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--golden-amber);
-  border-radius: 4px;
+  background: var(--line-strong);
+  border: 3px solid var(--paper-deep);
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--sacred-saffron);
+  background: var(--saffron-light);
 }
 
-/* Glass Morphism Effect */
 .glass-morphism {
-  background: rgba(42, 27, 61, 0.25);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(244, 162, 97, 0.2);
+  background: rgba(255, 253, 248, 0.72);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(200, 189, 173, 0.72);
+  box-shadow: 0 12px 36px rgba(67, 57, 44, 0.06);
 }
 
-/* Text Glow Effect */
 .text-glow {
-  text-shadow: 0 0 10px rgba(244, 162, 97, 0.5);
+  text-shadow: none;
 }
 
-/* Verse Card Styling */
 .verse-card {
-  background: rgba(42, 27, 61, 0.6);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(244, 162, 97, 0.3);
-  border-radius: 16px;
-  transition: all 0.3s ease;
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(67, 57, 44, 0.055);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .verse-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 32px rgba(244, 162, 97, 0.2);
-  border-color: rgba(244, 162, 97, 0.5);
+  border-color: var(--line-strong);
+  box-shadow: 0 16px 38px rgba(67, 57, 44, 0.09);
 }
 
-/* Audio Player Styling */
 .audio-player {
-  background: rgba(11, 20, 38, 0.9);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(244, 162, 97, 0.3);
+  background: rgba(41, 39, 33, 0.96);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 250, 241, 0.16);
+  box-shadow: 0 16px 40px rgba(41, 39, 33, 0.22);
 }
 
-/* Emotion Tag Styling */
 .emotion-tag {
-  background: linear-gradient(45deg, var(--sacred-saffron), var(--golden-amber));
-  color: var(--cosmic-blue);
-  font-weight: 600;
+  background: var(--ink);
+  color: #fffaf1;
+  font-weight: 500;
   padding: 8px 16px;
-  border-radius: 20px;
-  transition: all 0.3s ease;
+  border-radius: 999px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .emotion-tag:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(244, 162, 97, 0.4);
+  background: var(--saffron);
+  transform: translateY(-1px);
 }
 
-/* Chapter Navigation */
 .chapter-nav {
-  background: rgba(11, 20, 38, 0.95);
-  backdrop-filter: blur(10px);
-  border-right: 1px solid rgba(244, 162, 97, 0.2);
+  background: rgba(41, 39, 33, 0.985);
+  border-right: 1px solid rgba(255, 250, 241, 0.12);
+  box-shadow: 12px 0 30px rgba(41, 39, 33, 0.08);
 }
 
-/* Progress Bar */
 .progress-bar {
-  background: linear-gradient(90deg, var(--chakra-red), var(--chakra-orange), var(--chakra-yellow), var(--chakra-green), var(--chakra-blue), var(--chakra-indigo), var(--chakra-violet));
+  background: rgba(200, 189, 173, 0.35);
   height: 4px;
-  border-radius: 2px;
+  border-radius: 999px;
+  overflow: hidden;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
