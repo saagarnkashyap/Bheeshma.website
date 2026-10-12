@@ -679,6 +679,99 @@
   color: var(--terracotta);
 }
 
+.audio-studio {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(13rem, 0.8fr);
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--line-strong);
+  box-shadow: 0 12px 30px rgba(67, 57, 44, 0.06);
+}
+
+.audio-panel {
+  min-width: 0;
+  background: rgba(255, 253, 248, 0.7);
+  padding: 1.5rem;
+}
+
+.audio-chapter-grid,
+.audio-verse-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.4rem;
+  max-height: 15rem;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.audio-verse-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.audio-choice {
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  padding: 0.55rem 0.2rem;
+  color: var(--ink-soft);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.7rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.audio-choice:hover,
+.audio-choice-active {
+  border-color: var(--saffron);
+  background: var(--saffron);
+  color: #fffaf1;
+}
+
+.audio-selection {
+  background: var(--ink);
+  padding: 1.5rem;
+}
+
+.audio-selection .section-kicker {
+  color: var(--saffron-light);
+}
+
+.audio-play-button {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  background: var(--saffron-light);
+  padding: 0.75rem 1rem;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.audio-play-button:hover {
+  background: #e0bd8a;
+  transform: translateY(-1px);
+}
+
+.audio-verse {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: rgba(255, 253, 248, 0.72);
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.audio-feature {
+  min-height: 12rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 253, 248, 0.45);
+  padding: 1.25rem;
+}
+
 @media (max-width: 900px) {
   .home-hero {
     min-height: auto;
@@ -702,6 +795,10 @@
   .overview-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .audio-studio {
+    grid-template-columns: 1fr;
   }
 }
 

@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
+import { Headphones, Music, Play, Settings, Volume2 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Play, Pause, Music, Headphones, Volume2, Settings } from 'lucide-react';
-import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import DivineHeader from './DivineHeader';
 import useGitaData from '../hooks/useGitaData';
 import '../App.css';
 
@@ -11,253 +8,142 @@ const AudioView = ({ onPlayAudio }) => {
   const { getChapterData, loading } = useGitaData();
   const [selectedChapter, setSelectedChapter] = useState(1);
   const [selectedVerse, setSelectedVerse] = useState(1);
-  const [playlistMode, setPlaylistMode] = useState('chapter'); // 'chapter', 'all', 'favorites'
-
   const chapterData = getChapterData(selectedChapter);
   const currentShloka = chapterData?.shlokas?.[selectedVerse - 1];
 
-  const handlePlayVerse = (chapter, verse) => {
-    setSelectedChapter(chapter);
-    setSelectedVerse(verse);
-    if (onPlayAudio) {
-      onPlayAudio(chapter, verse);
-    }
+  const handlePlayVerse = () => {
+    if (onPlayAudio) onPlayAudio(selectedChapter, selectedVerse);
   };
 
-  const handleChapterChange = (newChapter) => {
-    setSelectedChapter(newChapter);
+  const handleChapterChange = (chapter) => {
+    setSelectedChapter(chapter);
     setSelectedVerse(1);
   };
 
-  const handleVerseChange = (newVerse) => {
-    setSelectedVerse(newVerse);
-  };
-
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-golden-amber">Loading audio experience...</div>
-      </div>
-    );
+    return <div className="flex h-64 items-center justify-center text-soft-gold">Preparing the listening room...</div>;
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <DivineHeader 
-        title="Audio Experience"
-        subtitle="Immerse yourself in the divine sounds of Sanskrit recitations from the Bhagavad Gita. Let the ancient verses guide your meditation and spiritual practice."
-        showOm={true}
-      />
+    <div className="reading-shell px-5 py-10 lg:px-16 lg:py-14">
+      <div className="mx-auto max-w-5xl">
+        <header className="mb-12 max-w-2xl">
+          <p className="section-kicker mb-4">Sound as practice</p>
+          <h1 className="font-heading text-4xl text-cosmic-blue sm:text-5xl">Listen to the verse.</h1>
+          <p className="mt-5 text-base leading-8 text-soft-gold">
+            Choose a chapter, choose a verse, and give the spoken word enough room to arrive.
+          </p>
+        </header>
 
-      {/* Audio Controls */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.2 }}
-        className="mb-12"
-      >
-        <Card className="verse-card">
-          <CardHeader>
-            <CardTitle className="text-golden-amber flex items-center">
-              <Music className="w-6 h-6 mr-3" />
-              Audio Controls
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Chapter Selection */}
+        <section className="audio-studio">
+          <div className="audio-panel">
+            <div className="mb-5 flex items-center gap-3">
+              <span className="overview-icon"><Music className="h-4 w-4" /></span>
               <div>
-                <h4 className="font-heading text-lg text-golden-amber mb-3">Select Chapter</h4>
-                <div className="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto">
-                  {Array.from({ length: 18 }, (_, i) => i + 1).map((chapterNum) => (
-                    <motion.button
-                      key={chapterNum}
-                      onClick={() => handleChapterChange(chapterNum)}
-                      className={`p-3 rounded-lg divine-transition text-center font-semibold ${
-                        selectedChapter === chapterNum
-                          ? 'bg-golden-amber text-cosmic-blue'
-                          : 'bg-cosmic-blue/50 hover:bg-golden-amber hover:text-cosmic-blue text-golden-amber'
-                      }`}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {chapterNum}
-                    </motion.button>
-                  ))}
-                </div>
+                <p className="text-sm font-semibold text-cosmic-blue">Choose a chapter</p>
+                <p className="mt-1 text-xs text-soft-gold">18 chapters of study</p>
               </div>
+            </div>
+            <div className="audio-chapter-grid">
+              {Array.from({ length: 18 }, (_, index) => index + 1).map((chapter) => (
+                <button
+                  key={chapter}
+                  type="button"
+                  onClick={() => handleChapterChange(chapter)}
+                  className={`audio-choice ${selectedChapter === chapter ? 'audio-choice-active' : ''}`}
+                >
+                  {String(chapter).padStart(2, '0')}
+                </button>
+              ))}
+            </div>
+          </div>
 
-              {/* Verse Selection */}
-              <div>
-                <h4 className="font-heading text-lg text-golden-amber mb-3">
-                  Select Verse (Chapter {selectedChapter})
-                </h4>
-                <div className="grid grid-cols-4 gap-2 max-h-48 overflow-y-auto">
-                  {chapterData?.shlokas?.map((_, index) => {
-                    const verseNum = index + 1;
-                    return (
-                      <motion.button
-                        key={verseNum}
-                        onClick={() => setSelectedVerse(verseNum)}
-                        className={`p-2 rounded-lg divine-transition text-center text-sm font-semibold ${
-                          selectedVerse === verseNum
-                            ? 'bg-sacred-saffron text-white'
-                            : 'bg-cosmic-blue/50 hover:bg-sacred-saffron hover:text-white text-soft-gold'
-                        }`}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        {verseNum}
-                      </motion.button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Current Selection */}
-              <div>
-                <h4 className="font-heading text-lg text-golden-amber mb-3">Now Playing</h4>
-                <div className="glass-morphism p-4 rounded-lg">
-                  <div className="text-center mb-4">
-                    <div className="text-2xl text-golden-amber mb-2">
-                      {selectedChapter}.{selectedVerse}
-                    </div>
-                    <div className="text-sm text-soft-gold mb-3">
-                      {chapterData?.chapter_name}
-                    </div>
-                  </div>
-                  
-                  <Button
-                    onClick={() => handlePlayVerse(selectedChapter, selectedVerse)}
-                    className="w-full bg-golden-amber text-cosmic-blue hover:bg-sacred-saffron font-semibold"
+          <div className="audio-panel">
+            <div className="mb-5">
+              <p className="text-sm font-semibold text-cosmic-blue">Choose a verse</p>
+              <p className="mt-1 text-xs text-soft-gold">Chapter {selectedChapter}</p>
+            </div>
+            <div className="audio-verse-grid">
+              {chapterData?.shlokas?.map((shloka, index) => {
+                const verse = index + 1;
+                return (
+                  <button
+                    key={shloka.shloka_number}
+                    type="button"
+                    onClick={() => setSelectedVerse(verse)}
+                    className={`audio-choice ${selectedVerse === verse ? 'audio-choice-active' : ''}`}
                   >
-                    <Play className="w-4 h-4 mr-2" />
-                    Play Audio
-                  </Button>
-                </div>
-              </div>
+                    {String(verse).padStart(2, '0')}
+                  </button>
+                );
+              })}
             </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+          </div>
 
-      {/* Current Verse Display */}
-      {currentShloka && (
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.4 }}
-          className="mb-12"
-        >
-          <Card className="verse-card">
-            <CardHeader>
-              <CardTitle className="text-golden-amber flex items-center">
-                <Headphones className="w-6 h-6 mr-3" />
-                Current Verse
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center mb-6">
-                <p className="font-sanskrit text-2xl leading-relaxed text-golden-amber mb-4">
-                  {currentShloka.sanskrit_text}
-                </p>
-                <p className="font-body text-sm text-soft-gold italic mb-4">
-                  {currentShloka.transliteration}
-                </p>
-                <p className="font-body text-white leading-relaxed">
-                  {currentShloka.meaning}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      )}
+          <div className="audio-selection">
+            <p className="section-kicker mb-4">Ready to hear</p>
+            <p className="font-heading text-3xl text-paper">{selectedChapter}.{selectedVerse}</p>
+            <p className="mt-3 line-clamp-2 text-sm leading-6 text-paper/65">
+              {chapterData?.name || chapterData?.chapter_name}
+            </p>
+            <button type="button" onClick={handlePlayVerse} className="audio-play-button mt-8">
+              <Play className="h-4 w-4 fill-current" />
+              Play recitation
+            </button>
+          </div>
+        </section>
 
-      {/* Audio Features */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.6 }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
-      >
-        <FeatureCard
-          icon={<Volume2 className="w-8 h-8" />}
-          title="High Quality Audio"
-          description="Crystal clear Sanskrit recitations from Gita Supersite"
-          color="bg-chakra-blue/20 text-chakra-blue border-chakra-blue/30"
-        />
-        
-        <FeatureCard
-          icon={<Play className="w-8 h-8" />}
-          title="Continuous Playback"
-          description="Auto-play through verses and chapters seamlessly"
-          color="bg-chakra-green/20 text-chakra-green border-chakra-green/30"
-        />
-        
-        <FeatureCard
-          icon={<Settings className="w-8 h-8" />}
-          title="Playback Controls"
-          description="Full control with repeat, shuffle, and volume settings"
-          color="bg-chakra-orange/20 text-chakra-orange border-chakra-orange/30"
-        />
-      </motion.div>
-
-      {/* Instructions */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.8 }}
-      >
-        <Card className="verse-card">
-          <CardContent className="p-6">
-            <h3 className="font-heading text-xl text-golden-amber mb-4 text-center">
-              How to Use Audio Experience
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-soft-gold">
-              <div>
-                <h4 className="font-semibold text-golden-amber mb-2">Getting Started</h4>
-                <ul className="space-y-2 text-sm">
-                  <li>• Select a chapter from the grid above</li>
-                  <li>• Choose a specific verse to begin</li>
-                  <li>• Click "Play Audio" to start listening</li>
-                  <li>• Use the floating player for controls</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-golden-amber mb-2">Audio Features</h4>
-                <ul className="space-y-2 text-sm">
-                  <li>• Minimize player to continue browsing</li>
-                  <li>• Enable autoplay for continuous listening</li>
-                  <li>• Download audio files for offline use</li>
-                  <li>• Adjust volume and playback speed</li>
-                </ul>
-              </div>
+        {currentShloka && (
+          <motion.section
+            className="audio-verse mt-12"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+          >
+            <div className="mb-8 flex items-center gap-3">
+              <Headphones className="h-4 w-4 text-golden-amber" />
+              <p className="section-kicker">Current verse</p>
             </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+            <p className="font-sanskrit text-2xl leading-[2.1] text-cosmic-blue sm:text-3xl">
+              {currentShloka.sanskrit_text}
+            </p>
+            <p className="mt-5 text-sm italic leading-7 text-soft-gold">{currentShloka.transliteration}</p>
+            <div className="mt-8 border-t border-line pt-7">
+              <p className="text-base leading-8 text-cosmic-blue">{currentShloka.meaning}</p>
+            </div>
+          </motion.section>
+        )}
+
+        <section className="mt-12 grid gap-3 md:grid-cols-3">
+          <AudioFeature icon={Volume2} title="Clear recitation" description="Sanskrit audio sourced from Gita Supersite." />
+          <AudioFeature icon={Play} title="Stay with the text" description="Use the floating player while you continue reading." />
+          <AudioFeature icon={Settings} title="At your own pace" description="Move between chapters and verses without hurry." />
+        </section>
+
+        <section className="mt-14 border-t border-line pt-8">
+          <p className="section-kicker mb-4">A small ritual</p>
+          <div className="grid gap-8 text-sm leading-7 text-soft-gold md:grid-cols-2">
+            <div>
+              <p className="font-semibold text-cosmic-blue">Before listening</p>
+              <p className="mt-2">Choose one verse. Let the room become quiet. Listen once without trying to interpret.</p>
+            </div>
+            <div>
+              <p className="font-semibold text-cosmic-blue">After listening</p>
+              <p className="mt-2">Read the translation slowly. Keep one phrase with you as you return to the day.</p>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 };
 
-const FeatureCard = ({ icon, title, description, color }) => {
-  return (
-    <motion.div
-      whileHover={{ y: -4, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-    >
-      <Card className={`verse-card border-2 ${color} hover:shadow-lg divine-transition`}>
-        <CardContent className="p-6 text-center">
-          <div className="mb-4 flex justify-center">
-            {icon}
-          </div>
-          <h3 className="font-heading text-lg mb-2">{title}</h3>
-          <p className="text-sm opacity-80">{description}</p>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-};
+const AudioFeature = ({ icon: Icon, title, description }) => (
+  <div className="audio-feature">
+    <span className="emotion-tile-icon"><Icon className="h-4 w-4" strokeWidth={1.7} /></span>
+    <p className="mt-5 font-heading text-xl text-cosmic-blue">{title}</p>
+    <p className="mt-2 text-sm leading-6 text-soft-gold">{description}</p>
+  </div>
+);
 
 export default AudioView;
-
