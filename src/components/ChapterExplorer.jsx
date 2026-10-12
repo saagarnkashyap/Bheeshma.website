@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, ArrowRight, BookOpen, Clock, Target, Lightbulb } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import React, { useEffect, useState } from 'react';
+import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, Lightbulb, Target } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import EnhancedShlokaCard from './EnhancedShlokaCard';
 import useGitaData from '../hooks/useGitaData';
 import '../App.css';
@@ -11,7 +9,6 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
   const { getChapterData, loading } = useGitaData();
   const [currentShlokaIndex, setCurrentShlokaIndex] = useState(0);
   const [showChapterInfo, setShowChapterInfo] = useState(true);
-
   const chapterData = getChapterData(chapterNumber);
 
   useEffect(() => {
@@ -19,246 +16,181 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
     setShowChapterInfo(true);
   }, [chapterNumber]);
 
-  const handleAudioPlay = (chap, verse) => {
-    if (onPlayAudio) {
-      onPlayAudio(chap, verse);
-    }
-  };
-
   if (loading || !chapterData) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-golden-amber">Loading chapter...</div>
+      <div className="flex h-64 items-center justify-center text-soft-gold">
+        Opening chapter...
       </div>
     );
   }
 
   const currentShloka = chapterData.shlokas[currentShlokaIndex];
   const totalShlokas = chapterData.shlokas.length;
+  const hasPreviousVerse = currentShlokaIndex > 0;
+  const hasNextVerse = currentShlokaIndex < totalShlokas - 1;
 
-  const handlePreviousShloka = () => {
-    if (currentShlokaIndex > 0) {
-      setCurrentShlokaIndex(currentShlokaIndex - 1);
-    }
-  };
-
-  const handleNextShloka = () => {
-    if (currentShlokaIndex < totalShlokas - 1) {
-      setCurrentShlokaIndex(currentShlokaIndex + 1);
-    }
-  };
-
-  const handlePreviousChapter = () => {
-    if (chapterNumber > 1) {
-      onChapterChange(chapterNumber - 1);
-    }
-  };
-
-  const handleNextChapter = () => {
-    if (chapterNumber < 18) {
-      onChapterChange(chapterNumber + 1);
-    }
-  };
+  const goToVerse = (index) => setCurrentShlokaIndex(index);
+  const goToPreviousChapter = () => chapterNumber > 1 && onChapterChange(chapterNumber - 1);
+  const goToNextChapter = () => chapterNumber < 18 && onChapterChange(chapterNumber + 1);
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      {/* Chapter Header */}
-      <div className="mb-8">
-        <div className="flex flex-col md:flex-row items-center justify-between mb-4 space-y-4 md:space-y-0">
-          <Button
-            variant="ghost"
-            onClick={handlePreviousChapter}
-            disabled={chapterNumber <= 1}
-            className="text-golden-amber hover:text-sacred-saffron disabled:opacity-50 order-2 md:order-1"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Previous Chapter
-          </Button>
-          
-          <div className="text-center order-1 md:order-2">
-            <h1 className="font-heading text-3xl text-golden-amber text-glow mb-2">
-              Chapter {chapterData.number}
-            </h1>
-            <h2 className="font-sanskrit text-xl text-soft-gold">
-              {chapterData.name}
-            </h2>
+    <div className="reading-shell px-5 py-10 lg:px-16 lg:py-14">
+      <div className="mx-auto max-w-5xl">
+        <header className="reading-header">
+          <div>
+            <p className="section-kicker mb-4">Bhagavad Gita · Chapter {chapterData.number}</p>
+            <h1 className="font-heading text-4xl text-cosmic-blue sm:text-5xl">{chapterData.name}</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-soft-gold">
+              Read without hurry. Let the chapter reveal its own pace.
+            </p>
           </div>
-          
-          <Button
-            variant="ghost"
-            onClick={handleNextChapter}
-            disabled={chapterNumber >= 18}
-            className="text-golden-amber hover:text-sacred-saffron disabled:opacity-50 order-3"
-          >
-            Next Chapter
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </div>
-
-        {/* Chapter Info Toggle */}
-        <div className="text-center">
-          <Button
-            variant="ghost"
-            onClick={() => setShowChapterInfo(!showChapterInfo)}
-            className="text-sacred-saffron hover:text-golden-amber"
-          >
-            {showChapterInfo ? 'Hide' : 'Show'} Chapter Overview
-          </Button>
-        </div>
-      </div>
-
-      {/* Chapter Overview */}
-      {showChapterInfo && (
-        <Card className="glass-morphism mb-8">
-          <CardHeader>
-            <CardTitle className="font-heading text-xl text-golden-amber flex items-center">
-              <BookOpen className="w-5 h-5 mr-2" />
-              Chapter Overview
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Summary */}
-            <div>
-              <h3 className="font-heading text-lg text-sacred-saffron mb-3 flex items-center">
-                <Target className="w-4 h-4 mr-2" />
-                Summary
-              </h3>
-              <p className="font-body text-white leading-relaxed">
-                {chapterData.summary}
-              </p>
-            </div>
-
-            {/* Main Theme */}
-            <div>
-              <h3 className="font-heading text-lg text-sacred-saffron mb-3 flex items-center">
-                <Lightbulb className="w-4 h-4 mr-2" />
-                Main Theme
-              </h3>
-              <p className="font-body text-white leading-relaxed">
-                {chapterData.main_theme}
-              </p>
-            </div>
-
-            {/* Philosophical Aspects */}
-            {chapterData.philosophical_aspects && (
-              <div>
-                <h3 className="font-heading text-lg text-sacred-saffron mb-3">
-                  Philosophical Aspects
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {chapterData.philosophical_aspects.map((aspect, index) => (
-                    <div
-                      key={index}
-                      className="bg-sacred-saffron/10 text-soft-gold px-3 py-2 rounded-lg text-sm"
-                    >
-                      {aspect}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Life Problems Addressed */}
-            {chapterData.life_problems_addressed && (
-              <div>
-                <h3 className="font-heading text-lg text-sacred-saffron mb-3">
-                  Life Problems Addressed
-                </h3>
-                <div className="grid grid-cols-1 gap-2">
-                  {chapterData.life_problems_addressed.map((problem, index) => (
-                    <div
-                      key={index}
-                      className="bg-chakra-green/10 text-chakra-green px-3 py-2 rounded-lg text-sm"
-                    >
-                      {problem}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Yoga Type */}
-            {chapterData.yoga_type && (
-              <div>
-                <h3 className="font-heading text-lg text-sacred-saffron mb-3">
-                  Yoga Practice
-                </h3>
-                <p className="font-body text-white leading-relaxed bg-deep-purple/30 p-4 rounded-lg">
-                  {chapterData.yoga_type}
-                </p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Shloka Navigation */}
-      <div className="flex flex-col md:flex-row items-center justify-between mb-6 space-y-4 md:space-y-0">
-        <Button
-          variant="ghost"
-          onClick={handlePreviousShloka}
-          disabled={currentShlokaIndex <= 0}
-          className="text-golden-amber hover:text-sacred-saffron disabled:opacity-50 order-2 md:order-1"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Previous Verse
-        </Button>
-        
-        <div className="text-center order-1 md:order-2">
-          <div className="bg-golden-amber text-cosmic-blue px-4 py-2 rounded-full font-semibold">
-            Verse {currentShlokaIndex + 1} of {totalShlokas}
-          </div>
-          <div className="progress-bar mt-2 w-48 mx-auto">
-            <div 
-              className="h-full bg-gradient-to-r from-chakra-red to-chakra-violet rounded-full transition-all duration-300"
-              style={{ width: `${((currentShlokaIndex + 1) / totalShlokas) * 100}%` }}
-            ></div>
-          </div>
-        </div>
-        
-        <Button
-          variant="ghost"
-          onClick={handleNextShloka}
-          disabled={currentShlokaIndex >= totalShlokas - 1}
-          className="text-golden-amber hover:text-sacred-saffron disabled:opacity-50 order-3"
-        >
-          Next Verse
-          <ArrowRight className="w-4 h-4 ml-2" />
-        </Button>
-      </div>
-
-      {/* Current Shloka */}
-      <EnhancedShlokaCard
-        shloka={currentShloka}
-        chapterNumber={chapterNumber}
-        showChapterInfo={false}
-        onAudioPlay={handleAudioPlay}
-      />
-
-      {/* Quick Navigation */}
-      <div className="mt-8 text-center">
-        <h3 className="font-heading text-lg text-golden-amber mb-4">Quick Navigation</h3>
-        <div className="flex flex-wrap justify-center gap-2 max-h-32 overflow-y-auto">
-          {chapterData.shlokas.map((_, index) => (
-            <Button
-              key={index}
-              variant={index === currentShlokaIndex ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setCurrentShlokaIndex(index)}
-              className={`w-12 h-8 text-xs ${
-                index === currentShlokaIndex 
-                  ? 'bg-golden-amber text-cosmic-blue' 
-                  : 'text-golden-amber hover:text-sacred-saffron'
-              }`}
+          <div className="chapter-arrows">
+            <button
+              type="button"
+              onClick={goToPreviousChapter}
+              disabled={chapterNumber <= 1}
+              className="reading-nav-button"
+              aria-label="Previous chapter"
             >
-              {index + 1}
-            </Button>
-          ))}
-        </div>
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden sm:inline">Previous</span>
+            </button>
+            <button
+              type="button"
+              onClick={goToNextChapter}
+              disabled={chapterNumber >= 18}
+              className="reading-nav-button"
+              aria-label="Next chapter"
+            >
+              <span className="hidden sm:inline">Next</span>
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </header>
+
+        <section className="chapter-overview mt-12">
+          <button
+            type="button"
+            className="flex w-full items-center justify-between text-left"
+            onClick={() => setShowChapterInfo(!showChapterInfo)}
+            aria-expanded={showChapterInfo}
+          >
+            <span className="flex items-center gap-3">
+              <span className="overview-icon"><BookOpen className="h-4 w-4" /></span>
+              <span>
+                <span className="block text-sm font-semibold text-cosmic-blue">Chapter overview</span>
+                <span className="mt-1 block text-xs text-soft-gold">Context before the verses</span>
+              </span>
+            </span>
+            <ChevronDown className={`h-4 w-4 text-soft-gold transition-transform ${showChapterInfo ? 'rotate-180' : ''}`} />
+          </button>
+
+          <AnimatePresence initial={false}>
+            {showChapterInfo && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="overview-grid mt-8 border-t border-line pt-7">
+                  <div className="overview-copy">
+                    <div className="overview-label"><Target className="h-3.5 w-3.5" /> Summary</div>
+                    <p>{chapterData.summary}</p>
+                  </div>
+                  <div className="overview-copy">
+                    <div className="overview-label"><Lightbulb className="h-3.5 w-3.5" /> Main theme</div>
+                    <p>{chapterData.main_theme}</p>
+                  </div>
+                  {chapterData.yoga_type && (
+                    <div className="overview-copy">
+                      <div className="overview-label">Practice</div>
+                      <p>{chapterData.yoga_type}</p>
+                    </div>
+                  )}
+                  {chapterData.philosophical_aspects?.length > 0 && (
+                    <div className="overview-copy">
+                      <div className="overview-label">Philosophical aspects</div>
+                      <div className="shloka-tags">
+                        {chapterData.philosophical_aspects.map((aspect, index) => (
+                          <span className="shloka-tag" key={index}>{aspect}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </section>
+
+        <section className="mt-14">
+          <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <p className="section-kicker mb-2">Your place in the chapter</p>
+              <p className="font-heading text-2xl text-cosmic-blue">
+                Verse {currentShlokaIndex + 1} <span className="text-soft-gold/60">of {totalShlokas}</span>
+              </p>
+            </div>
+            <div className="verse-progress-label">{Math.round(((currentShlokaIndex + 1) / totalShlokas) * 100)}% through</div>
+          </div>
+          <div className="verse-progress mb-8">
+            <div style={{ width: `${((currentShlokaIndex + 1) / totalShlokas) * 100}%` }} />
+          </div>
+
+          <EnhancedShlokaCard
+            shloka={currentShloka}
+            chapterNumber={chapterNumber}
+            showChapterInfo={false}
+            onAudioPlay={onPlayAudio}
+          />
+        </section>
+
+        <section className="mt-12 border-t border-line pt-7">
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <p className="section-kicker mb-2">Navigate quietly</p>
+              <p className="text-sm text-soft-gold">Select another verse</p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => goToVerse(currentShlokaIndex - 1)}
+                disabled={!hasPreviousVerse}
+                className="icon-button"
+                aria-label="Previous verse"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => goToVerse(currentShlokaIndex + 1)}
+                disabled={!hasNextVerse}
+                className="icon-button"
+                aria-label="Next verse"
+              >
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+          <div className="verse-index" role="list" aria-label="Verse navigation">
+            {chapterData.shlokas.map((shloka, index) => (
+              <button
+                key={shloka.shloka_number}
+                type="button"
+                onClick={() => goToVerse(index)}
+                className={`verse-index-item ${index === currentShlokaIndex ? 'verse-index-item-active' : ''}`}
+                aria-label={`Go to verse ${shloka.shloka_number}`}
+                aria-current={index === currentShlokaIndex ? 'true' : undefined}
+              >
+                {String(shloka.shloka_number).padStart(2, '0')}
+              </button>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
 };
 
 export default ChapterExplorer;
-
