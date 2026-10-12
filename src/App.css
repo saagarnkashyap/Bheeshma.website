@@ -833,6 +833,32 @@
   text-align: center;
 }
 
+.loader-screen {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  background: var(--paper);
+  padding: 1.5rem;
+}
+
+.loader-content {
+  text-align: center;
+}
+
+.loader-mark {
+  color: var(--saffron);
+  font-size: 4rem;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.loader-rule {
+  width: 2.5rem;
+  height: 1px;
+  margin: 1.5rem auto;
+  background: var(--line-strong);
+}
+
 @media (max-width: 900px) {
   .home-hero {
     min-height: auto;

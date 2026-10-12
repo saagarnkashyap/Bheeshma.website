@@ -185,7 +185,7 @@ const FloatingAudioPlayer = ({
         }}
         className="fixed bottom-4 right-4 z-50 max-w-sm"
       >
-        <Card className="glass-morphism border border-golden-amber/20 shadow-2xl">
+        <Card className="audio-player border border-paper/10 shadow-2xl">
           <CardContent className="p-3">
             {/* Header */}
             <div className="flex items-center justify-between mb-2">
