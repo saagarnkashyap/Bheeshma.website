@@ -5,7 +5,14 @@ import EnhancedShlokaCard from './EnhancedShlokaCard';
 import useGitaData from '../hooks/useGitaData';
 import '../App.css';
 
-const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onVerseChange, onPlayAudio }) => {
+const ChapterExplorer = ({
+  chapterNumber,
+  initialVerse = 1,
+  active = true,
+  onChapterChange,
+  onVerseChange,
+  onPlayAudio,
+}) => {
   const { getChapterData, loading } = useGitaData();
   const [currentShlokaIndex, setCurrentShlokaIndex] = useState(0);
   const [showChapterInfo, setShowChapterInfo] = useState(true);
@@ -34,6 +41,8 @@ const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onV
   }, [currentShlokaIndex]);
 
   useEffect(() => {
+    if (!active) return undefined;
+
     const handleKeyDown = (event) => {
       const targetTag = event.target?.tagName;
       if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON'].includes(targetTag)) return;
@@ -49,7 +58,7 @@ const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onV
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentShlokaIndex, goToVerse, totalShlokas]);
+  }, [active, currentShlokaIndex, goToVerse, totalShlokas]);
 
   if (loading || !chapterData) {
     return (
@@ -62,6 +71,7 @@ const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onV
   const currentShloka = chapterData.shlokas[currentShlokaIndex];
   const hasPreviousVerse = currentShlokaIndex > 0;
   const hasNextVerse = currentShlokaIndex < totalShlokas - 1;
+  const verseJumpId = `verse-jump-${chapterNumber}`;
 
   const handleVerseJump = (event) => {
     event.preventDefault();
@@ -104,10 +114,10 @@ const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onV
           <ArrowLeft className="h-4 w-4" />
         </button>
         <form className="verse-jump-form" onSubmit={handleVerseJump}>
-          <label htmlFor="verse-jump">Jump</label>
+          <label htmlFor={verseJumpId}>Jump</label>
           <div className="verse-jump-control">
             <input
-              id="verse-jump"
+              id={verseJumpId}
               type="text"
               inputMode="numeric"
               pattern="[0-9]*"
@@ -137,34 +147,43 @@ const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onV
     <div className="reading-shell px-5 py-10 lg:px-10 lg:py-14 xl:px-16">
       <div className="mx-auto max-w-5xl">
         <header className="reading-header">
-          <div>
-            <p className="section-kicker mb-4">Bhagavad Gita · Chapter {chapterData.number}</p>
+          <div className="reading-header-copy">
+            <div className="chapter-header-topline">
+              <div className="chapter-identity">
+                <p className="chapter-context">Bhagavad Gita</p>
+                <p className="section-kicker">Chapter {String(chapterData.number).padStart(2, '0')}</p>
+              </div>
+              <div className="chapter-navigation" aria-label="Chapter navigation">
+                <div className="chapter-arrows">
+                  <button
+                    type="button"
+                    onClick={goToPreviousChapter}
+                    disabled={chapterNumber <= 1}
+                    className="reading-nav-button"
+                    aria-label="Previous chapter"
+                    title="Previous chapter"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    <span>Prev</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={goToNextChapter}
+                    disabled={chapterNumber >= 18}
+                    className="reading-nav-button"
+                    aria-label="Next chapter"
+                    title="Next chapter"
+                  >
+                    <span>Next</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
             <h1 className="font-heading text-4xl text-cosmic-blue sm:text-5xl">{chapterData.name}</h1>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-soft-gold">
               Chapter context and verse-by-verse reading.
             </p>
-          </div>
-          <div className="chapter-arrows">
-            <button
-              type="button"
-              onClick={goToPreviousChapter}
-              disabled={chapterNumber <= 1}
-              className="reading-nav-button"
-              aria-label="Previous chapter"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span className="hidden sm:inline">Previous</span>
-            </button>
-            <button
-              type="button"
-              onClick={goToNextChapter}
-              disabled={chapterNumber >= 18}
-              className="reading-nav-button"
-              aria-label="Next chapter"
-            >
-              <span className="hidden sm:inline">Next</span>
-              <ArrowRight className="h-4 w-4" />
-            </button>
           </div>
         </header>
 

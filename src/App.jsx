@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AnimatePresence, motion as Motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import ChapterExplorer from './components/ChapterExplorer';
+import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight, Menu, X } from 'lucide-react';
+import ChapterFlipBook from './components/ChapterFlipBook';
 import ChakraLoader from './components/ChakraLoader';
 import EmotionSearch from './components/EmotionSearch';
 import AudioView from './components/AudioView';
@@ -24,15 +24,30 @@ const NAV_ITEMS = [
   { id: 'bookmarks', label: 'Bookmarks' },
 ];
 
+const fadeVariants = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.28, ease: 'easeOut' } },
+  exit: { opacity: 0, y: -8, transition: { duration: 0.2, ease: 'easeIn' } },
+};
+
+const reducedMotionVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0 } },
+  exit: { opacity: 0, transition: { duration: 0 } },
+};
+
 function App() {
   const initialViewState = getViewState();
   const [currentView, setCurrentViewState] = useState(initialViewState.currentView);
   const [currentChapter, setCurrentChapterState] = useState(initialViewState.currentChapter);
   const [currentVerse, setCurrentVerseState] = useState(initialViewState.currentVerse);
+  const [pageDirection, setPageDirection] = useState(1);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
   const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
+  const shouldReduceMotion = useReducedMotion();
   const { gitaData, loading, error } = useGitaData();
   const chapterName = gitaData?.chapters.find((chapter) => chapter.number === currentChapter)?.name;
 
@@ -61,6 +76,7 @@ function App() {
   };
 
   const setCurrentChapter = (chapter) => {
+    setPageDirection(chapter > currentChapter ? 1 : -1);
     setCurrentChapterState(chapter);
     setCurrentVerseState(1);
     if (currentView === 'chapters') updateUrl('chapters', chapter, 1);
@@ -74,6 +90,9 @@ function App() {
   useEffect(() => {
     const handlePopState = () => {
       const nextViewState = getViewState();
+      if (nextViewState.currentView === 'chapters' && currentView === 'chapters') {
+        setPageDirection(nextViewState.currentChapter >= currentChapter ? 1 : -1);
+      }
       setCurrentViewState(nextViewState.currentView);
       setCurrentChapterState(nextViewState.currentChapter);
       setCurrentVerseState(nextViewState.currentVerse);
@@ -81,11 +100,24 @@ function App() {
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
+  }, [currentChapter, currentView]);
+
+  useEffect(() => {
+    const handleMenuKeyDown = (event) => {
+      if (event.key === 'Escape') setIsMenuOpen(false);
+    };
+
+    window.addEventListener('keydown', handleMenuKeyDown);
+    return () => window.removeEventListener('keydown', handleMenuKeyDown);
   }, []);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    setIsMenuOpen(false);
   }, [currentView]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [currentChapter, currentView]);
 
   const showAudioPlayer = (chapter, verse) => {
     setAudioCurrentChapter(chapter);
@@ -144,7 +176,7 @@ function App() {
         return <HomeView onViewChange={setCurrentView} chapters={gitaData.chapters} />;
       case 'chapters':
         return (
-          <ChapterExplorer
+          <ChapterFlipBook
             chapterNumber={currentChapter}
             initialVerse={currentVerse}
             onChapterChange={setCurrentChapter}
@@ -181,23 +213,36 @@ function App() {
             href={getViewHref('home')}
             onClick={(event) => {
               event.preventDefault();
+              setIsMenuOpen(false);
               setCurrentView('home');
             }}
             className="site-brand"
           >
             <span className="site-brand-mark" aria-hidden="true">ॐ</span>
-            <span>
-              <span className="block font-heading text-lg tracking-tight text-cosmic-blue">Bheeshma</span>
-              <span className="block text-[0.6rem] uppercase tracking-[0.18em] text-soft-gold">Digital study edition</span>
-            </span>
+            <span className="site-brand-name">BHEESHMA</span>
           </a>
-          <nav className="site-main-nav" aria-label="Primary navigation">
+          <button
+            type="button"
+            className="site-mobile-menu-toggle"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-expanded={isMenuOpen}
+            aria-controls="primary-navigation"
+            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          >
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+          <nav
+            id="primary-navigation"
+            className={`site-main-nav ${isMenuOpen ? 'site-main-nav-open' : ''}`}
+            aria-label="Primary navigation"
+          >
             {NAV_ITEMS.map(({ id, label }) => (
               <a
                 key={id}
                 href={getViewHref(id, currentChapter, id === 'chapters' ? currentVerse : undefined)}
                 onClick={(event) => {
                   event.preventDefault();
+                  setIsMenuOpen(false);
                   setCurrentView(id, currentChapter, id === 'chapters' ? currentVerse : 1);
                 }}
                 className={`site-nav-link ${currentView === id ? 'site-nav-link-active' : ''}`}
@@ -207,16 +252,29 @@ function App() {
               </a>
             ))}
           </nav>
+          {isMenuOpen && (
+            <button
+              type="button"
+              className="site-mobile-nav-backdrop"
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close navigation menu"
+            />
+          )}
+          <span className="site-mobile-om" aria-hidden="true">ॐ</span>
         </header>
 
         <main className="relative z-10 min-h-screen min-w-0">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false} custom={pageDirection}>
             <Motion.div
               key={currentView}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.28, ease: 'easeOut' }}
+              className="page-turn-stage"
+              custom={pageDirection}
+              variants={shouldReduceMotion
+                ? reducedMotionVariants
+                : fadeVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
             >
               {renderMainContent()}
             </Motion.div>

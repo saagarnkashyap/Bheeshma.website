@@ -331,6 +331,39 @@
   letter-spacing: 0.08em;
 }
 
+.site-brand-name {
+  display: block;
+  color: var(--ink);
+  font-family: "Inter", "Segoe UI", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1;
+}
+
+.site-mobile-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.25rem;
+  color: var(--ink);
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.site-mobile-menu-toggle:hover {
+  border-color: var(--saffron-light);
+  background: rgba(196, 154, 104, 0.1);
+  color: var(--terracotta);
+}
+
+.site-mobile-om,
+.site-mobile-nav-backdrop {
+  display: none;
+}
+
 .site-main-nav {
   display: flex;
   align-items: center;
@@ -706,10 +739,53 @@
   min-width: 0;
 }
 
+.reading-header-copy {
+  width: 100%;
+}
+
+.chapter-header-topline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 8.75rem;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.chapter-identity {
+  display: grid;
+  min-width: 0;
+  gap: 0.15rem;
+}
+
+.chapter-context {
+  color: var(--ink-soft);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.chapter-header-topline .section-kicker {
+  white-space: nowrap;
+}
+
+.chapter-navigation {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  width: 8.75rem;
+}
+
 .chapter-arrows {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  overflow: hidden;
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: rgba(255, 253, 248, 0.52);
 }
 
 .reading-nav-button,
@@ -730,6 +806,23 @@
   transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
 }
 
+.reading-nav-button {
+  flex: 1 1 0;
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--terracotta);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.reading-nav-button + .reading-nav-button {
+  border-left: 1px solid var(--line);
+}
+
 .icon-button {
   padding: 0.55rem;
 }
@@ -741,10 +834,70 @@
   color: var(--saffron);
 }
 
+.reading-nav-button:hover:not(:disabled) {
+  background: var(--paper-deep);
+}
+
 .reading-nav-button:disabled,
 .icon-button:disabled {
   cursor: not-allowed;
   opacity: 0.35;
+}
+
+/* Let page-flip recognize clicks on the chapter control itself, not its icon/text children. */
+.chapter-navigation .reading-nav-button > * {
+  pointer-events: none;
+}
+
+.page-turn-stage {
+  min-height: 100%;
+}
+
+.chapter-flip-book-shell {
+  width: min(100%, 68.75rem);
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.chapter-flip-book-shell .stf__parent {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.chapter-flip-book-shell .stf__block {
+  overflow: visible;
+}
+
+.chapter-flip-page {
+  box-sizing: border-box;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  touch-action: pan-y;
+  border: 1px solid rgba(184, 139, 66, 0.42);
+  border-radius: var(--radius);
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(255, 248, 217, 0.5), transparent 28rem),
+    repeating-linear-gradient(115deg, rgba(121, 77, 24, 0.025) 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(25deg, rgba(255, 249, 220, 0.22) 0 2px, transparent 2px 11px);
+  scrollbar-color: var(--line-strong) var(--paper-deep);
+  scrollbar-width: thin;
+}
+
+.chapter-flip-page-content {
+  box-sizing: border-box;
+  min-height: 100%;
+}
+
+.chapter-flip-page-content > .reading-shell {
+  min-height: 100%;
+}
+
+.chapter-flip-blank {
+  height: 100%;
+  background: linear-gradient(135deg, rgba(234, 208, 149, 0.58), rgba(245, 229, 181, 0.2));
 }
 
 .chapter-overview {
@@ -1530,21 +1683,94 @@
 
 @media (max-width: 640px) {
   .site-topbar {
+    position: relative;
+    min-height: 4.45rem;
     padding-right: 1rem;
     padding-left: 1rem;
-    flex-wrap: wrap;
+  }
+
+  .site-brand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .site-brand-mark {
+    display: none;
+  }
+
+  .site-mobile-menu-toggle {
+    display: inline-flex;
+    width: 2.75rem;
+    margin-left: 0;
   }
 
   .site-main-nav {
-    order: 3;
-    width: 100%;
-    margin-left: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
+    position: fixed;
+    top: 4.45rem;
+    left: 0;
+    z-index: 32;
+    width: min(18rem, 86vw);
+    height: calc(100dvh - 4.45rem);
+    max-height: none;
+    margin: 0;
+    overflow-y: auto;
+    padding: 1.1rem;
+    border-top: 0;
+    border-bottom: 0;
+    border-right: 1px solid var(--line-strong);
+    background: var(--paper);
+    box-shadow: 1rem 0 3rem rgba(59, 28, 14, 0.14);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.3rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s ease, opacity 0.2s ease, visibility 0.3s ease;
   }
 
-  .site-main-nav::-webkit-scrollbar {
-    display: none;
+  .site-main-nav-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .site-mobile-om {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-left: 0;
+    place-items: center;
+    color: var(--terracotta);
+    font-family: "Noto Sans Devanagari", sans-serif;
+    font-size: 1.35rem;
+    line-height: 1;
+    transform: translateY(-45%);
+  }
+
+  .site-mobile-nav-backdrop {
+    position: fixed;
+    inset: 4.45rem 0 0;
+    z-index: 31;
+    display: block;
+    width: 100%;
+    border: 0;
+    background: rgba(59, 28, 14, 0.2);
+    cursor: default;
+  }
+
+  .site-nav-link {
+    width: 100%;
+    justify-content: flex-start;
+    border-radius: 0.25rem;
+    padding: 0.7rem 0.8rem;
   }
 
   .home-landing {
@@ -1599,6 +1825,10 @@
 @media (max-width: 480px) {
   .chapter-overview {
     padding: 1rem;
+  }
+
+  .chapter-header-topline {
+    gap: 0.5rem;
   }
 
   .shloka-card-header {
