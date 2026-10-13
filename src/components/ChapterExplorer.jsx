@@ -71,6 +71,7 @@ const ChapterExplorer = ({
   const currentShloka = chapterData.shlokas[currentShlokaIndex];
   const hasPreviousVerse = currentShlokaIndex > 0;
   const hasNextVerse = currentShlokaIndex < totalShlokas - 1;
+  const verseJumpId = `verse-jump-${chapterNumber}`;
 
   const handleVerseJump = (event) => {
     event.preventDefault();
@@ -113,10 +114,10 @@ const ChapterExplorer = ({
           <ArrowLeft className="h-4 w-4" />
         </button>
         <form className="verse-jump-form" onSubmit={handleVerseJump}>
-          <label htmlFor="verse-jump">Jump</label>
+          <label htmlFor={verseJumpId}>Jump</label>
           <div className="verse-jump-control">
             <input
-              id="verse-jump"
+              id={verseJumpId}
               type="text"
               inputMode="numeric"
               pattern="[0-9]*"
