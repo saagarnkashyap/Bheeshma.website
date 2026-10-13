@@ -67,6 +67,10 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [currentView]);
+
   const showAudioPlayer = (chapter, verse) => {
     setAudioCurrentChapter(chapter);
     setAudioCurrentVerse(verse);
