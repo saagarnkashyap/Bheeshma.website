@@ -80,10 +80,21 @@ const ChapterFlipBook = ({
     pendingChapterRef.current = nextChapter;
     isFlippingRef.current = true;
 
-    if (nextChapter > chapterNumber) {
-      pageFlip.flipNext('top');
-    } else {
-      pageFlip.flipPrev('top');
+    // react-pageflip applies `disableFlipByClick` inside its public flip
+    // methods too. Temporarily bypass that guard for an explicit button
+    // action while keeping ordinary page clicks from starting a flip.
+    const settings = pageFlip.getSettings();
+    const wasClickFlipDisabled = settings.disableFlipByClick;
+    settings.disableFlipByClick = false;
+
+    try {
+      if (nextChapter > chapterNumber) {
+        pageFlip.flipNext('top');
+      } else {
+        pageFlip.flipPrev('top');
+      }
+    } finally {
+      settings.disableFlipByClick = wasClickFlipDisabled;
     }
   }, [chapterNumber, onChapterChange, shouldReduceMotion]);
 
