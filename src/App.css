@@ -382,38 +382,45 @@
   margin-top: 3.5rem;
 }
 
-.section-links-grid::before {
-  position: absolute;
-  top: 1.25rem;
-  right: 2.5rem;
-  left: 2.5rem;
-  height: 1px;
-  background: var(--line-strong);
-  content: '';
-  opacity: 0.7;
-}
-
 .section-link-card {
   position: relative;
   display: flex;
   min-height: 19rem;
   flex-direction: column;
   border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
   padding: 0 1.25rem 1rem;
   transition: color 0.25s ease, transform 0.25s ease;
 }
 
-.section-link-card:last-child {
-  border-right: 1px solid var(--line);
+.section-link-card::before {
+  position: absolute;
+  top: 2rem;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--line-strong);
+  content: '';
+  opacity: 0.7;
+  transition: background-color 0.25s ease, opacity 0.25s ease;
 }
 
 .section-link-card:nth-child(even) {
   padding-top: 3rem;
 }
 
+.section-link-card:nth-child(even)::before {
+  top: 5rem;
+}
+
 .section-link-card:hover .section-link-label,
 .section-link-card:hover .section-link-action {
   color: var(--terracotta);
+}
+
+.section-link-card:hover::before {
+  background: var(--terracotta);
+  opacity: 1;
 }
 
 .section-link-icon {
@@ -439,12 +446,16 @@
 
 .section-link-step {
   position: absolute;
-  top: 0.55rem;
+  top: 0.3rem;
   right: 1rem;
   color: var(--terracotta);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.65rem;
   letter-spacing: 0.1em;
+}
+
+.section-link-card:nth-child(even) .section-link-step {
+  top: 3.3rem;
 }
 
 .section-link-label {
@@ -1327,13 +1338,8 @@
     gap: 2rem 0;
   }
 
-  .section-links-grid::before {
-    display: none;
-  }
-
   .section-link-card {
     min-height: 16rem;
-    border-top: 1px solid var(--line);
     padding-top: 1.5rem;
   }
 
@@ -1460,6 +1466,15 @@
     border-left: 0;
     border-right: 0;
     padding: 1.5rem 0;
+  }
+
+  .section-link-card::before,
+  .section-link-card:nth-child(even)::before {
+    top: 2rem;
+  }
+
+  .section-link-card:nth-child(even) .section-link-step {
+    top: 0.3rem;
   }
 
   .section-link-card:last-child {
