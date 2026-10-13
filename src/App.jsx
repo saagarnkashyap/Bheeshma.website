@@ -162,7 +162,7 @@ function App() {
             }}
             className="site-brand"
           >
-            <span className="site-brand-mark">BG</span>
+            <span className="site-brand-mark" aria-hidden="true">ॐ</span>
             <span>
               <span className="block font-heading text-lg tracking-tight text-cosmic-blue">Bheeshma</span>
               <span className="block text-[0.6rem] uppercase tracking-[0.18em] text-soft-gold">Digital study edition</span>
