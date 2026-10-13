@@ -872,7 +872,10 @@
 .chapter-flip-page {
   box-sizing: border-box;
   min-height: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
   border: 1px solid rgba(184, 139, 66, 0.42);
   border-radius: var(--radius);
   background-color: var(--paper);
@@ -880,19 +883,13 @@
     radial-gradient(circle at 18% 12%, rgba(255, 248, 217, 0.5), transparent 28rem),
     repeating-linear-gradient(115deg, rgba(121, 77, 24, 0.025) 0 1px, transparent 1px 7px),
     repeating-linear-gradient(25deg, rgba(255, 249, 220, 0.22) 0 2px, transparent 2px 11px);
+  scrollbar-color: var(--line-strong) var(--paper-deep);
+  scrollbar-width: thin;
 }
 
 .chapter-flip-page-content {
   box-sizing: border-box;
-  position: absolute;
-  inset: 0;
-  min-height: 0;
-  overflow: auto;
-  overscroll-behavior: contain;
-  touch-action: pan-y;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-color: var(--line-strong) var(--paper-deep);
-  scrollbar-width: thin;
+  min-height: 100%;
 }
 
 .chapter-flip-page-content > .reading-shell {
