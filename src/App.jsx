@@ -38,27 +38,18 @@ const reducedMotionVariants = {
 
 const pageTurnVariants = {
   initial: (direction) => ({
-    opacity: 0,
-    x: direction > 0 ? 34 : -34,
-    rotateY: direction > 0 ? 7 : -7,
-    transformPerspective: 1400,
+    rotateY: direction > 0 ? 180 : -180,
     transformOrigin: direction > 0 ? 'left center' : 'right center',
   }),
-  animate: {
-    opacity: 1,
-    x: 0,
+  animate: (direction) => ({
     rotateY: 0,
-    transformPerspective: 1400,
-    transformOrigin: 'center center',
-    transition: { duration: 0.46, ease: [0.22, 0.8, 0.24, 1] },
-  },
+    transformOrigin: direction > 0 ? 'left center' : 'right center',
+    transition: { duration: 0.68, ease: [0.22, 0.72, 0.2, 1] },
+  }),
   exit: (direction) => ({
-    opacity: 0,
-    x: direction > 0 ? -26 : 26,
-    rotateY: direction > 0 ? -7 : 7,
-    transformPerspective: 1400,
-    transformOrigin: direction > 0 ? 'right center' : 'left center',
-    transition: { duration: 0.32, ease: [0.68, 0, 0.84, 0.2] },
+    rotateY: direction > 0 ? -180 : 180,
+    transformOrigin: direction > 0 ? 'left center' : 'right center',
+    transition: { duration: 0.64, ease: [0.2, 0, 0.72, 0.24] },
   }),
 };
 
@@ -290,10 +281,15 @@ function App() {
         </header>
 
         <main className="relative z-10 min-h-screen min-w-0">
-          <AnimatePresence mode="wait" initial={false} custom={pageDirection}>
+          <div className={`page-turn-stage ${currentView === 'chapters' ? 'page-turn-stage-reader' : ''}`}>
+            <AnimatePresence
+              mode={currentView === 'chapters' ? 'sync' : 'wait'}
+              initial={false}
+              custom={pageDirection}
+            >
             <Motion.div
               key={`${currentView}-${currentView === 'chapters' ? currentChapter : ''}`}
-              className={`page-turn-stage ${currentView === 'chapters' ? 'page-turn-stage-reader' : ''}`}
+              className={`page-turn-page ${currentView === 'chapters' ? 'page-turn-page-reader' : ''}`}
               custom={pageDirection}
               variants={shouldReduceMotion
                 ? reducedMotionVariants
@@ -306,7 +302,8 @@ function App() {
             >
               {renderMainContent()}
             </Motion.div>
-          </AnimatePresence>
+            </AnimatePresence>
+          </div>
         </main>
 
         <Motion.button
