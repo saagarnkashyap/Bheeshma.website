@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Brain, Heart, Moon, Search, Shield, Sparkles, Star, Sun, Zap } from 'lucide-react';
 import EnhancedShlokaCard from './EnhancedShlokaCard';
-import SectionLinks from './SectionLinks';
 import useGitaData from '../hooks/useGitaData';
 import '../App.css';
 
@@ -20,7 +19,7 @@ const emotionIcons = {
   default: Sparkles,
 };
 
-const EmotionSearch = ({ onViewChange }) => {
+const EmotionSearch = () => {
   const { getAllEmotions, getEmotionBasedVerses, loading } = useGitaData();
   const [selectedEmotion, setSelectedEmotion] = useState(null);
   const [verses, setVerses] = useState([]);
@@ -84,12 +83,6 @@ const EmotionSearch = ({ onViewChange }) => {
             </div>
           )}
 
-          <SectionLinks
-            onViewChange={onViewChange}
-            exclude={['emotions']}
-            title="Explore another path."
-            description="Move from a feeling into the text, its recitation, or the wider edition."
-          />
         </div>
       </div>
     );
@@ -149,12 +142,6 @@ const EmotionSearch = ({ onViewChange }) => {
           </div>
         )}
 
-        <SectionLinks
-          onViewChange={onViewChange}
-          exclude={['emotions']}
-          title="Continue from here."
-          description="Choose another way to spend time with the Gita."
-        />
       </div>
     </div>
   );

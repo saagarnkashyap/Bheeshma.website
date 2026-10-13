@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Headphones, Music, Play, Settings, Volume2 } from 'lucide-react';
 import { motion as Motion } from 'framer-motion';
-import SectionLinks from './SectionLinks';
 import useGitaData from '../hooks/useGitaData';
 import '../App.css';
 
-const AudioView = ({ onPlayAudio, onViewChange }) => {
+const AudioView = ({ onPlayAudio }) => {
   const { getChapterData, loading } = useGitaData();
   const [selectedChapter, setSelectedChapter] = useState(1);
   const [selectedVerse, setSelectedVerse] = useState(1);
@@ -135,12 +134,6 @@ const AudioView = ({ onPlayAudio, onViewChange }) => {
           </div>
         </section>
 
-        <SectionLinks
-          onViewChange={onViewChange}
-          exclude={['audio']}
-          title="Let the study continue."
-          description="Move between reading, guidance, questions, and the story behind this edition."
-        />
       </div>
     </div>
   );

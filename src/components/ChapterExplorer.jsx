@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, Lightbulb, Target } from 'lucide-react';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import EnhancedShlokaCard from './EnhancedShlokaCard';
-import SectionLinks from './SectionLinks';
 import useGitaData from '../hooks/useGitaData';
 import '../App.css';
 
-const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio, onViewChange }) => {
+const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
   const { getChapterData, loading } = useGitaData();
   const [currentShlokaIndex, setCurrentShlokaIndex] = useState(0);
   const [showChapterInfo, setShowChapterInfo] = useState(true);
@@ -190,12 +189,6 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio, onViewCh
           </div>
         </section>
 
-        <SectionLinks
-          onViewChange={onViewChange}
-          exclude={['chapters']}
-          title="Carry the study forward."
-          description="Read another angle of the text when you are ready."
-        />
       </div>
     </div>
   );

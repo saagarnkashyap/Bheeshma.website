@@ -8,7 +8,6 @@ import EmotionSearch from './components/EmotionSearch';
 import AudioView from './components/AudioView';
 import AboutView from './components/AboutView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
-import SectionLinks from './components/SectionLinks';
 import SeoMetadata from './components/SeoMetadata';
 import useGitaData from './hooks/useGitaData';
 import { getViewHref, getViewState } from './lib/viewUrls';
@@ -129,17 +128,16 @@ function App() {
             chapterNumber={currentChapter}
             onChapterChange={setCurrentChapter}
             onPlayAudio={showAudioPlayer}
-            onViewChange={setCurrentView}
           />
         );
       case 'emotions':
-        return <EmotionSearch onViewChange={setCurrentView} />;
+        return <EmotionSearch />;
       case 'audio':
-        return <AudioViewComponent onPlayAudio={showAudioPlayer} onViewChange={setCurrentView} />;
+        return <AudioViewComponent onPlayAudio={showAudioPlayer} />;
       case 'chat':
-        return <ChatView onViewChange={setCurrentView} />;
+        return <ChatView />;
       case 'about':
-        return <AboutView onViewChange={setCurrentView} />;
+        return <AboutView />;
       default:
         return <HomeView onViewChange={setCurrentView} chapters={gitaData.chapters} />;
     }
@@ -282,12 +280,6 @@ const HomeView = ({ onViewChange, chapters }) => (
     </Motion.section>
 
     <div className="home-page-body">
-      <SectionLinks
-        onViewChange={onViewChange}
-        title="Choose a way in."
-        description="Start with the part of the Gita that meets you where you are."
-      />
-
       <section className="home-chapter-panel">
         <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
@@ -323,11 +315,11 @@ const HomeView = ({ onViewChange, chapters }) => (
 
 const EmotionsView = () => <EmotionSearch />;
 
-const AudioViewComponent = ({ onPlayAudio, onViewChange }) => (
-  <AudioView onPlayAudio={onPlayAudio} onViewChange={onViewChange} />
+const AudioViewComponent = ({ onPlayAudio }) => (
+  <AudioView onPlayAudio={onPlayAudio} />
 );
 
-const ChatView = ({ onViewChange }) => (
+const ChatView = () => (
   <div className="min-h-screen px-5 py-16 lg:px-10 xl:px-16">
     <div className="mx-auto max-w-3xl">
       <p className="section-kicker mb-4">Assistant</p>
@@ -338,7 +330,6 @@ const ChatView = ({ onViewChange }) => (
           currently being prepared.
         </p>
       </div>
-      <SectionLinks onViewChange={onViewChange} exclude={['chat']} />
     </div>
   </div>
 );
