@@ -72,6 +72,11 @@ const ChapterFlipBook = ({
       return;
     }
 
+    const expectedPageIndex = chapterNumber - 1;
+    if (pageFlip.getCurrentPageIndex() !== expectedPageIndex) {
+      pageFlip.turnToPage(expectedPageIndex);
+    }
+
     pendingChapterRef.current = nextChapter;
     isFlippingRef.current = true;
 
