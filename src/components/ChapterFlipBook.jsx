@@ -13,7 +13,10 @@ const FlipPage = forwardRef(({ children, chapterNumber, isActive = false }, ref)
     data-density="soft"
     data-chapter={chapterNumber ?? 'blank'}
   >
-    <div className="chapter-flip-page-content">
+    <div
+      className="chapter-flip-page-content"
+      onWheel={(event) => event.stopPropagation()}
+    >
       {chapterNumber ? children : <div className="chapter-flip-blank" aria-hidden="true" />}
     </div>
     {isActive && <span className="sr-only">Current chapter page</span>}
