@@ -69,13 +69,14 @@ const SectionLinks = ({ onViewChange, exclude = [], title = 'Keep exploring', de
             whileHover={{ y: -3 }}
             whileTap={{ scale: 0.99 }}
           >
+            <span className="section-link-step">{String(index + 1).padStart(2, '0')}</span>
             <span className="section-link-icon">
               {React.createElement(Icon, { className: 'h-4 w-4', strokeWidth: 1.7 })}
             </span>
-            <span className="mt-6 block font-heading text-xl text-cosmic-blue">{label}</span>
-            <span className="mt-2 block text-sm leading-6 text-soft-gold">{itemDescription}</span>
-            <span className="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-golden-amber">
-              Open <ArrowRight className="h-3.5 w-3.5" />
+            <span className="section-link-label font-heading text-xl text-cosmic-blue">{label}</span>
+            <span className="section-link-description text-sm leading-6 text-soft-gold">{itemDescription}</span>
+            <span className="section-link-action inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-golden-amber">
+              Continue <ArrowRight className="h-3.5 w-3.5" />
             </span>
           </Motion.a>
         ))}
