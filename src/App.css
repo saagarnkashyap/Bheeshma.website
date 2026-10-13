@@ -449,7 +449,7 @@
   top: 0.3rem;
   right: 1rem;
   color: var(--terracotta);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: "Inter", "Segoe UI", sans-serif;
   font-size: 0.65rem;
   letter-spacing: 0.1em;
 }
@@ -779,7 +779,7 @@
 
 .home-chapter-index {
   color: var(--terracotta);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: "Inter", "Segoe UI", sans-serif;
   font-size: 0.68rem;
   letter-spacing: 0.08em;
 }
@@ -1042,7 +1042,7 @@
   justify-content: center;
   border-bottom: 1px solid transparent;
   color: var(--ink-soft);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: "Inter", "Segoe UI", sans-serif;
   font-size: 0.7rem;
   transition: border-color 0.2s ease, color 0.2s ease;
 }
@@ -1141,7 +1141,7 @@
   min-height: 2.75rem;
   padding: 0.55rem 0.2rem;
   color: var(--ink-soft);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: "Inter", "Segoe UI", sans-serif;
   font-size: 0.7rem;
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
