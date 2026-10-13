@@ -9,6 +9,7 @@ import EmotionSearch from './components/EmotionSearch';
 import AudioView from './components/AudioView';
 import AboutView from './components/AboutView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
+import SeoMetadata from './components/SeoMetadata';
 import useGitaData from './hooks/useGitaData';
 import './App.css';
 
@@ -19,7 +20,8 @@ function App() {
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
   const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
-  const { loading, error } = useGitaData();
+  const { gitaData, loading, error } = useGitaData();
+  const chapterName = gitaData?.chapters.find((chapter) => chapter.number === currentChapter)?.name;
 
   const showAudioPlayer = (chapter, verse) => {
     setAudioCurrentChapter(chapter);
@@ -99,6 +101,11 @@ function App() {
 
   return (
     <Router>
+      <SeoMetadata
+        currentView={currentView}
+        currentChapter={currentChapter}
+        chapterName={chapterName}
+      />
       <div className="study-edition divine-bg sacred-pattern relative min-h-screen">
         <Navigation
           currentView={currentView}
