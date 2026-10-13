@@ -104,7 +104,7 @@ const ChapterFlipBook = ({
         flippingTime={780}
         usePortrait
         autoSize
-        showPageCorners
+        showPageCorners={false}
         clickEventForward
         disableFlipByClick
         mobileScrollSupport
