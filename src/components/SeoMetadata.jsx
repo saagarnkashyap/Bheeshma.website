@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-
-const SITE_URL = 'https://bheeshma.vercel.app/';
+import { getViewUrl } from '../lib/viewUrls';
 
 const DEFAULT_METADATA = {
   title: 'Bheeshma | Bhagavad Gita Study Edition',
@@ -52,6 +51,7 @@ const updateMeta = (selector, content) => {
 const SeoMetadata = ({ currentView, currentChapter, chapterName }) => {
   useEffect(() => {
     const metadata = getMetadata(currentView, currentChapter, chapterName);
+    const pageUrl = getViewUrl(currentView, currentChapter);
 
     document.title = metadata.title;
     updateMeta('meta[name="description"]', metadata.description);
@@ -59,8 +59,10 @@ const SeoMetadata = ({ currentView, currentChapter, chapterName }) => {
     updateMeta('meta[property="og:description"]', metadata.description);
     updateMeta('meta[name="twitter:title"]', metadata.title);
     updateMeta('meta[name="twitter:description"]', metadata.description);
-    updateMeta('meta[property="og:url"]', SITE_URL);
-    updateMeta('meta[name="twitter:url"]', SITE_URL);
+    updateMeta('meta[property="og:url"]', pageUrl);
+    updateMeta('meta[name="twitter:url"]', pageUrl);
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', pageUrl);
   }, [chapterName, currentChapter, currentView]);
 
   return null;

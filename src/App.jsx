@@ -11,17 +11,53 @@ import AboutView from './components/AboutView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
 import useGitaData from './hooks/useGitaData';
+import { getViewState } from './lib/viewUrls';
 import './App.css';
 
 function App() {
-  const [currentView, setCurrentView] = useState('home');
-  const [currentChapter, setCurrentChapter] = useState(1);
+  const initialViewState = getViewState();
+  const [currentView, setCurrentViewState] = useState(initialViewState.currentView);
+  const [currentChapter, setCurrentChapterState] = useState(initialViewState.currentChapter);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
   const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
   const { gitaData, loading, error } = useGitaData();
   const chapterName = gitaData?.chapters.find((chapter) => chapter.number === currentChapter)?.name;
+
+  const updateUrl = (view, chapter = currentChapter, replace = false) => {
+    const params = new URLSearchParams();
+
+    if (view !== 'home') {
+      params.set('view', view);
+      if (view === 'chapters') params.set('chapter', String(chapter));
+    }
+
+    const nextUrl = params.toString() ? `/?${params.toString()}` : '/';
+    window.history[replace ? 'replaceState' : 'pushState']({}, '', nextUrl);
+  };
+
+  const setCurrentView = (view, chapter = currentChapter) => {
+    setCurrentViewState(view);
+    if (view === 'chapters') setCurrentChapterState(chapter);
+    updateUrl(view, chapter);
+  };
+
+  const setCurrentChapter = (chapter) => {
+    setCurrentChapterState(chapter);
+    if (currentView === 'chapters') updateUrl('chapters', chapter);
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const nextViewState = getViewState();
+      setCurrentViewState(nextViewState.currentView);
+      setCurrentChapterState(nextViewState.currentChapter);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const showAudioPlayer = (chapter, verse) => {
     setAudioCurrentChapter(chapter);
@@ -77,7 +113,7 @@ function App() {
   const renderMainContent = () => {
     switch (currentView) {
       case 'home':
-        return <HomeView onViewChange={setCurrentView} onChapterChange={setCurrentChapter} />;
+        return <HomeView onViewChange={setCurrentView} />;
       case 'chapters':
         return (
           <ChapterExplorer
@@ -151,7 +187,7 @@ function App() {
   );
 }
 
-const HomeView = ({ onViewChange, onChapterChange }) => (
+const HomeView = ({ onViewChange }) => (
   <div className="relative min-h-screen px-5 py-10 lg:px-16 lg:py-16">
     <div className="mx-auto max-w-6xl">
       <Motion.section
@@ -250,10 +286,7 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
             <button
               key={chapterNum}
               type="button"
-              onClick={() => {
-                onChapterChange(chapterNum);
-                onViewChange('chapters');
-              }}
+              onClick={() => onViewChange('chapters', chapterNum)}
               className="home-chapter-link"
             >
               <span className="font-mono text-xs text-soft-gold/70">{String(chapterNum).padStart(2, '0')}</span>
