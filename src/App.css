@@ -848,58 +848,49 @@
   min-height: 100%;
 }
 
-.page-turn-stage-reader {
-  display: grid;
-  perspective: 1800px;
-  transform-style: preserve-3d;
-  isolation: isolate;
+.chapter-flip-book-shell {
+  width: min(100%, 68.75rem);
+  margin: 0 auto;
+  overflow: visible;
 }
 
-.page-turn-stage-reader::before {
-  grid-area: 1 / 1;
-  align-self: stretch;
-  content: "";
-  pointer-events: none;
-  margin: 0.45rem 0.35rem 0.45rem 0.35rem;
-  border: 1px solid rgba(184, 139, 66, 0.38);
+.chapter-flip-book-shell .stf__parent {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.chapter-flip-book-shell .stf__block {
+  overflow: visible;
+}
+
+.chapter-flip-page {
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid rgba(184, 139, 66, 0.42);
   border-radius: var(--radius);
-  background: var(--paper-deep);
-  box-shadow: 0 1.25rem 2.5rem rgba(67, 57, 44, 0.12);
-  transform: translateZ(-16px) scale(0.992);
-}
-
-.page-turn-page-reader {
-  position: relative;
-  grid-area: 1 / 1;
-  min-width: 0;
-  z-index: 1;
-  border: 1px solid rgba(184, 139, 66, 0.26);
   background-color: var(--paper);
   background-image:
     radial-gradient(circle at 18% 12%, rgba(255, 248, 217, 0.5), transparent 28rem),
     repeating-linear-gradient(115deg, rgba(121, 77, 24, 0.025) 0 1px, transparent 1px 7px),
     repeating-linear-gradient(25deg, rgba(255, 249, 220, 0.22) 0 2px, transparent 2px 11px);
-  box-shadow: 0 0.8rem 2rem rgba(67, 57, 44, 0.1);
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  will-change: transform;
 }
 
-.page-turn-page-reader::after {
-  position: absolute;
-  z-index: 20;
-  inset: 0;
-  pointer-events: none;
-  content: "";
-  border-radius: var(--radius);
-  background: linear-gradient(
-    90deg,
-    rgba(255, 253, 248, 0.34),
-    transparent 13%,
-    transparent 86%,
-    rgba(59, 28, 14, 0.12)
-  );
-  opacity: 0.42;
+.chapter-flip-page-content {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--line-strong) var(--paper-deep);
+  scrollbar-width: thin;
+}
+
+.chapter-flip-page-content > .reading-shell {
+  min-height: 100%;
+}
+
+.chapter-flip-blank {
+  height: 100%;
+  background: linear-gradient(135deg, rgba(234, 208, 149, 0.58), rgba(245, 229, 181, 0.2));
 }
 
 .chapter-overview {

@@ -5,7 +5,14 @@ import EnhancedShlokaCard from './EnhancedShlokaCard';
 import useGitaData from '../hooks/useGitaData';
 import '../App.css';
 
-const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onVerseChange, onPlayAudio }) => {
+const ChapterExplorer = ({
+  chapterNumber,
+  initialVerse = 1,
+  active = true,
+  onChapterChange,
+  onVerseChange,
+  onPlayAudio,
+}) => {
   const { getChapterData, loading } = useGitaData();
   const [currentShlokaIndex, setCurrentShlokaIndex] = useState(0);
   const [showChapterInfo, setShowChapterInfo] = useState(true);
@@ -34,6 +41,8 @@ const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onV
   }, [currentShlokaIndex]);
 
   useEffect(() => {
+    if (!active) return undefined;
+
     const handleKeyDown = (event) => {
       const targetTag = event.target?.tagName;
       if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON'].includes(targetTag)) return;
@@ -49,7 +58,7 @@ const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onV
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentShlokaIndex, goToVerse, totalShlokas]);
+  }, [active, currentShlokaIndex, goToVerse, totalShlokas]);
 
   if (loading || !chapterData) {
     return (

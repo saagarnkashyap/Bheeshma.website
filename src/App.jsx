@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Menu, X } from 'lucide-react';
-import ChapterExplorer from './components/ChapterExplorer';
+import ChapterFlipBook from './components/ChapterFlipBook';
 import ChakraLoader from './components/ChakraLoader';
 import EmotionSearch from './components/EmotionSearch';
 import AudioView from './components/AudioView';
@@ -34,25 +34,6 @@ const reducedMotionVariants = {
   initial: { opacity: 0 },
   animate: { opacity: 1, transition: { duration: 0 } },
   exit: { opacity: 0, transition: { duration: 0 } },
-};
-
-const pageTurnVariants = {
-  initial: {
-    rotateY: 0,
-    transformOrigin: 'left center',
-    zIndex: 1,
-  },
-  animate: {
-    rotateY: 0,
-    transformOrigin: 'left center',
-    zIndex: 1,
-  },
-  exit: (direction) => ({
-    rotateY: direction > 0 ? -180 : 180,
-    transformOrigin: 'left center',
-    zIndex: 2,
-    transition: { duration: 0.72, ease: [0.2, 0.72, 0.2, 1] },
-  }),
 };
 
 function App() {
@@ -195,7 +176,7 @@ function App() {
         return <HomeView onViewChange={setCurrentView} chapters={gitaData.chapters} />;
       case 'chapters':
         return (
-          <ChapterExplorer
+          <ChapterFlipBook
             chapterNumber={currentChapter}
             initialVerse={currentVerse}
             onChapterChange={setCurrentChapter}
@@ -283,29 +264,21 @@ function App() {
         </header>
 
         <main className="relative z-10 min-h-screen min-w-0">
-          <div className={`page-turn-stage ${currentView === 'chapters' ? 'page-turn-stage-reader' : ''}`}>
-            <AnimatePresence
-              mode={currentView === 'chapters' ? 'sync' : 'wait'}
-              initial={false}
-              custom={pageDirection}
-            >
+          <AnimatePresence mode="wait" initial={false} custom={pageDirection}>
             <Motion.div
-              key={`${currentView}-${currentView === 'chapters' ? currentChapter : ''}`}
-              className={`page-turn-page ${currentView === 'chapters' ? 'page-turn-page-reader' : ''}`}
+              key={currentView}
+              className="page-turn-stage"
               custom={pageDirection}
               variants={shouldReduceMotion
                 ? reducedMotionVariants
-                : currentView !== 'chapters'
-                  ? fadeVariants
-                  : pageTurnVariants}
+                : fadeVariants}
               initial="initial"
               animate="animate"
               exit="exit"
             >
               {renderMainContent()}
             </Motion.div>
-            </AnimatePresence>
-          </div>
+          </AnimatePresence>
         </main>
 
         <Motion.button
