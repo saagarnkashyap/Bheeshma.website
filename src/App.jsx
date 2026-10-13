@@ -11,7 +11,7 @@ import AboutView from './components/AboutView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
 import useGitaData from './hooks/useGitaData';
-import { getViewState } from './lib/viewUrls';
+import { getViewHref, getViewState } from './lib/viewUrls';
 import './App.css';
 
 function App() {
@@ -207,21 +207,27 @@ const HomeView = ({ onViewChange }) => (
             the verses in Sanskrit.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <button
-              type="button"
-              onClick={() => onViewChange('chapters')}
+            <a
+              href={getViewHref('chapters')}
+              onClick={(event) => {
+                event.preventDefault();
+                onViewChange('chapters');
+              }}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-cosmic-blue px-6 py-3 text-sm font-medium text-paper transition hover:-translate-y-0.5 hover:bg-golden-amber"
             >
                 Open chapters
               <ArrowRight className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => onViewChange('emotions')}
+            </a>
+            <a
+              href={getViewHref('emotions')}
+              onClick={(event) => {
+                event.preventDefault();
+                onViewChange('emotions');
+              }}
               className="inline-flex items-center justify-center rounded-full border border-line-strong px-6 py-3 text-sm font-medium text-cosmic-blue transition hover:border-golden-amber hover:text-golden-amber"
             >
                 Find guidance
-            </button>
+            </a>
           </div>
           <div className="mt-10 flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.16em] text-soft-gold/75 sm:gap-7">
             <span>18 chapters</span>
@@ -254,18 +260,21 @@ const HomeView = ({ onViewChange }) => (
             title="Chapters"
             description="Read the complete text with verse context and chapter summaries."
             icon={BookOpen}
+            href={getViewHref('chapters')}
             onClick={() => onViewChange('chapters')}
           />
           <FeatureCard
             title="Guidance"
             description="Locate passages associated with particular emotions and challenges."
             icon={Heart}
+            href={getViewHref('emotions')}
             onClick={() => onViewChange('emotions')}
           />
           <FeatureCard
             title="Audio"
             description="Listen to Sanskrit recitations while moving through the text."
             icon={Music}
+            href={getViewHref('audio')}
             onClick={() => onViewChange('audio')}
           />
         </div>
@@ -283,15 +292,18 @@ const HomeView = ({ onViewChange }) => (
         </div>
         <div className="mt-8 grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-9">
           {Array.from({ length: 18 }, (_, i) => i + 1).map((chapterNum) => (
-            <button
+            <a
               key={chapterNum}
-              type="button"
-              onClick={() => onViewChange('chapters', chapterNum)}
+              href={getViewHref('chapters', chapterNum)}
+              onClick={(event) => {
+                event.preventDefault();
+                onViewChange('chapters', chapterNum);
+              }}
               className="home-chapter-link"
             >
               <span className="font-mono text-xs text-soft-gold/70">{String(chapterNum).padStart(2, '0')}</span>
               <span className="mt-1 text-sm font-medium">Open</span>
-            </button>
+            </a>
           ))}
         </div>
       </section>
@@ -299,14 +311,17 @@ const HomeView = ({ onViewChange }) => (
   </div>
 );
 
-const FeatureCard = ({ title, description, icon, onClick, delay = 0 }) => {
+const FeatureCard = ({ title, description, icon, href, onClick, delay = 0 }) => {
   const Icon = icon;
 
   return (
-    <Motion.button
-      type="button"
+    <Motion.a
+      href={href}
+      onClick={(event) => {
+        event.preventDefault();
+        onClick();
+      }}
       className="home-feature text-left"
-      onClick={onClick}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay }}
@@ -319,7 +334,7 @@ const FeatureCard = ({ title, description, icon, onClick, delay = 0 }) => {
       <span className="mt-7 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-golden-amber">
         Open <ArrowRight className="h-3.5 w-3.5" />
       </span>
-    </Motion.button>
+    </Motion.a>
   );
 };
 
