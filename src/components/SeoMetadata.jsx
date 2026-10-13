@@ -38,6 +38,11 @@ const getMetadata = (view, chapterNumber, chapterName) => {
         description:
           'Learn about Bheeshma, a focused digital study edition of the Bhagavad Gita for reading, reference, and listening.',
       };
+    case 'bookmarks':
+      return {
+        title: 'Saved Bhagavad Gita Verses | Bheeshma',
+        description: 'Return to your saved Bhagavad Gita verses and continue your personal reading journey.',
+      };
     default:
       return DEFAULT_METADATA;
   }
@@ -48,10 +53,10 @@ const updateMeta = (selector, content) => {
   if (element) element.setAttribute('content', content);
 };
 
-const SeoMetadata = ({ currentView, currentChapter, chapterName }) => {
+const SeoMetadata = ({ currentView, currentChapter, currentVerse, chapterName }) => {
   useEffect(() => {
     const metadata = getMetadata(currentView, currentChapter, chapterName);
-    const pageUrl = getViewUrl(currentView, currentChapter);
+    const pageUrl = getViewUrl(currentView, currentChapter, currentVerse);
 
     document.title = metadata.title;
     updateMeta('meta[name="description"]', metadata.description);
@@ -63,7 +68,7 @@ const SeoMetadata = ({ currentView, currentChapter, chapterName }) => {
     updateMeta('meta[name="twitter:url"]', pageUrl);
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.setAttribute('href', pageUrl);
-  }, [chapterName, currentChapter, currentView]);
+  }, [chapterName, currentChapter, currentVerse, currentView]);
 
   return null;
 };

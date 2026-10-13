@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import { BookOpen, Heart, Pause, Play, Plus, Share2 } from 'lucide-react';
+import { getViewHref } from '../lib/viewUrls';
+import { isBookmarked, toggleBookmark } from '../lib/bookmarks';
 import '../App.css';
 
 const EnhancedShlokaCard = ({
@@ -11,34 +13,75 @@ const EnhancedShlokaCard = ({
   verseNavigation,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isBookmarkedState, setIsBookmarkedState] = useState(() => (
+    shloka ? isBookmarked(chapterNumber, shloka.shloka_number) : false
+  ));
+  const [shareStatus, setShareStatus] = useState('idle');
+  const shlokaNumber = shloka?.shloka_number;
+
+  useEffect(() => {
+    if (!shlokaNumber) return;
+
+    setIsBookmarkedState(isBookmarked(chapterNumber, shlokaNumber));
+    setShareStatus('idle');
+  }, [chapterNumber, shlokaNumber]);
+
+  useEffect(() => {
+    if (shareStatus === 'idle') return undefined;
+
+    const timeout = window.setTimeout(() => setShareStatus('idle'), 3500);
+    return () => window.clearTimeout(timeout);
+  }, [shareStatus]);
 
   if (!shloka) return null;
 
   const handleBookmark = () => {
-    setIsBookmarked(!isBookmarked);
-    const bookmarks = JSON.parse(localStorage.getItem('bheeshma_bookmarks') || '[]');
-    const bookmarkKey = `${chapterNumber}-${shloka.shloka_number}`;
-    const nextBookmarks = isBookmarked
-      ? bookmarks.filter((bookmark) => bookmark !== bookmarkKey)
-      : [...bookmarks, bookmarkKey];
-    localStorage.setItem('bheeshma_bookmarks', JSON.stringify(nextBookmarks));
+    setIsBookmarkedState(toggleBookmark(chapterNumber, shloka.shloka_number));
   };
 
   const handleShare = async () => {
+    const shareUrl = new URL(
+      getViewHref('chapters', chapterNumber, shloka.shloka_number),
+      window.location.origin,
+    ).toString();
     const shareText = `${shloka.sanskrit_text}\n\n"${shloka.meaning}"\n\n- Bhagavad Gita ${chapterNumber}.${shloka.shloka_number}`;
+    const clipboardText = `${shareText}\n\n${shareUrl}`;
 
-    if (navigator.share) {
-      try {
+    setShareStatus('sharing');
+
+    try {
+      if (navigator.share) {
         await navigator.share({
           title: `Bhagavad Gita ${chapterNumber}.${shloka.shloka_number}`,
           text: shareText,
+          url: shareUrl,
         });
-      } catch (error) {
-        if (error.name !== 'AbortError') console.log('Error sharing:', error);
+        setShareStatus('shared');
+        return;
       }
-    } else if (navigator.clipboard) {
-      await navigator.clipboard.writeText(shareText);
+
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(clipboardText);
+      } else {
+        const textArea = document.createElement('textarea');
+        textArea.value = clipboardText;
+        textArea.setAttribute('readonly', '');
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.select();
+        const copied = document.execCommand('copy');
+        document.body.removeChild(textArea);
+        if (!copied) throw new Error('Clipboard copy was not available.');
+      }
+
+      setShareStatus('copied');
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        setShareStatus('idle');
+      } else {
+        setShareStatus('error');
+      }
     }
   };
 
@@ -66,12 +109,12 @@ const EnhancedShlokaCard = ({
           </button>
           <button
             type="button"
-            className={`icon-button ${isBookmarked ? 'icon-button-active' : ''}`}
+            className={`icon-button ${isBookmarkedState ? 'icon-button-active' : ''}`}
             onClick={handleBookmark}
-            title={isBookmarked ? 'Remove bookmark' : 'Bookmark this verse'}
-            aria-label={isBookmarked ? 'Remove bookmark' : 'Bookmark this verse'}
+            title={isBookmarkedState ? 'Remove bookmark' : 'Bookmark this verse'}
+            aria-label={isBookmarkedState ? 'Remove bookmark' : 'Bookmark this verse'}
           >
-            <Heart className={`h-4 w-4 ${isBookmarked ? 'fill-current' : ''}`} />
+            <Heart className={`h-4 w-4 ${isBookmarkedState ? 'fill-current' : ''}`} />
           </button>
           <button
             type="button"
@@ -83,6 +126,14 @@ const EnhancedShlokaCard = ({
             <Share2 className="h-4 w-4" />
           </button>
         </div>
+        {shareStatus !== 'idle' && (
+          <p className="shloka-share-feedback" role="status" aria-live="polite">
+            {shareStatus === 'sharing' && 'Opening share options…'}
+            {shareStatus === 'shared' && 'Share options opened.'}
+            {shareStatus === 'copied' && 'Verse and link copied.'}
+            {shareStatus === 'error' && 'Could not share this verse.'}
+          </p>
+        )}
         {verseNavigation && (
           <div className="shloka-card-navigation">
             {verseNavigation}

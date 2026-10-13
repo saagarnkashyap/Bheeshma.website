@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, Lightbulb, Target } from 'lucide-react';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import EnhancedShlokaCard from './EnhancedShlokaCard';
 import useGitaData from '../hooks/useGitaData';
 import '../App.css';
 
-const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
+const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onVerseChange, onPlayAudio }) => {
   const { getChapterData, loading } = useGitaData();
   const [currentShlokaIndex, setCurrentShlokaIndex] = useState(0);
   const [showChapterInfo, setShowChapterInfo] = useState(true);
@@ -13,11 +13,21 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
   const chapterData = getChapterData(chapterNumber);
   const totalShlokas = chapterData?.shlokas?.length ?? 0;
 
+  const goToVerse = useCallback((index) => {
+    const nextIndex = Math.min(Math.max(index, 0), Math.max(totalShlokas - 1, 0));
+    setCurrentShlokaIndex(nextIndex);
+    onVerseChange?.(nextIndex + 1);
+  }, [onVerseChange, totalShlokas]);
+
   useEffect(() => {
-    setCurrentShlokaIndex(0);
+    const firstVerseIndex = Math.min(
+      Math.max(initialVerse - 1, 0),
+      Math.max(totalShlokas - 1, 0),
+    );
+    setCurrentShlokaIndex(firstVerseIndex);
     setShowChapterInfo(true);
-    setVerseInput('1');
-  }, [chapterNumber]);
+    setVerseInput(String(firstVerseIndex + 1));
+  }, [chapterNumber, initialVerse, totalShlokas]);
 
   useEffect(() => {
     setVerseInput(String(currentShlokaIndex + 1));
@@ -29,17 +39,17 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
       if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON'].includes(targetTag)) return;
 
       if (event.key === 'ArrowLeft' && currentShlokaIndex > 0) {
-        setCurrentShlokaIndex((index) => index - 1);
+        goToVerse(currentShlokaIndex - 1);
       }
 
       if (event.key === 'ArrowRight' && currentShlokaIndex < totalShlokas - 1) {
-        setCurrentShlokaIndex((index) => index + 1);
+        goToVerse(currentShlokaIndex + 1);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentShlokaIndex, totalShlokas]);
+  }, [currentShlokaIndex, goToVerse, totalShlokas]);
 
   if (loading || !chapterData) {
     return (
@@ -53,7 +63,6 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
   const hasPreviousVerse = currentShlokaIndex > 0;
   const hasNextVerse = currentShlokaIndex < totalShlokas - 1;
 
-  const goToVerse = (index) => setCurrentShlokaIndex(index);
   const handleVerseJump = (event) => {
     event.preventDefault();
     const requestedVerse = Number.parseInt(verseInput, 10);
