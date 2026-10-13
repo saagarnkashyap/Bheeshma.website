@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BookOpen, Heart, Home, Info, Menu, MessageCircle, Music, X } from 'lucide-react';
 import useGitaData from '../hooks/useGitaData';
+import { getViewHref } from '../lib/viewUrls';
 import '../App.css';
 
 const navigationItems = [
@@ -16,7 +17,8 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
   const [isOpen, setIsOpen] = useState(false);
   const { gitaData } = useGitaData();
 
-  const handleNavClick = (viewId) => {
+  const handleNavClick = (event, viewId) => {
+    event.preventDefault();
     onViewChange(viewId);
     setIsOpen(false);
   };
@@ -47,9 +49,9 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
         }`}
       >
         <div className="flex h-full flex-col overflow-y-auto px-5 py-7 lg:px-7">
-          <button
-            type="button"
-            onClick={() => handleNavClick('home')}
+          <a
+            href={getViewHref('home')}
+            onClick={(event) => handleNavClick(event, 'home')}
             className="mb-10 flex items-center gap-3 text-left"
           >
             <span className="nav-mark">BG</span>
@@ -59,7 +61,7 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
                 Digital study edition
               </span>
             </span>
-          </button>
+          </a>
 
           <div className="mb-8">
             <p className="nav-section-label">Navigate</p>
@@ -69,15 +71,16 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
                 const isActive = currentView === item.id;
 
                 return (
-                  <button
+                  <a
                     key={item.id}
-                    type="button"
-                    onClick={() => handleNavClick(item.id)}
+                    href={getViewHref(item.id, currentChapter)}
+                    onClick={(event) => handleNavClick(event, item.id)}
                     className={`nav-item ${isActive ? 'nav-item-active' : ''}`}
+                    aria-current={isActive ? 'page' : undefined}
                   >
                     <Icon className="h-4 w-4 shrink-0" strokeWidth={1.7} />
                     <span>{item.label}</span>
-                  </button>
+                  </a>
                 );
               })}
             </nav>
@@ -91,14 +94,16 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
                   const isActive = currentChapter === chapter.number;
 
                   return (
-                    <button
+                    <a
                       key={chapter.number}
-                      type="button"
-                      onClick={() => {
+                      href={getViewHref('chapters', chapter.number)}
+                      onClick={(event) => {
+                        event.preventDefault();
                         onChapterChange(chapter.number);
                         setIsOpen(false);
                       }}
                       className={`chapter-item ${isActive ? 'chapter-item-active' : ''}`}
+                      aria-current={isActive ? 'page' : undefined}
                     >
                       <span className="w-7 shrink-0 font-mono text-xs opacity-60">
                         {String(chapter.number).padStart(2, '0')}
@@ -109,7 +114,7 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
                           {chapter.shlokas.length} verses
                         </span>
                       </span>
-                    </button>
+                    </a>
                   );
                 })}
               </div>

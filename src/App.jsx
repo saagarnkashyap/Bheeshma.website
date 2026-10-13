@@ -9,17 +9,55 @@ import EmotionSearch from './components/EmotionSearch';
 import AudioView from './components/AudioView';
 import AboutView from './components/AboutView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
+import SeoMetadata from './components/SeoMetadata';
 import useGitaData from './hooks/useGitaData';
+import { getViewHref, getViewState } from './lib/viewUrls';
 import './App.css';
 
 function App() {
-  const [currentView, setCurrentView] = useState('home');
-  const [currentChapter, setCurrentChapter] = useState(1);
+  const initialViewState = getViewState();
+  const [currentView, setCurrentViewState] = useState(initialViewState.currentView);
+  const [currentChapter, setCurrentChapterState] = useState(initialViewState.currentChapter);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
   const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
-  const { loading, error } = useGitaData();
+  const { gitaData, loading, error } = useGitaData();
+  const chapterName = gitaData?.chapters.find((chapter) => chapter.number === currentChapter)?.name;
+
+  const updateUrl = (view, chapter = currentChapter, replace = false) => {
+    const params = new URLSearchParams();
+
+    if (view !== 'home') {
+      params.set('view', view);
+      if (view === 'chapters') params.set('chapter', String(chapter));
+    }
+
+    const nextUrl = params.toString() ? `/?${params.toString()}` : '/';
+    window.history[replace ? 'replaceState' : 'pushState']({}, '', nextUrl);
+  };
+
+  const setCurrentView = (view, chapter = currentChapter) => {
+    setCurrentViewState(view);
+    if (view === 'chapters') setCurrentChapterState(chapter);
+    updateUrl(view, chapter);
+  };
+
+  const setCurrentChapter = (chapter) => {
+    setCurrentChapterState(chapter);
+    if (currentView === 'chapters') updateUrl('chapters', chapter);
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const nextViewState = getViewState();
+      setCurrentViewState(nextViewState.currentView);
+      setCurrentChapterState(nextViewState.currentChapter);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const showAudioPlayer = (chapter, verse) => {
     setAudioCurrentChapter(chapter);
@@ -75,7 +113,7 @@ function App() {
   const renderMainContent = () => {
     switch (currentView) {
       case 'home':
-        return <HomeView onViewChange={setCurrentView} onChapterChange={setCurrentChapter} />;
+        return <HomeView onViewChange={setCurrentView} />;
       case 'chapters':
         return (
           <ChapterExplorer
@@ -99,6 +137,11 @@ function App() {
 
   return (
     <Router>
+      <SeoMetadata
+        currentView={currentView}
+        currentChapter={currentChapter}
+        chapterName={chapterName}
+      />
       <div className="study-edition divine-bg sacred-pattern relative min-h-screen">
         <Navigation
           currentView={currentView}
@@ -144,7 +187,7 @@ function App() {
   );
 }
 
-const HomeView = ({ onViewChange, onChapterChange }) => (
+const HomeView = ({ onViewChange }) => (
   <div className="relative min-h-screen px-5 py-10 lg:px-16 lg:py-16">
     <div className="mx-auto max-w-6xl">
       <Motion.section
@@ -164,21 +207,27 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
             the verses in Sanskrit.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <button
-              type="button"
-              onClick={() => onViewChange('chapters')}
+            <a
+              href={getViewHref('chapters')}
+              onClick={(event) => {
+                event.preventDefault();
+                onViewChange('chapters');
+              }}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-cosmic-blue px-6 py-3 text-sm font-medium text-paper transition hover:-translate-y-0.5 hover:bg-golden-amber"
             >
                 Open chapters
               <ArrowRight className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => onViewChange('emotions')}
+            </a>
+            <a
+              href={getViewHref('emotions')}
+              onClick={(event) => {
+                event.preventDefault();
+                onViewChange('emotions');
+              }}
               className="inline-flex items-center justify-center rounded-full border border-line-strong px-6 py-3 text-sm font-medium text-cosmic-blue transition hover:border-golden-amber hover:text-golden-amber"
             >
                 Find guidance
-            </button>
+            </a>
           </div>
           <div className="mt-10 flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.16em] text-soft-gold/75 sm:gap-7">
             <span>18 chapters</span>
@@ -211,18 +260,21 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
             title="Chapters"
             description="Read the complete text with verse context and chapter summaries."
             icon={BookOpen}
+            href={getViewHref('chapters')}
             onClick={() => onViewChange('chapters')}
           />
           <FeatureCard
             title="Guidance"
             description="Locate passages associated with particular emotions and challenges."
             icon={Heart}
+            href={getViewHref('emotions')}
             onClick={() => onViewChange('emotions')}
           />
           <FeatureCard
             title="Audio"
             description="Listen to Sanskrit recitations while moving through the text."
             icon={Music}
+            href={getViewHref('audio')}
             onClick={() => onViewChange('audio')}
           />
         </div>
@@ -240,18 +292,18 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
         </div>
         <div className="mt-8 grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-9">
           {Array.from({ length: 18 }, (_, i) => i + 1).map((chapterNum) => (
-            <button
+            <a
               key={chapterNum}
-              type="button"
-              onClick={() => {
-                onChapterChange(chapterNum);
-                onViewChange('chapters');
+              href={getViewHref('chapters', chapterNum)}
+              onClick={(event) => {
+                event.preventDefault();
+                onViewChange('chapters', chapterNum);
               }}
               className="home-chapter-link"
             >
               <span className="font-mono text-xs text-soft-gold/70">{String(chapterNum).padStart(2, '0')}</span>
               <span className="mt-1 text-sm font-medium">Open</span>
-            </button>
+            </a>
           ))}
         </div>
       </section>
@@ -259,14 +311,17 @@ const HomeView = ({ onViewChange, onChapterChange }) => (
   </div>
 );
 
-const FeatureCard = ({ title, description, icon, onClick, delay = 0 }) => {
+const FeatureCard = ({ title, description, icon, href, onClick, delay = 0 }) => {
   const Icon = icon;
 
   return (
-    <Motion.button
-      type="button"
+    <Motion.a
+      href={href}
+      onClick={(event) => {
+        event.preventDefault();
+        onClick();
+      }}
       className="home-feature text-left"
-      onClick={onClick}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay }}
@@ -279,7 +334,7 @@ const FeatureCard = ({ title, description, icon, onClick, delay = 0 }) => {
       <span className="mt-7 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-golden-amber">
         Open <ArrowRight className="h-3.5 w-3.5" />
       </span>
-    </Motion.button>
+    </Motion.a>
   );
 };
 
