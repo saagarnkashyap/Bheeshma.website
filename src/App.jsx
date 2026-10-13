@@ -7,6 +7,7 @@ import ChakraLoader from './components/ChakraLoader';
 import EmotionSearch from './components/EmotionSearch';
 import AudioView from './components/AudioView';
 import AboutView from './components/AboutView';
+import BookmarksView from './components/BookmarksView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
 import useGitaData from './hooks/useGitaData';
@@ -20,12 +21,14 @@ const NAV_ITEMS = [
   { id: 'audio', label: 'Audio' },
   { id: 'chat', label: 'Assistant' },
   { id: 'about', label: 'About' },
+  { id: 'bookmarks', label: 'Bookmarks' },
 ];
 
 function App() {
   const initialViewState = getViewState();
   const [currentView, setCurrentViewState] = useState(initialViewState.currentView);
   const [currentChapter, setCurrentChapterState] = useState(initialViewState.currentChapter);
+  const [currentVerse, setCurrentVerseState] = useState(initialViewState.currentVerse);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
@@ -33,27 +36,39 @@ function App() {
   const { gitaData, loading, error } = useGitaData();
   const chapterName = gitaData?.chapters.find((chapter) => chapter.number === currentChapter)?.name;
 
-  const updateUrl = (view, chapter = currentChapter, replace = false) => {
+  const updateUrl = (view, chapter = currentChapter, verse = currentVerse, replace = false) => {
     const params = new URLSearchParams();
 
     if (view !== 'home') {
       params.set('view', view);
-      if (view === 'chapters') params.set('chapter', String(chapter));
+      if (view === 'chapters') {
+        params.set('chapter', String(chapter));
+        if (verse > 1) params.set('verse', String(verse));
+      }
     }
 
     const nextUrl = params.toString() ? `/?${params.toString()}` : '/';
     window.history[replace ? 'replaceState' : 'pushState']({}, '', nextUrl);
   };
 
-  const setCurrentView = (view, chapter = currentChapter) => {
+  const setCurrentView = (view, chapter = currentChapter, verse = 1) => {
     setCurrentViewState(view);
-    if (view === 'chapters') setCurrentChapterState(chapter);
-    updateUrl(view, chapter);
+    if (view === 'chapters') {
+      setCurrentChapterState(chapter);
+      setCurrentVerseState(verse);
+    }
+    updateUrl(view, chapter, verse);
   };
 
   const setCurrentChapter = (chapter) => {
     setCurrentChapterState(chapter);
-    if (currentView === 'chapters') updateUrl('chapters', chapter);
+    setCurrentVerseState(1);
+    if (currentView === 'chapters') updateUrl('chapters', chapter, 1);
+  };
+
+  const setCurrentVerse = (verse) => {
+    setCurrentVerseState(verse);
+    if (currentView === 'chapters') updateUrl('chapters', currentChapter, verse, true);
   };
 
   useEffect(() => {
@@ -61,6 +76,7 @@ function App() {
       const nextViewState = getViewState();
       setCurrentViewState(nextViewState.currentView);
       setCurrentChapterState(nextViewState.currentChapter);
+      setCurrentVerseState(nextViewState.currentVerse);
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -130,7 +146,9 @@ function App() {
         return (
           <ChapterExplorer
             chapterNumber={currentChapter}
+            initialVerse={currentVerse}
             onChapterChange={setCurrentChapter}
+            onVerseChange={setCurrentVerse}
             onPlayAudio={showAudioPlayer}
           />
         );
@@ -142,6 +160,8 @@ function App() {
         return <ChatView />;
       case 'about':
         return <AboutView />;
+      case 'bookmarks':
+        return <BookmarksView onViewChange={setCurrentView} />;
       default:
         return <HomeView onViewChange={setCurrentView} chapters={gitaData.chapters} />;
     }
@@ -152,6 +172,7 @@ function App() {
       <SeoMetadata
         currentView={currentView}
         currentChapter={currentChapter}
+        currentVerse={currentVerse}
         chapterName={chapterName}
       />
       <div className="study-edition divine-bg sacred-pattern relative min-h-screen">
@@ -174,10 +195,10 @@ function App() {
             {NAV_ITEMS.map(({ id, label }) => (
               <a
                 key={id}
-                href={getViewHref(id, currentChapter)}
+                href={getViewHref(id, currentChapter, id === 'chapters' ? currentVerse : undefined)}
                 onClick={(event) => {
                   event.preventDefault();
-                  setCurrentView(id);
+                  setCurrentView(id, currentChapter, id === 'chapters' ? currentVerse : 1);
                 }}
                 className={`site-nav-link ${currentView === id ? 'site-nav-link-active' : ''}`}
                 aria-current={currentView === id ? 'page' : undefined}

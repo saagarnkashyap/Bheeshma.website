@@ -845,6 +845,14 @@
   padding-top: 0.9rem;
 }
 
+.shloka-share-feedback {
+  grid-column: 1 / -1;
+  margin: -0.2rem 0 0;
+  color: var(--terracotta);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+}
+
 .icon-button-active {
   border-color: rgba(154, 85, 67, 0.45);
   color: var(--terracotta);
@@ -914,6 +922,121 @@
 .shloka-tag-muted {
   border-color: rgba(104, 118, 104, 0.32);
   color: var(--sage);
+}
+
+.bookmarks-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2rem;
+}
+
+.bookmarks-count {
+  flex: 0 0 auto;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.bookmark-list {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 2.5rem;
+}
+
+.bookmark-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 253, 248, 0.52);
+  padding: 1.25rem 1.35rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.bookmark-entry:hover {
+  border-color: var(--line-strong);
+  background: rgba(255, 253, 248, 0.78);
+  transform: translateY(-2px);
+}
+
+.bookmark-entry-content {
+  min-width: 0;
+}
+
+.bookmark-entry-sanskrit {
+  margin-top: 0.65rem;
+  color: var(--ink);
+  font-size: 1.15rem;
+  line-height: 1.8;
+}
+
+.bookmark-entry-meaning {
+  margin-top: 0.55rem;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.bookmark-entry-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bookmark-read-link,
+.bookmark-empty-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--terracotta);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.2s ease, gap 0.2s ease;
+}
+
+.bookmark-read-link:hover,
+.bookmark-empty-link:hover {
+  gap: 0.7rem;
+  color: var(--saffron);
+}
+
+.bookmark-empty {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 2.5rem;
+  border-left: 2px solid var(--saffron);
+  padding: 0.35rem 0 0.5rem 1.25rem;
+}
+
+.bookmark-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  color: var(--terracotta);
+}
+
+.bookmark-empty h2 {
+  margin-top: 1.25rem;
+}
+
+.bookmark-empty-link {
+  margin-top: 1.25rem;
+  border: 0;
+  background: transparent;
+  padding: 0;
 }
 
 .verse-reader-toolbar {
@@ -1344,6 +1467,12 @@
     flex-direction: column;
   }
 
+  .bookmarks-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   .verse-reader-toolbar {
     grid-template-columns: 1fr;
     gap: 0.75rem;
@@ -1435,6 +1564,15 @@
     gap: 0.9rem;
     font-size: 0.52rem;
     letter-spacing: 0.1em;
+  }
+
+  .bookmark-entry {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .bookmark-entry-actions {
+    justify-content: space-between;
   }
 
   .shloka-card-header {
