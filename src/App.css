@@ -99,7 +99,12 @@
     font-family: "Inter", "Segoe UI", sans-serif;
     font-weight: 400;
     line-height: 1.6;
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    min-width: 0;
   }
 
   button,
@@ -239,6 +244,18 @@
   background: #242a2e;
   border-right: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: none;
+  height: 100dvh;
+  width: min(20rem, calc(100vw - 1rem));
+}
+
+.chapter-nav > div {
+  min-height: 100%;
+}
+
+.navigation-toggle-open {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: #242a2e;
+  color: var(--paper);
 }
 
 .nav-mark {
@@ -898,12 +915,23 @@
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  bottom: max(1.5rem, calc(env(safe-area-inset-bottom) + 1rem));
+  right: max(1.5rem, calc(env(safe-area-inset-right) + 1rem));
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .assistant-launch:hover {
   border-color: var(--saffron);
   background: var(--saffron);
+}
+
+.audio-player-floating {
+  min-width: 0;
+  width: min(calc(100vw - 2rem), 24rem);
+}
+
+.assistant-launch-with-player {
+  bottom: max(10.5rem, calc(env(safe-area-inset-bottom) + 9.5rem));
 }
 
 /* The study edition uses compact, editorial controls rather than pill-shaped UI. */
@@ -957,6 +985,15 @@
 
   .about-feature-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .audio-player-floating {
+    right: 1rem;
+    left: 1rem;
+    width: auto;
+    max-width: none;
   }
 }
 

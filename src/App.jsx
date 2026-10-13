@@ -150,7 +150,7 @@ function App() {
           onChapterChange={setCurrentChapter}
         />
 
-        <main className="relative z-10 min-h-screen lg:ml-80">
+        <main className="relative z-10 min-h-screen min-w-0 lg:ml-80">
           <AnimatePresence mode="wait">
             <Motion.div
               key={currentView}
@@ -168,7 +168,7 @@ function App() {
           type="button"
           aria-label="Open assistant"
           onClick={() => setCurrentView('chat')}
-          className="assistant-launch fixed bottom-6 right-6 z-30"
+          className={`assistant-launch fixed right-6 z-30 ${audioPlayerVisible ? 'assistant-launch-with-player' : ''}`}
           whileTap={{ scale: 0.94 }}
         >
           Ask
