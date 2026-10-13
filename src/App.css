@@ -220,10 +220,54 @@
 }
 
 .audio-player {
-  background: rgba(41, 39, 33, 0.96);
+  background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 250, 241, 0.16);
-  box-shadow: 0 16px 40px rgba(41, 39, 33, 0.22);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 18px 40px rgba(29, 34, 38, 0.16);
+}
+
+.audio-player .audio-control {
+  color: var(--saffron);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.audio-player .audio-control:hover {
+  color: var(--terracotta);
+  background: var(--paper-deep);
+}
+
+.audio-player .audio-play-control {
+  border: 1px solid var(--line);
+  background: var(--paper-deep);
+}
+
+.audio-player .audio-play-control:hover {
+  background: var(--paper-warm);
+}
+
+.audio-progress-track {
+  background: var(--paper-deep);
+}
+
+.audio-progress-fill {
+  background: linear-gradient(90deg, var(--saffron), var(--terracotta));
+}
+
+.audio-player-time {
+  color: var(--ink-soft);
+}
+
+.audio-player-spinner {
+  border-color: var(--saffron);
+  border-top-color: transparent;
+}
+
+.audio-player-error {
+  border: 1px solid rgba(125, 73, 67, 0.2);
+  border-radius: 0.2rem;
+  background: rgba(125, 73, 67, 0.06);
+  color: var(--terracotta);
+  padding: 0.35rem 0.5rem;
 }
 
 .emotion-tag {
