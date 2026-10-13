@@ -874,7 +874,6 @@
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior: contain;
   touch-action: pan-y;
   border: 1px solid rgba(184, 139, 66, 0.42);
   border-radius: var(--radius);
