@@ -55,3 +55,12 @@ Device bands used for the audit:
 - Floating audio controls stay within viewport gutters and do not cover the assistant launcher.
 - Long Sanskrit, transliteration, chapter titles, emotion descriptions, and source credits wrap within their containers.
 - All six views retain usable spacing and touch targets on mobile.
+
+## Implementation record
+
+- `7227a2c` — hardened the shared app shell, mobile drawer, fixed-player sizing, safe-area spacing, and launcher collision handling.
+- `285896f` — tuned page padding and the 901–1100px transition layouts for the home, chapter, audio, guidance, and about views.
+- `7f20c5f` — added touch-target sizing, flexible verse headers, long-text wrapping, and compact mobile card spacing.
+- Tracked `dist/` output was refreshed after each implementation stage.
+- Final `npm run build`: passes.
+- Final `npm run lint`: still reports the pre-existing errors listed under Baseline checks; no new responsive lint errors were introduced.
