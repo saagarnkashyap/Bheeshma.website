@@ -1620,15 +1620,19 @@
   }
 
   .site-mobile-om {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
     display: grid;
     width: 2.75rem;
     height: 2.75rem;
-    margin-left: auto;
+    margin-left: 0;
     place-items: center;
     color: var(--terracotta);
     font-family: "Noto Sans Devanagari", sans-serif;
     font-size: 1.35rem;
     line-height: 1;
+    transform: translateY(-45%);
   }
 
   .site-mobile-nav-backdrop {
