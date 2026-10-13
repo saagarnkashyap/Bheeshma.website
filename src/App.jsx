@@ -39,16 +39,16 @@ const reducedMotionVariants = {
 const pageTurnVariants = {
   initial: (direction) => ({
     rotateY: direction > 0 ? 180 : -180,
-    transformOrigin: direction > 0 ? 'left center' : 'right center',
+    transformOrigin: 'left center',
   }),
-  animate: (direction) => ({
+  animate: {
     rotateY: 0,
-    transformOrigin: direction > 0 ? 'left center' : 'right center',
+    transformOrigin: 'left center',
     transition: { duration: 0.68, ease: [0.22, 0.72, 0.2, 1] },
-  }),
+  },
   exit: (direction) => ({
     rotateY: direction > 0 ? -180 : 180,
-    transformOrigin: direction > 0 ? 'left center' : 'right center',
+    transformOrigin: 'left center',
     transition: { duration: 0.64, ease: [0.2, 0, 0.72, 0.24] },
   }),
 };
