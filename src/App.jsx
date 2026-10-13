@@ -188,7 +188,7 @@ function App() {
 }
 
 const HomeView = ({ onViewChange }) => (
-  <div className="relative min-h-screen px-5 py-10 lg:px-16 lg:py-16">
+  <div className="relative min-h-screen px-5 py-10 lg:px-10 lg:py-16 xl:px-16">
     <div className="mx-auto max-w-6xl">
       <Motion.section
         className="home-hero"
@@ -343,7 +343,7 @@ const EmotionsView = () => <EmotionSearch />;
 const AudioViewComponent = ({ onPlayAudio }) => <AudioView onPlayAudio={onPlayAudio} />;
 
 const ChatView = () => (
-  <div className="min-h-screen px-5 py-16 lg:px-16">
+  <div className="min-h-screen px-5 py-16 lg:px-10 xl:px-16">
     <div className="mx-auto max-w-3xl">
       <p className="section-kicker mb-4">Assistant</p>
       <h2 className="font-heading text-4xl text-cosmic-blue">Ask about the text.</h2>
