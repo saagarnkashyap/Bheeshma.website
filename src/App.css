@@ -844,6 +844,11 @@
   opacity: 0.35;
 }
 
+/* Let page-flip recognize clicks on the chapter control itself, not its icon/text children. */
+.chapter-navigation .reading-nav-button > * {
+  pointer-events: none;
+}
+
 .page-turn-stage {
   min-height: 100%;
 }
