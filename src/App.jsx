@@ -224,74 +224,71 @@ function App() {
 }
 
 const HomeView = ({ onViewChange }) => (
-  <div className="relative min-h-screen px-5 py-10 lg:px-10 lg:py-16 xl:px-16">
-    <div className="mx-auto max-w-6xl">
-      <Motion.section
-        className="home-hero"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-      >
-        <div className="max-w-2xl">
-          <p className="section-kicker mb-6">Digital study edition</p>
-          <h1 className="font-heading text-5xl leading-[1.05] text-cosmic-blue sm:text-6xl lg:text-7xl">
-            Bhagavad<br />
-            <span className="text-golden-amber">Gita.</span>
-          </h1>
-          <p className="mt-7 max-w-xl text-base leading-8 text-soft-gold sm:text-lg">
-            A focused interface for reading the text, studying its context, and listening to
-            the verses in Sanskrit.
-          </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={getViewHref('chapters')}
-              onClick={(event) => {
-                event.preventDefault();
-                onViewChange('chapters');
-              }}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-cosmic-blue px-6 py-3 text-sm font-medium text-paper transition hover:-translate-y-0.5 hover:bg-golden-amber"
-            >
-                Open chapters
-              <ArrowRight className="h-4 w-4" />
-            </a>
-            <a
-              href={getViewHref('emotions')}
-              onClick={(event) => {
-                event.preventDefault();
-                onViewChange('emotions');
-              }}
-              className="inline-flex items-center justify-center rounded-full border border-line-strong px-6 py-3 text-sm font-medium text-cosmic-blue transition hover:border-golden-amber hover:text-golden-amber"
-            >
-                Find guidance
-            </a>
-          </div>
-          <div className="mt-10 flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.16em] text-soft-gold/75 sm:gap-7">
-            <span>18 chapters</span>
-            <span className="h-1 w-1 rounded-full bg-golden-amber" />
-            <span>700 verses</span>
-            <span className="h-1 w-1 rounded-full bg-golden-amber" />
-            <span>For reading and study</span>
-          </div>
+  <div className="home-page">
+    <Motion.section
+      className="home-landing"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7 }}
+    >
+      <div className="home-landing-wash" aria-hidden="true" />
+      <span className="home-landing-edge home-landing-edge-left">BHEESHMA · 01</span>
+      <span className="home-landing-edge home-landing-edge-right">THE SACRED DIALOGUE</span>
+      <div className="home-landing-content">
+        <p className="home-landing-eyebrow">A digital study edition</p>
+        <h1 className="home-landing-title">Bhagavad Gita</h1>
+        <div className="home-landing-rule" aria-hidden="true"><span>ॐ</span></div>
+
+        <div className="home-landing-figure" aria-hidden="true">
+          <svg viewBox="0 0 280 360" role="presentation">
+            <path className="home-krishna-feather" d="M157 32c20-26 44-25 55-17-20 7-25 21-28 38-8-7-16-13-27-21Z" />
+            <circle cx="132" cy="80" r="25" />
+            <path d="M105 77c5-28 35-39 59-24l-8 14c-16-8-31-5-51 10Z" />
+            <path d="M111 108c19 16 39 18 59 3 4 24 12 41 27 57-14 36-31 65-44 103-16-15-32-16-50-3-7-36-5-72 7-106 8-17 8-34 1-54Z" />
+            <path d="M104 130c-22 7-36 22-52 41 27 3 48-6 64-23" />
+            <path d="M166 127c22 12 42 18 66 17-15 18-37 22-61 13" />
+            <path d="M100 253c-11 30-21 61-40 86 22 4 43-7 60-25l21-59" />
+            <path d="M153 253c9 31 19 61 42 85-24 3-45-8-60-27l-20-57" />
+            <path className="home-krishna-flute" d="M48 175c52 5 103 4 167-7" />
+            <circle className="home-krishna-flute-dot" cx="88" cy="171" r="3" />
+            <circle className="home-krishna-flute-dot" cx="111" cy="172" r="3" />
+            <circle className="home-krishna-flute-dot" cx="138" cy="170" r="3" />
+          </svg>
         </div>
 
-        <div className="home-hero-index" aria-label="Edition contents">
-          <p className="section-kicker mb-7">Edition contents</p>
-          <div className="home-index-row"><strong>18</strong><span>Chapters</span></div>
-          <div className="home-index-row"><strong>700</strong><span>Verses</span></div>
-          <div className="home-index-row"><strong>02</strong><span>Languages</span></div>
-          <p className="mt-8 border-t border-line pt-5 text-xs leading-6 text-soft-gold">
-            Sanskrit text, transliteration, English meaning, and recitation.
-          </p>
-        </div>
-      </Motion.section>
+        <p className="home-landing-sanskrit font-sanskrit">यत् भावो, तत् भवति</p>
+        <p className="home-landing-translation">You Become what You Believe</p>
+        <p className="home-landing-copy">
+          Read the verses, sit with their meaning, and return to the wisdom whenever you need it.
+        </p>
+        <a
+          href={getViewHref('chapters')}
+          onClick={(event) => {
+            event.preventDefault();
+            onViewChange('chapters');
+          }}
+          className="home-landing-cta"
+        >
+          Enter the Gita
+          <ArrowRight className="h-4 w-4" />
+        </a>
+      </div>
 
+      <div className="home-landing-meta" aria-label="Edition details">
+        <span>18 chapters</span>
+        <span>700 verses</span>
+        <span>Sanskrit · English</span>
+      </div>
+    </Motion.section>
+
+    <div className="home-page-body">
       <SectionLinks
         onViewChange={onViewChange}
         title="Choose a way in."
         description="Start with the part of the Gita that meets you where you are."
       />
 
-      <section className="home-chapter-panel mt-24">
+      <section className="home-chapter-panel">
         <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
             <p className="section-kicker mb-3">Chapter index</p>
