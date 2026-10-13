@@ -438,14 +438,21 @@
   padding-bottom: 2rem;
 }
 
+.reading-header > div:first-child {
+  min-width: 0;
+}
+
 .chapter-arrows {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
 .reading-nav-button,
 .icon-button {
   display: inline-flex;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
@@ -455,7 +462,12 @@
   color: var(--ink-soft);
   font-size: 0.78rem;
   padding: 0.6rem 0.8rem;
+  touch-action: manipulation;
   transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.icon-button {
+  padding: 0.55rem;
 }
 
 .reading-nav-button:hover:not(:disabled),
@@ -543,6 +555,7 @@
 
 .shloka-card-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
@@ -550,8 +563,15 @@
   padding: 1.4rem 1.5rem;
 }
 
+.shloka-card-header > div:first-child {
+  min-width: 0;
+  flex: 1 1 12rem;
+}
+
 .shloka-actions {
   display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
   gap: 0.4rem;
 }
 
@@ -563,6 +583,16 @@
 .shloka-text {
   padding: 3.25rem 1.5rem 3rem;
   text-align: center;
+}
+
+.shloka-text p,
+.audio-verse p,
+.audio-selection p,
+.about-section-copy,
+.about-feature-item > div,
+.about-credit-item > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .shloka-section {
@@ -626,7 +656,7 @@
 
 .verse-index-item {
   display: inline-flex;
-  height: 2rem;
+  height: 2.5rem;
   min-width: 2.2rem;
   flex: none;
   align-items: center;
@@ -729,6 +759,7 @@
 .audio-choice {
   border: 1px solid var(--line);
   border-radius: 0.35rem;
+  min-height: 2.75rem;
   padding: 0.55rem 0.2rem;
   color: var(--ink-soft);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -1022,6 +1053,33 @@
     left: 1rem;
     width: auto;
     max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .chapter-overview {
+    padding: 1rem;
+  }
+
+  .shloka-card-header {
+    padding: 1.1rem;
+  }
+
+  .shloka-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .shloka-text {
+    padding: 2rem 1rem 2.25rem;
+  }
+
+  .shloka-section {
+    padding: 1.25rem 1rem;
+  }
+
+  .shloka-tags-footer {
+    padding: 1rem;
   }
 }
 
