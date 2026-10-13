@@ -137,34 +137,39 @@ const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onV
     <div className="reading-shell px-5 py-10 lg:px-10 lg:py-14 xl:px-16">
       <div className="mx-auto max-w-5xl">
         <header className="reading-header">
-          <div>
-            <p className="section-kicker mb-4">Bhagavad Gita · Chapter {chapterData.number}</p>
+          <div className="reading-header-copy">
+            <div className="chapter-header-topline">
+              <p className="section-kicker">Bhagavad Gita · Chapter {chapterData.number}</p>
+              <div className="chapter-navigation" aria-label="Chapter navigation">
+                <span className="chapter-navigation-label">Chapters</span>
+                <div className="chapter-arrows">
+                  <button
+                    type="button"
+                    onClick={goToPreviousChapter}
+                    disabled={chapterNumber <= 1}
+                    className="reading-nav-button"
+                    aria-label="Previous chapter"
+                    title="Previous chapter"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={goToNextChapter}
+                    disabled={chapterNumber >= 18}
+                    className="reading-nav-button"
+                    aria-label="Next chapter"
+                    title="Next chapter"
+                  >
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
             <h1 className="font-heading text-4xl text-cosmic-blue sm:text-5xl">{chapterData.name}</h1>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-soft-gold">
               Chapter context and verse-by-verse reading.
             </p>
-          </div>
-          <div className="chapter-arrows">
-            <button
-              type="button"
-              onClick={goToPreviousChapter}
-              disabled={chapterNumber <= 1}
-              className="reading-nav-button"
-              aria-label="Previous chapter"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span className="hidden sm:inline">Previous</span>
-            </button>
-            <button
-              type="button"
-              onClick={goToNextChapter}
-              disabled={chapterNumber >= 18}
-              className="reading-nav-button"
-              aria-label="Next chapter"
-            >
-              <span className="hidden sm:inline">Next</span>
-              <ArrowRight className="h-4 w-4" />
-            </button>
           </div>
         </header>
 
