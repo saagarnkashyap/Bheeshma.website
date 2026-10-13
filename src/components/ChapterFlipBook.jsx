@@ -5,6 +5,19 @@ import ChapterExplorer from './ChapterExplorer';
 import '../App.css';
 
 const TOTAL_CHAPTERS = 18;
+const PAGE_TURN_EDGE_ZONE = 72;
+
+const keepTouchScrollInsidePage = (event) => {
+  const touch = event.touches[0];
+  if (!touch) return;
+
+  const bounds = event.currentTarget.getBoundingClientRect();
+  const touchX = touch.clientX - bounds.left;
+  const isPageEdge = touchX <= PAGE_TURN_EDGE_ZONE
+    || touchX >= bounds.width - PAGE_TURN_EDGE_ZONE;
+
+  if (!isPageEdge) event.stopPropagation();
+};
 
 const FlipPage = forwardRef(({ children, chapterNumber, isActive = false }, ref) => (
   <div
@@ -16,6 +29,7 @@ const FlipPage = forwardRef(({ children, chapterNumber, isActive = false }, ref)
     <div
       className="chapter-flip-page-content"
       onWheel={(event) => event.stopPropagation()}
+      onTouchStartCapture={keepTouchScrollInsidePage}
     >
       {chapterNumber ? children : <div className="chapter-flip-blank" aria-hidden="true" />}
     </div>
