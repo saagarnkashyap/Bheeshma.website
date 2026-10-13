@@ -161,27 +161,32 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
         </section>
 
         <section className="mt-14">
-          <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <p className="section-kicker mb-2">Reading progress</p>
-              <p className="font-heading text-2xl text-cosmic-blue">
-                Verse {currentShlokaIndex + 1} <span className="text-soft-gold/60">of {totalShlokas}</span>
-              </p>
-            </div>
-            <div className="verse-progress-label">{Math.round(((currentShlokaIndex + 1) / totalShlokas) * 100)}% through</div>
-          </div>
-          <div className="verse-progress mb-8">
-            <div style={{ width: `${((currentShlokaIndex + 1) / totalShlokas) * 100}%` }} />
-          </div>
-
-          <section className="verse-navigation verse-navigation-inline mb-8" aria-label="Verse navigation">
-            <div className="verse-navigation-header">
-              <div>
-                <p className="section-kicker mb-2">Move through the text</p>
-                <p className="text-sm text-soft-gold">Read the next verse or jump directly.</p>
+          <div className="verse-reader-toolbar" aria-label="Verse navigation">
+            <div className="verse-reader-progress">
+              <div className="verse-reader-progress-meta">
+                <p className="verse-reader-current" aria-live="polite">
+                  Verse {currentShlokaIndex + 1} <span>of {totalShlokas}</span>
+                </p>
+                <div className="verse-progress-label">{Math.round(((currentShlokaIndex + 1) / totalShlokas) * 100)}% through</div>
               </div>
+              <div className="verse-progress">
+                <div style={{ width: `${((currentShlokaIndex + 1) / totalShlokas) * 100}%` }} />
+              </div>
+            </div>
+
+            <div className="verse-reader-actions">
+              <button
+                type="button"
+                onClick={() => goToVerse(currentShlokaIndex - 1)}
+                disabled={!hasPreviousVerse}
+                className="icon-button"
+                aria-label="Previous verse"
+                title="Previous verse"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </button>
               <form className="verse-jump-form" onSubmit={handleVerseJump}>
-                <label htmlFor="verse-jump">Jump to verse</label>
+                <label htmlFor="verse-jump">Jump</label>
                 <div className="verse-jump-control">
                   <input
                     id="verse-jump"
@@ -192,36 +197,22 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
                     onChange={(event) => setVerseInput(event.target.value.replace(/\D/g, ''))}
                     aria-label={`Jump to a verse from 1 to ${totalShlokas}`}
                   />
-                  <span>of {totalShlokas}</span>
-                  <button type="submit">Go</button>
+                  <span>/{totalShlokas}</span>
+                  <button type="submit" aria-label="Go to verse">Go</button>
                 </div>
               </form>
-            </div>
-
-            <div className="verse-stepper">
-              <button
-                type="button"
-                onClick={() => goToVerse(currentShlokaIndex - 1)}
-                disabled={!hasPreviousVerse}
-                className="reading-nav-button"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span>Previous verse</span>
-              </button>
-              <p className="verse-stepper-current" aria-live="polite">
-                Verse {currentShlokaIndex + 1} <span>of {totalShlokas}</span>
-              </p>
               <button
                 type="button"
                 onClick={() => goToVerse(currentShlokaIndex + 1)}
                 disabled={!hasNextVerse}
-                className="reading-nav-button"
+                className="icon-button"
+                aria-label="Next verse"
+                title="Next verse"
               >
-                <span>Next verse</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
-          </section>
+          </div>
 
           <EnhancedShlokaCard
             shloka={currentShloka}
