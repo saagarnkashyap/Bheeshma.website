@@ -739,9 +739,13 @@
   min-width: 0;
 }
 
+.reading-header-copy {
+  width: 100%;
+}
+
 .chapter-header-topline {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) 8.75rem;
   align-items: center;
   gap: 1rem;
   margin-bottom: 1rem;
@@ -770,12 +774,15 @@
   display: flex;
   flex: 0 0 auto;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.6rem;
+  width: 8.75rem;
 }
 
 .chapter-arrows {
   display: flex;
   overflow: hidden;
+  width: 100%;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   background: rgba(255, 253, 248, 0.52);
@@ -800,7 +807,8 @@
 }
 
 .reading-nav-button {
-  min-width: 4.3rem;
+  flex: 1 1 0;
+  min-width: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
