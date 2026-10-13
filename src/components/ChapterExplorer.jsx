@@ -174,39 +174,31 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
             <div style={{ width: `${((currentShlokaIndex + 1) / totalShlokas) * 100}%` }} />
           </div>
 
-          <EnhancedShlokaCard
-            shloka={currentShloka}
-            chapterNumber={chapterNumber}
-            showChapterInfo={false}
-            onAudioPlay={onPlayAudio}
-          />
-        </section>
-
-        <section className="verse-navigation mt-12 border-t border-line pt-7">
-          <div className="verse-navigation-header">
-            <div>
-              <p className="section-kicker mb-2">Verse navigation</p>
-              <p className="text-sm text-soft-gold">Move one verse at a time or jump directly.</p>
-            </div>
-            <form className="verse-jump-form" onSubmit={handleVerseJump}>
-              <label htmlFor="verse-jump">Jump to verse</label>
-              <div className="verse-jump-control">
-                <input
-                  id="verse-jump"
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  value={verseInput}
-                  onChange={(event) => setVerseInput(event.target.value.replace(/\D/g, ''))}
-                  aria-label={`Jump to a verse from 1 to ${totalShlokas}`}
-                />
-                <span>of {totalShlokas}</span>
-                <button type="submit">Go</button>
+          <section className="verse-navigation verse-navigation-inline mb-8" aria-label="Verse navigation">
+            <div className="verse-navigation-header">
+              <div>
+                <p className="section-kicker mb-2">Move through the text</p>
+                <p className="text-sm text-soft-gold">Read the next verse or jump directly.</p>
               </div>
-            </form>
-          </div>
+              <form className="verse-jump-form" onSubmit={handleVerseJump}>
+                <label htmlFor="verse-jump">Jump to verse</label>
+                <div className="verse-jump-control">
+                  <input
+                    id="verse-jump"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={verseInput}
+                    onChange={(event) => setVerseInput(event.target.value.replace(/\D/g, ''))}
+                    aria-label={`Jump to a verse from 1 to ${totalShlokas}`}
+                  />
+                  <span>of {totalShlokas}</span>
+                  <button type="submit">Go</button>
+                </div>
+              </form>
+            </div>
 
-          <div className="verse-stepper">
+            <div className="verse-stepper">
               <button
                 type="button"
                 onClick={() => goToVerse(currentShlokaIndex - 1)}
@@ -228,7 +220,15 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
                 <span>Next verse</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
-          </div>
+            </div>
+          </section>
+
+          <EnhancedShlokaCard
+            shloka={currentShloka}
+            chapterNumber={chapterNumber}
+            showChapterInfo={false}
+            onAudioPlay={onPlayAudio}
+          />
         </section>
 
       </div>
