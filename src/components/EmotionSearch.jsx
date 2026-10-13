@@ -82,6 +82,7 @@ const EmotionSearch = () => {
               No passages are mapped to this feeling yet.
             </div>
           )}
+
         </div>
       </div>
     );
@@ -140,6 +141,7 @@ const EmotionSearch = () => {
             No feelings matched “{searchTerm}”.
           </div>
         )}
+
       </div>
     </div>
   );

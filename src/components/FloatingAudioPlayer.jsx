@@ -185,7 +185,7 @@ const FloatingAudioPlayer = ({
         }}
         className="audio-player-floating fixed bottom-4 right-4 z-50 max-w-sm"
       >
-        <Card className="audio-player border border-paper/10 shadow-2xl">
+        <Card className="audio-player shadow-2xl">
           <CardContent className="p-3">
             {/* Header */}
             <div className="flex items-center justify-between mb-2">
@@ -196,7 +196,7 @@ const FloatingAudioPlayer = ({
                 variant="ghost"
                 size="sm"
                 onClick={onClose}
-                className="text-golden-amber hover:text-sacred-saffron h-6 w-6 p-0"
+                className="audio-control h-6 w-6 p-0"
               >
                 <X className="w-3 h-3" />
               </Button>
@@ -205,15 +205,15 @@ const FloatingAudioPlayer = ({
             {/* Progress Bar */}
             <div className="mb-3">
               <div 
-                className="w-full h-1 bg-cosmic-blue/30 rounded-full cursor-pointer"
+                className="audio-progress-track w-full h-1 rounded-full cursor-pointer"
                 onClick={handleSeek}
               >
                 <div 
-                  className="h-full bg-gradient-to-r from-golden-amber to-sacred-saffron rounded-full transition-all duration-300"
+                  className="audio-progress-fill h-full rounded-full transition-all duration-300"
                   style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
                 />
               </div>
-              <div className="flex justify-between text-xs text-soft-gold mt-1">
+              <div className="audio-player-time flex justify-between text-xs mt-1">
                 <span>{formatTime(currentTime)}</span>
                 <span>{formatTime(duration)}</span>
               </div>
@@ -225,7 +225,7 @@ const FloatingAudioPlayer = ({
                 variant="ghost"
                 size="sm"
                 onClick={handlePrevious}
-                className="text-golden-amber hover:text-sacred-saffron h-8 w-8 p-0"
+                className="audio-control h-8 w-8 p-0"
                 title="Previous Verse"
               >
                 <SkipBack className="w-4 h-4" />
@@ -236,10 +236,10 @@ const FloatingAudioPlayer = ({
                 size="sm"
                 onClick={togglePlay}
                 disabled={isLoading}
-                className="text-golden-amber hover:text-sacred-saffron h-10 w-10 p-0 rounded-full bg-golden-amber/10"
+                className="audio-control audio-play-control h-10 w-10 p-0 rounded-full"
               >
                 {isLoading ? (
-                  <div className="w-4 h-4 border-2 border-golden-amber border-t-transparent rounded-full animate-spin" />
+                  <div className="audio-player-spinner w-4 h-4 border-2 border-t-transparent rounded-full animate-spin" />
                 ) : isPlaying ? (
                   <Pause className="w-5 h-5" />
                 ) : (
@@ -251,7 +251,7 @@ const FloatingAudioPlayer = ({
                 variant="ghost"
                 size="sm"
                 onClick={handleNext}
-                className="text-golden-amber hover:text-sacred-saffron h-8 w-8 p-0"
+                className="audio-control h-8 w-8 p-0"
                 title="Next Verse"
               >
                 <SkipForward className="w-4 h-4" />
@@ -261,7 +261,7 @@ const FloatingAudioPlayer = ({
                 variant="ghost"
                 size="sm"
                 onClick={toggleMute}
-                className="text-golden-amber hover:text-sacred-saffron h-8 w-8 p-0"
+                className="audio-control h-8 w-8 p-0"
                 title="Toggle Mute"
               >
                 {isMuted || volume === 0 ? (
@@ -273,7 +273,7 @@ const FloatingAudioPlayer = ({
             </div>
 
             {error && (
-              <div className="text-center text-red-400 mt-2 text-xs">
+              <div className="audio-player-error text-center mt-2 text-xs">
                 {error}
               </div>
             )}

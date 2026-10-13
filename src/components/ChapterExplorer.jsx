@@ -9,12 +9,37 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
   const { getChapterData, loading } = useGitaData();
   const [currentShlokaIndex, setCurrentShlokaIndex] = useState(0);
   const [showChapterInfo, setShowChapterInfo] = useState(true);
+  const [verseInput, setVerseInput] = useState('1');
   const chapterData = getChapterData(chapterNumber);
+  const totalShlokas = chapterData?.shlokas?.length ?? 0;
 
   useEffect(() => {
     setCurrentShlokaIndex(0);
     setShowChapterInfo(true);
+    setVerseInput('1');
   }, [chapterNumber]);
+
+  useEffect(() => {
+    setVerseInput(String(currentShlokaIndex + 1));
+  }, [currentShlokaIndex]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const targetTag = event.target?.tagName;
+      if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON'].includes(targetTag)) return;
+
+      if (event.key === 'ArrowLeft' && currentShlokaIndex > 0) {
+        setCurrentShlokaIndex((index) => index - 1);
+      }
+
+      if (event.key === 'ArrowRight' && currentShlokaIndex < totalShlokas - 1) {
+        setCurrentShlokaIndex((index) => index + 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentShlokaIndex, totalShlokas]);
 
   if (loading || !chapterData) {
     return (
@@ -25,13 +50,79 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
   }
 
   const currentShloka = chapterData.shlokas[currentShlokaIndex];
-  const totalShlokas = chapterData.shlokas.length;
   const hasPreviousVerse = currentShlokaIndex > 0;
   const hasNextVerse = currentShlokaIndex < totalShlokas - 1;
 
   const goToVerse = (index) => setCurrentShlokaIndex(index);
+  const handleVerseJump = (event) => {
+    event.preventDefault();
+    const requestedVerse = Number.parseInt(verseInput, 10);
+
+    if (requestedVerse >= 1 && requestedVerse <= totalShlokas) {
+      goToVerse(requestedVerse - 1);
+      return;
+    }
+
+    setVerseInput(String(currentShlokaIndex + 1));
+  };
+
   const goToPreviousChapter = () => chapterNumber > 1 && onChapterChange(chapterNumber - 1);
   const goToNextChapter = () => chapterNumber < 18 && onChapterChange(chapterNumber + 1);
+
+  const verseNavigation = (
+    <div className="verse-reader-toolbar" aria-label="Verse navigation">
+      <div className="verse-reader-progress">
+        <div className="verse-reader-progress-meta">
+          <p className="verse-reader-current" aria-live="polite">
+            Verse {currentShlokaIndex + 1} <span>of {totalShlokas}</span>
+          </p>
+          <div className="verse-progress-label">{Math.round(((currentShlokaIndex + 1) / totalShlokas) * 100)}% through</div>
+        </div>
+        <div className="verse-progress">
+          <div style={{ width: `${((currentShlokaIndex + 1) / totalShlokas) * 100}%` }} />
+        </div>
+      </div>
+
+      <div className="verse-reader-actions">
+        <button
+          type="button"
+          onClick={() => goToVerse(currentShlokaIndex - 1)}
+          disabled={!hasPreviousVerse}
+          className="icon-button"
+          aria-label="Previous verse"
+          title="Previous verse"
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </button>
+        <form className="verse-jump-form" onSubmit={handleVerseJump}>
+          <label htmlFor="verse-jump">Jump</label>
+          <div className="verse-jump-control">
+            <input
+              id="verse-jump"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={verseInput}
+              onChange={(event) => setVerseInput(event.target.value.replace(/\D/g, ''))}
+              aria-label={`Jump to a verse from 1 to ${totalShlokas}`}
+            />
+            <span>/{totalShlokas}</span>
+            <button type="submit" aria-label="Go to verse">Go</button>
+          </div>
+        </form>
+        <button
+          type="button"
+          onClick={() => goToVerse(currentShlokaIndex + 1)}
+          disabled={!hasNextVerse}
+          className="icon-button"
+          aria-label="Next verse"
+          title="Next verse"
+        >
+          <ArrowRight className="h-4 w-4" />
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <div className="reading-shell px-5 py-10 lg:px-10 lg:py-14 xl:px-16">
@@ -125,69 +216,15 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
         </section>
 
         <section className="mt-14">
-          <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <p className="section-kicker mb-2">Verse index</p>
-              <p className="font-heading text-2xl text-cosmic-blue">
-                Verse {currentShlokaIndex + 1} <span className="text-soft-gold/60">of {totalShlokas}</span>
-              </p>
-            </div>
-            <div className="verse-progress-label">{Math.round(((currentShlokaIndex + 1) / totalShlokas) * 100)}% through</div>
-          </div>
-          <div className="verse-progress mb-8">
-            <div style={{ width: `${((currentShlokaIndex + 1) / totalShlokas) * 100}%` }} />
-          </div>
-
           <EnhancedShlokaCard
             shloka={currentShloka}
             chapterNumber={chapterNumber}
             showChapterInfo={false}
             onAudioPlay={onPlayAudio}
+            verseNavigation={verseNavigation}
           />
         </section>
 
-        <section className="mt-12 border-t border-line pt-7">
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <p className="section-kicker mb-2">Verse navigation</p>
-              <p className="text-sm text-soft-gold">Select another verse</p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => goToVerse(currentShlokaIndex - 1)}
-                disabled={!hasPreviousVerse}
-                className="icon-button"
-                aria-label="Previous verse"
-              >
-                <ArrowLeft className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => goToVerse(currentShlokaIndex + 1)}
-                disabled={!hasNextVerse}
-                className="icon-button"
-                aria-label="Next verse"
-              >
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-          <div className="verse-index" role="list" aria-label="Verse navigation">
-            {chapterData.shlokas.map((shloka, index) => (
-              <button
-                key={shloka.shloka_number}
-                type="button"
-                onClick={() => goToVerse(index)}
-                className={`verse-index-item ${index === currentShlokaIndex ? 'verse-index-item-active' : ''}`}
-                aria-label={`Go to verse ${shloka.shloka_number}`}
-                aria-current={index === currentShlokaIndex ? 'true' : undefined}
-              >
-                {String(shloka.shloka_number).padStart(2, '0')}
-              </button>
-            ))}
-          </div>
-        </section>
       </div>
     </div>
   );

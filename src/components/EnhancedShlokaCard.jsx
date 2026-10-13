@@ -3,7 +3,13 @@ import { AnimatePresence, motion as Motion } from 'framer-motion';
 import { BookOpen, Heart, Pause, Play, Plus, Share2 } from 'lucide-react';
 import '../App.css';
 
-const EnhancedShlokaCard = ({ shloka, chapterNumber, onAudioPlay, isPlaying = false }) => {
+const EnhancedShlokaCard = ({
+  shloka,
+  chapterNumber,
+  onAudioPlay,
+  isPlaying = false,
+  verseNavigation,
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -77,6 +83,11 @@ const EnhancedShlokaCard = ({ shloka, chapterNumber, onAudioPlay, isPlaying = fa
             <Share2 className="h-4 w-4" />
           </button>
         </div>
+        {verseNavigation && (
+          <div className="shloka-card-navigation">
+            {verseNavigation}
+          </div>
+        )}
       </header>
 
       <div className="shloka-text">

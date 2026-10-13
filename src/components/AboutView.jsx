@@ -70,6 +70,7 @@ const AboutView = () => (
           <p className="mt-7 font-sanskrit text-lg text-saffron-light">सर्वे भवन्तु सुखिनः</p>
           <p className="mt-1 text-xs uppercase tracking-[0.14em] text-paper/45">May all beings be happy.</p>
         </Motion.section>
+
       </div>
     </div>
   </div>

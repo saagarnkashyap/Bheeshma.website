@@ -133,6 +133,7 @@ const AudioView = ({ onPlayAudio }) => {
             </div>
           </div>
         </section>
+
       </div>
     </div>
   );
