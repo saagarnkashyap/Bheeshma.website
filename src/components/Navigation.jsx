@@ -29,7 +29,7 @@ const Navigation = ({ currentView, onViewChange, currentChapter, onChapterChange
         type="button"
         aria-label={isOpen ? 'Close navigation' : 'Open navigation'}
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-line bg-paper/90 text-cosmic-blue shadow-sm backdrop-blur"
+        className={`navigation-toggle lg:hidden fixed top-4 left-4 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-line bg-paper/90 text-cosmic-blue shadow-sm backdrop-blur ${isOpen ? 'navigation-toggle-open' : ''}`}
       >
         {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
       </button>

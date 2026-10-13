@@ -150,7 +150,7 @@ function App() {
           onChapterChange={setCurrentChapter}
         />
 
-        <main className="relative z-10 min-h-screen lg:ml-80">
+        <main className="relative z-10 min-h-screen min-w-0 lg:ml-80">
           <AnimatePresence mode="wait">
             <Motion.div
               key={currentView}
@@ -168,7 +168,7 @@ function App() {
           type="button"
           aria-label="Open assistant"
           onClick={() => setCurrentView('chat')}
-          className="assistant-launch fixed bottom-6 right-6 z-30"
+          className={`assistant-launch fixed right-6 z-30 ${audioPlayerVisible ? 'assistant-launch-with-player' : ''}`}
           whileTap={{ scale: 0.94 }}
         >
           Ask
@@ -188,7 +188,7 @@ function App() {
 }
 
 const HomeView = ({ onViewChange }) => (
-  <div className="relative min-h-screen px-5 py-10 lg:px-16 lg:py-16">
+  <div className="relative min-h-screen px-5 py-10 lg:px-10 lg:py-16 xl:px-16">
     <div className="mx-auto max-w-6xl">
       <Motion.section
         className="home-hero"
@@ -343,7 +343,7 @@ const EmotionsView = () => <EmotionSearch />;
 const AudioViewComponent = ({ onPlayAudio }) => <AudioView onPlayAudio={onPlayAudio} />;
 
 const ChatView = () => (
-  <div className="min-h-screen px-5 py-16 lg:px-16">
+  <div className="min-h-screen px-5 py-16 lg:px-10 xl:px-16">
     <div className="mx-auto max-w-3xl">
       <p className="section-kicker mb-4">Assistant</p>
       <h2 className="font-heading text-4xl text-cosmic-blue">Ask about the text.</h2>
