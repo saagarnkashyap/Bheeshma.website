@@ -19,16 +19,37 @@ const keepTouchScrollInsidePage = (event) => {
   if (!isPageEdge) event.stopPropagation();
 };
 
+const scrollPageWithWheel = (event) => {
+  const page = event.currentTarget;
+  const maxScrollTop = page.scrollHeight - page.clientHeight;
+
+  if (maxScrollTop <= 0 || event.deltaY === 0) return;
+
+  const deltaMultiplier = event.deltaMode === 1
+    ? 16
+    : event.deltaMode === 2
+      ? page.clientHeight
+      : 1;
+  const nextScrollTop = Math.min(
+    maxScrollTop,
+    Math.max(0, page.scrollTop + (event.deltaY * deltaMultiplier)),
+  );
+
+  event.preventDefault();
+  event.stopPropagation();
+  page.scrollTop = nextScrollTop;
+};
+
 const FlipPage = forwardRef(({ children, chapterNumber, isActive = false }, ref) => (
   <div
     ref={ref}
     className="chapter-flip-page"
     data-density="soft"
     data-chapter={chapterNumber ?? 'blank'}
+    onWheelCapture={scrollPageWithWheel}
   >
     <div
       className="chapter-flip-page-content"
-      onWheel={(event) => event.stopPropagation()}
       onTouchStartCapture={keepTouchScrollInsidePage}
     >
       {chapterNumber ? children : <div className="chapter-flip-blank" aria-hidden="true" />}
