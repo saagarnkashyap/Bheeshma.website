@@ -122,7 +122,7 @@ function App() {
   const renderMainContent = () => {
     switch (currentView) {
       case 'home':
-        return <HomeView onViewChange={setCurrentView} />;
+        return <HomeView onViewChange={setCurrentView} chapters={gitaData.chapters} />;
       case 'chapters':
         return (
           <ChapterExplorer
@@ -141,7 +141,7 @@ function App() {
       case 'about':
         return <AboutView onViewChange={setCurrentView} />;
       default:
-        return <HomeView onViewChange={setCurrentView} onChapterChange={setCurrentChapter} />;
+        return <HomeView onViewChange={setCurrentView} chapters={gitaData.chapters} />;
     }
   };
 
@@ -223,7 +223,7 @@ function App() {
   );
 }
 
-const HomeView = ({ onViewChange }) => (
+const HomeView = ({ onViewChange, chapters }) => (
   <div className="home-page">
     <Motion.section
       className="home-landing"
@@ -299,18 +299,20 @@ const HomeView = ({ onViewChange }) => (
           </p>
         </div>
         <div className="mt-8 grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-9">
-          {Array.from({ length: 18 }, (_, i) => i + 1).map((chapterNum) => (
+          {chapters.map((chapter) => (
             <a
-              key={chapterNum}
-              href={getViewHref('chapters', chapterNum)}
+              key={chapter.number}
+              href={getViewHref('chapters', chapter.number)}
               onClick={(event) => {
                 event.preventDefault();
-                onViewChange('chapters', chapterNum);
+                onViewChange('chapters', chapter.number);
               }}
               className="home-chapter-link"
+              title={chapter.name}
             >
-              <span className="font-mono text-xs text-soft-gold/70">{String(chapterNum).padStart(2, '0')}</span>
-              <span className="mt-1 text-sm font-medium">Open</span>
+              <span className="home-chapter-index">{String(chapter.number).padStart(2, '0')}</span>
+              <span className="home-chapter-name">{chapter.name.replace(/ Yoga$/, '')}</span>
+              <ArrowRight className="home-chapter-arrow h-4 w-4" />
             </a>
           ))}
         </div>
