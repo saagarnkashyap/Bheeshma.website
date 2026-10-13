@@ -84,8 +84,7 @@ const ChapterFlipBook = ({
 
   const handleFlip = useCallback((event) => {
     const requestedChapter = pendingChapterRef.current;
-    const targetChapter = requestedChapter
-      ?? (event.data > 1 ? chapterNumber + 1 : chapterNumber - 1);
+    const targetChapter = requestedChapter ?? (event.data + 1);
 
     pendingChapterRef.current = null;
     isFlippingRef.current = false;
@@ -99,12 +98,11 @@ const ChapterFlipBook = ({
     }
   }, [chapterNumber, onChapterChange]);
 
-  const pageChapters = [chapterNumber - 1, chapterNumber, chapterNumber + 1];
+  const pageChapters = Array.from({ length: TOTAL_CHAPTERS }, (_, index) => index + 1);
 
   return (
     <div className="chapter-flip-book-shell" aria-label="Chapter reader">
       <HTMLFlipBook
-        key={chapterNumber}
         ref={bookRef}
         className="chapter-flip-book"
         width={900}
@@ -114,7 +112,7 @@ const ChapterFlipBook = ({
         maxWidth={1200}
         minHeight={650}
         maxHeight={1900}
-        startPage={1}
+        startPage={chapterNumber - 1}
         drawShadow
         maxShadowOpacity={0.52}
         flippingTime={780}
@@ -129,7 +127,7 @@ const ChapterFlipBook = ({
         {pageChapters.map((pageChapter) => (
           <FlipPage
             key={pageChapter}
-            chapterNumber={pageChapter >= 1 && pageChapter <= TOTAL_CHAPTERS ? pageChapter : null}
+            chapterNumber={pageChapter}
             isActive={pageChapter === chapterNumber}
           >
             <ChapterExplorer
