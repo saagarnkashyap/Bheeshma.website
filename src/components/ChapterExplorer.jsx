@@ -139,10 +139,10 @@ const ChapterExplorer = ({ chapterNumber, initialVerse = 1, onChapterChange, onV
         <header className="reading-header">
           <div className="reading-header-copy">
             <div className="chapter-header-topline">
-              <p className="section-kicker">
-                <span className="chapter-context">Bhagavad Gita · </span>
-                Chapter {String(chapterData.number).padStart(2, '0')}
-              </p>
+              <div className="chapter-identity">
+                <p className="chapter-context">Bhagavad Gita</p>
+                <p className="section-kicker">Chapter {String(chapterData.number).padStart(2, '0')}</p>
+              </div>
               <div className="chapter-navigation" aria-label="Chapter navigation">
                 <div className="chapter-arrows">
                   <button

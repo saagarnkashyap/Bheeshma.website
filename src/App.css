@@ -740,11 +740,26 @@
 }
 
 .chapter-header-topline {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
+}
+
+.chapter-identity {
+  display: grid;
+  min-width: 0;
+  gap: 0.15rem;
+}
+
+.chapter-context {
+  color: var(--ink-soft);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .chapter-header-topline .section-kicker {
@@ -1724,10 +1739,6 @@
 @media (max-width: 480px) {
   .chapter-overview {
     padding: 1rem;
-  }
-
-  .chapter-context {
-    display: none;
   }
 
   .chapter-header-topline {
