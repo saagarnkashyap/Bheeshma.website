@@ -69,6 +69,61 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
   const goToPreviousChapter = () => chapterNumber > 1 && onChapterChange(chapterNumber - 1);
   const goToNextChapter = () => chapterNumber < 18 && onChapterChange(chapterNumber + 1);
 
+  const verseNavigation = (
+    <div className="verse-reader-toolbar" aria-label="Verse navigation">
+      <div className="verse-reader-progress">
+        <div className="verse-reader-progress-meta">
+          <p className="verse-reader-current" aria-live="polite">
+            Verse {currentShlokaIndex + 1} <span>of {totalShlokas}</span>
+          </p>
+          <div className="verse-progress-label">{Math.round(((currentShlokaIndex + 1) / totalShlokas) * 100)}% through</div>
+        </div>
+        <div className="verse-progress">
+          <div style={{ width: `${((currentShlokaIndex + 1) / totalShlokas) * 100}%` }} />
+        </div>
+      </div>
+
+      <div className="verse-reader-actions">
+        <button
+          type="button"
+          onClick={() => goToVerse(currentShlokaIndex - 1)}
+          disabled={!hasPreviousVerse}
+          className="icon-button"
+          aria-label="Previous verse"
+          title="Previous verse"
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </button>
+        <form className="verse-jump-form" onSubmit={handleVerseJump}>
+          <label htmlFor="verse-jump">Jump</label>
+          <div className="verse-jump-control">
+            <input
+              id="verse-jump"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={verseInput}
+              onChange={(event) => setVerseInput(event.target.value.replace(/\D/g, ''))}
+              aria-label={`Jump to a verse from 1 to ${totalShlokas}`}
+            />
+            <span>/{totalShlokas}</span>
+            <button type="submit" aria-label="Go to verse">Go</button>
+          </div>
+        </form>
+        <button
+          type="button"
+          onClick={() => goToVerse(currentShlokaIndex + 1)}
+          disabled={!hasNextVerse}
+          className="icon-button"
+          aria-label="Next verse"
+          title="Next verse"
+        >
+          <ArrowRight className="h-4 w-4" />
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <div className="reading-shell px-5 py-10 lg:px-10 lg:py-14 xl:px-16">
       <div className="mx-auto max-w-5xl">
@@ -161,64 +216,12 @@ const ChapterExplorer = ({ chapterNumber, onChapterChange, onPlayAudio }) => {
         </section>
 
         <section className="mt-14">
-          <div className="verse-reader-toolbar" aria-label="Verse navigation">
-            <div className="verse-reader-progress">
-              <div className="verse-reader-progress-meta">
-                <p className="verse-reader-current" aria-live="polite">
-                  Verse {currentShlokaIndex + 1} <span>of {totalShlokas}</span>
-                </p>
-                <div className="verse-progress-label">{Math.round(((currentShlokaIndex + 1) / totalShlokas) * 100)}% through</div>
-              </div>
-              <div className="verse-progress">
-                <div style={{ width: `${((currentShlokaIndex + 1) / totalShlokas) * 100}%` }} />
-              </div>
-            </div>
-
-            <div className="verse-reader-actions">
-              <button
-                type="button"
-                onClick={() => goToVerse(currentShlokaIndex - 1)}
-                disabled={!hasPreviousVerse}
-                className="icon-button"
-                aria-label="Previous verse"
-                title="Previous verse"
-              >
-                <ArrowLeft className="h-4 w-4" />
-              </button>
-              <form className="verse-jump-form" onSubmit={handleVerseJump}>
-                <label htmlFor="verse-jump">Jump</label>
-                <div className="verse-jump-control">
-                  <input
-                    id="verse-jump"
-                    type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    value={verseInput}
-                    onChange={(event) => setVerseInput(event.target.value.replace(/\D/g, ''))}
-                    aria-label={`Jump to a verse from 1 to ${totalShlokas}`}
-                  />
-                  <span>/{totalShlokas}</span>
-                  <button type="submit" aria-label="Go to verse">Go</button>
-                </div>
-              </form>
-              <button
-                type="button"
-                onClick={() => goToVerse(currentShlokaIndex + 1)}
-                disabled={!hasNextVerse}
-                className="icon-button"
-                aria-label="Next verse"
-                title="Next verse"
-              >
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-
           <EnhancedShlokaCard
             shloka={currentShloka}
             chapterNumber={chapterNumber}
             showChapterInfo={false}
             onAudioPlay={onPlayAudio}
+            verseNavigation={verseNavigation}
           />
         </section>
 

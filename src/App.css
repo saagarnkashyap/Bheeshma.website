@@ -818,8 +818,8 @@
 }
 
 .shloka-card-header {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
@@ -829,7 +829,6 @@
 
 .shloka-card-header > div:first-child {
   min-width: 0;
-  flex: 1 1 12rem;
 }
 
 .shloka-actions {
@@ -837,6 +836,13 @@
   flex: 0 0 auto;
   flex-wrap: wrap;
   gap: 0.4rem;
+}
+
+.shloka-card-navigation {
+  grid-column: 1 / -1;
+  min-width: 0;
+  border-top: 1px solid var(--line);
+  padding-top: 0.9rem;
 }
 
 .icon-button-active {
@@ -915,10 +921,6 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: 1.25rem;
-  margin-bottom: 1rem;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  padding: 0.8rem 0;
 }
 
 .verse-reader-progress {
@@ -1435,6 +1437,15 @@
     letter-spacing: 0.1em;
   }
 
+  .shloka-card-header {
+    grid-template-columns: 1fr;
+  }
+
+  .shloka-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
   .verse-reader-actions {
     justify-content: space-between;
   }
@@ -1454,11 +1465,6 @@
 
   .shloka-card-header {
     padding: 1.1rem;
-  }
-
-  .shloka-actions {
-    width: 100%;
-    justify-content: flex-end;
   }
 
   .shloka-text {
