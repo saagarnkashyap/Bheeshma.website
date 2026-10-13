@@ -211,8 +211,6 @@ function App() {
             aria-controls="primary-navigation"
             aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
-            <span className="site-mobile-menu-mark" aria-hidden="true">ॐ</span>
-            <span className="site-mobile-menu-divider" aria-hidden="true" />
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
           <nav
@@ -236,6 +234,15 @@ function App() {
               </a>
             ))}
           </nav>
+          {isMenuOpen && (
+            <button
+              type="button"
+              className="site-mobile-nav-backdrop"
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close navigation menu"
+            />
+          )}
+          <span className="site-mobile-om" aria-hidden="true">ॐ</span>
         </header>
 
         <main className="relative z-10 min-h-screen min-w-0">

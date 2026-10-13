@@ -359,17 +359,9 @@
   color: var(--terracotta);
 }
 
-.site-mobile-menu-mark {
-  color: var(--saffron);
-  font-family: "Noto Sans Devanagari", sans-serif;
-  font-size: 1rem;
-  line-height: 1;
-}
-
-.site-mobile-menu-divider {
-  width: 1px;
-  height: 1.1rem;
-  background: var(--line-strong);
+.site-mobile-om,
+.site-mobile-nav-backdrop {
+  display: none;
 }
 
 .site-main-nav {
@@ -1572,9 +1564,9 @@
 @media (max-width: 640px) {
   .site-topbar {
     position: relative;
+    min-height: 4.45rem;
     padding-right: 1rem;
     padding-left: 1rem;
-    flex-wrap: wrap;
   }
 
   .site-brand {
@@ -1590,36 +1582,64 @@
 
   .site-mobile-menu-toggle {
     display: inline-flex;
-    width: auto;
+    width: 2.75rem;
     margin-left: 0;
-    padding: 0 0.65rem;
-    gap: 0.55rem;
   }
 
   .site-main-nav {
-    order: 3;
-    width: 100%;
-    margin-left: 0;
-    max-height: 0;
-    overflow: hidden;
-    padding-top: 0;
-    border-top: 1px solid transparent;
+    position: fixed;
+    top: 4.45rem;
+    right: 0;
+    z-index: 32;
+    width: min(18rem, 86vw);
+    height: calc(100dvh - 4.45rem);
+    max-height: none;
+    margin: 0;
+    overflow-y: auto;
+    padding: 1.1rem;
+    border-top: 0;
+    border-bottom: 0;
+    border-left: 1px solid var(--line-strong);
+    background: var(--paper);
+    box-shadow: -1rem 0 3rem rgba(59, 28, 14, 0.14);
     flex-direction: column;
     align-items: stretch;
     gap: 0.3rem;
     opacity: 0;
     pointer-events: none;
+    transform: translateX(100%);
     visibility: hidden;
-    transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.3s ease, opacity 0.2s ease, visibility 0.3s ease;
   }
 
   .site-main-nav-open {
-    max-height: 24rem;
-    padding-top: 0.7rem;
-    border-top-color: var(--line);
     opacity: 1;
     pointer-events: auto;
+    transform: translateX(0);
     visibility: visible;
+  }
+
+  .site-mobile-om {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-left: auto;
+    place-items: center;
+    color: var(--terracotta);
+    font-family: "Noto Sans Devanagari", sans-serif;
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  .site-mobile-nav-backdrop {
+    position: fixed;
+    inset: 4.45rem 0 0;
+    z-index: 31;
+    display: block;
+    width: 100%;
+    border: 0;
+    background: rgba(59, 28, 14, 0.2);
+    cursor: default;
   }
 
   .site-nav-link {
