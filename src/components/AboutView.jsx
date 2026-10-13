@@ -1,9 +1,10 @@
 import React from 'react';
 import { Book, Code, ExternalLink, Globe, Heart, Music } from 'lucide-react';
 import { motion as Motion } from 'framer-motion';
+import SectionLinks from './SectionLinks';
 import '../App.css';
 
-const AboutView = () => (
+const AboutView = ({ onViewChange }) => (
   <div className="reading-shell px-5 py-10 lg:px-10 lg:py-14 xl:px-16">
     <div className="mx-auto max-w-4xl">
       <header className="about-intro">
@@ -70,6 +71,13 @@ const AboutView = () => (
           <p className="mt-7 font-sanskrit text-lg text-saffron-light">सर्वे भवन्तु सुखिनः</p>
           <p className="mt-1 text-xs uppercase tracking-[0.14em] text-paper/45">May all beings be happy.</p>
         </Motion.section>
+
+        <SectionLinks
+          onViewChange={onViewChange}
+          exclude={['about']}
+          title="Return to the text."
+          description="Choose where you would like to continue your study."
+        />
       </div>
     </div>
   </div>
