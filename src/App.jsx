@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
-import { ArrowRight, BookOpen, Heart, Music } from 'lucide-react';
-import Navigation from './components/Navigation';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import ChapterExplorer from './components/ChapterExplorer';
 import ChakraLoader from './components/ChakraLoader';
 import EmotionSearch from './components/EmotionSearch';
 import AudioView from './components/AudioView';
 import AboutView from './components/AboutView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
+import SectionLinks from './components/SectionLinks';
 import SeoMetadata from './components/SeoMetadata';
 import useGitaData from './hooks/useGitaData';
 import { getViewHref, getViewState } from './lib/viewUrls';
 import './App.css';
+
+const VIEW_LABELS = {
+  home: 'Digital study edition',
+  chapters: 'Reading room',
+  emotions: 'Guidance by subject',
+  audio: 'Audio reference',
+  chat: 'Assistant',
+  about: 'About this edition',
+};
 
 function App() {
   const initialViewState = getViewState();
@@ -120,16 +129,17 @@ function App() {
             chapterNumber={currentChapter}
             onChapterChange={setCurrentChapter}
             onPlayAudio={showAudioPlayer}
+            onViewChange={setCurrentView}
           />
         );
       case 'emotions':
-        return <EmotionSearch />;
+        return <EmotionSearch onViewChange={setCurrentView} />;
       case 'audio':
-        return <AudioViewComponent onPlayAudio={showAudioPlayer} />;
+        return <AudioViewComponent onPlayAudio={showAudioPlayer} onViewChange={setCurrentView} />;
       case 'chat':
-        return <ChatView />;
+        return <ChatView onViewChange={setCurrentView} />;
       case 'about':
-        return <AboutView />;
+        return <AboutView onViewChange={setCurrentView} />;
       default:
         return <HomeView onViewChange={setCurrentView} onChapterChange={setCurrentChapter} />;
     }
@@ -143,14 +153,40 @@ function App() {
         chapterName={chapterName}
       />
       <div className="study-edition divine-bg sacred-pattern relative min-h-screen">
-        <Navigation
-          currentView={currentView}
-          onViewChange={setCurrentView}
-          currentChapter={currentChapter}
-          onChapterChange={setCurrentChapter}
-        />
+        <header className="site-topbar">
+          <a
+            href={getViewHref('home')}
+            onClick={(event) => {
+              event.preventDefault();
+              setCurrentView('home');
+            }}
+            className="site-brand"
+          >
+            <span className="site-brand-mark">BG</span>
+            <span>
+              <span className="block font-heading text-lg tracking-tight text-cosmic-blue">Bheeshma</span>
+              <span className="block text-[0.6rem] uppercase tracking-[0.18em] text-soft-gold">Digital study edition</span>
+            </span>
+          </a>
+          <div className="site-topbar-meta">
+            <span className="hidden sm:inline">{VIEW_LABELS[currentView]}</span>
+            {currentView !== 'home' && (
+              <a
+                href={getViewHref('home')}
+                onClick={(event) => {
+                  event.preventDefault();
+                  setCurrentView('home');
+                }}
+                className="site-home-link"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" />
+                Home
+              </a>
+            )}
+          </div>
+        </header>
 
-        <main className="relative z-10 min-h-screen min-w-0 lg:ml-80">
+        <main className="relative z-10 min-h-screen min-w-0">
           <AnimatePresence mode="wait">
             <Motion.div
               key={currentView}
@@ -249,36 +285,11 @@ const HomeView = ({ onViewChange }) => (
         </div>
       </Motion.section>
 
-      <section className="mt-24">
-        <div className="mb-8 max-w-xl">
-            <p className="section-kicker mb-3">Primary sections</p>
-            <h2 className="font-heading text-3xl text-cosmic-blue sm:text-4xl">Study the text.</h2>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-3">
-          <FeatureCard
-            title="Chapters"
-            description="Read the complete text with verse context and chapter summaries."
-            icon={BookOpen}
-            href={getViewHref('chapters')}
-            onClick={() => onViewChange('chapters')}
-          />
-          <FeatureCard
-            title="Guidance"
-            description="Locate passages associated with particular emotions and challenges."
-            icon={Heart}
-            href={getViewHref('emotions')}
-            onClick={() => onViewChange('emotions')}
-          />
-          <FeatureCard
-            title="Audio"
-            description="Listen to Sanskrit recitations while moving through the text."
-            icon={Music}
-            href={getViewHref('audio')}
-            onClick={() => onViewChange('audio')}
-          />
-        </div>
-      </section>
+      <SectionLinks
+        onViewChange={onViewChange}
+        title="Choose a way in."
+        description="Start with the part of the Gita that meets you where you are."
+      />
 
       <section className="home-chapter-panel mt-24">
         <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
@@ -311,38 +322,13 @@ const HomeView = ({ onViewChange }) => (
   </div>
 );
 
-const FeatureCard = ({ title, description, icon, href, onClick, delay = 0 }) => {
-  const Icon = icon;
-
-  return (
-    <Motion.a
-      href={href}
-      onClick={(event) => {
-        event.preventDefault();
-        onClick();
-      }}
-      className="home-feature text-left"
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, delay }}
-      whileHover={{ y: -3 }}
-      whileTap={{ scale: 0.99 }}
-    >
-      <span className="home-feature-icon"><Icon className="h-5 w-5" strokeWidth={1.6} /></span>
-      <span className="mt-8 block font-heading text-2xl text-cosmic-blue">{title}</span>
-      <span className="mt-3 block text-sm leading-7 text-soft-gold">{description}</span>
-      <span className="mt-7 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-golden-amber">
-        Open <ArrowRight className="h-3.5 w-3.5" />
-      </span>
-    </Motion.a>
-  );
-};
-
 const EmotionsView = () => <EmotionSearch />;
 
-const AudioViewComponent = ({ onPlayAudio }) => <AudioView onPlayAudio={onPlayAudio} />;
+const AudioViewComponent = ({ onPlayAudio, onViewChange }) => (
+  <AudioView onPlayAudio={onPlayAudio} onViewChange={onViewChange} />
+);
 
-const ChatView = () => (
+const ChatView = ({ onViewChange }) => (
   <div className="min-h-screen px-5 py-16 lg:px-10 xl:px-16">
     <div className="mx-auto max-w-3xl">
       <p className="section-kicker mb-4">Assistant</p>
@@ -353,6 +339,7 @@ const ChatView = () => (
           currently being prepared.
         </p>
       </div>
+      <SectionLinks onViewChange={onViewChange} exclude={['chat']} />
     </div>
   </div>
 );
