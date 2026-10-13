@@ -331,6 +331,16 @@
   letter-spacing: 0.08em;
 }
 
+.site-brand-name {
+  display: block;
+  color: var(--ink);
+  font-family: "Inter", "Segoe UI", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1;
+}
+
 .site-main-nav {
   display: flex;
   align-items: center;
