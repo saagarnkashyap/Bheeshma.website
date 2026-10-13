@@ -41,7 +41,7 @@ const EmotionSearch = () => {
 
   if (selectedEmotion) {
     return (
-      <div className="reading-shell px-5 py-10 lg:px-16 lg:py-14">
+      <div className="reading-shell px-5 py-10 lg:px-10 lg:py-14 xl:px-16">
         <div className="mx-auto max-w-5xl">
           <button
             type="button"
@@ -88,7 +88,7 @@ const EmotionSearch = () => {
   }
 
   return (
-    <div className="reading-shell px-5 py-10 lg:px-16 lg:py-14">
+    <div className="reading-shell px-5 py-10 lg:px-10 lg:py-14 xl:px-16">
       <div className="mx-auto max-w-5xl">
         <header className="mb-12 max-w-2xl">
           <p className="section-kicker mb-4">Guidance by subject</p>

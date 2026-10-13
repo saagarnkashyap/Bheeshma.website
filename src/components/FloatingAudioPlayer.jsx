@@ -183,7 +183,7 @@ const FloatingAudioPlayer = ({
           damping: 30,
           duration: 0.5 
         }}
-        className="fixed bottom-4 right-4 z-50 max-w-sm"
+        className="audio-player-floating fixed bottom-4 right-4 z-50 max-w-sm"
       >
         <Card className="audio-player border border-paper/10 shadow-2xl">
           <CardContent className="p-3">
