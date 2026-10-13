@@ -872,6 +872,7 @@
   position: relative;
   grid-area: 1 / 1;
   min-width: 0;
+  z-index: 1;
   border: 1px solid rgba(184, 139, 66, 0.26);
   background-color: var(--paper);
   background-image:
