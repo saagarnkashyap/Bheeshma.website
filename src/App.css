@@ -1470,6 +1470,7 @@
 
   .section-link-card::before,
   .section-link-card:nth-child(even)::before {
+    left: 2.5rem;
     top: 2rem;
   }
 
