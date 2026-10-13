@@ -211,6 +211,8 @@ function App() {
             aria-controls="primary-navigation"
             aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
+            <span className="site-mobile-menu-mark" aria-hidden="true">ॐ</span>
+            <span className="site-mobile-menu-divider" aria-hidden="true" />
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
           <nav

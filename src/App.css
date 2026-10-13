@@ -359,6 +359,19 @@
   color: var(--terracotta);
 }
 
+.site-mobile-menu-mark {
+  color: var(--saffron);
+  font-family: "Noto Sans Devanagari", sans-serif;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.site-mobile-menu-divider {
+  width: 1px;
+  height: 1.1rem;
+  background: var(--line-strong);
+}
+
 .site-main-nav {
   display: flex;
   align-items: center;
@@ -1558,14 +1571,29 @@
 
 @media (max-width: 640px) {
   .site-topbar {
+    position: relative;
     padding-right: 1rem;
     padding-left: 1rem;
     flex-wrap: wrap;
   }
 
+  .site-brand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .site-brand-mark {
+    display: none;
+  }
+
   .site-mobile-menu-toggle {
     display: inline-flex;
-    margin-left: auto;
+    width: auto;
+    margin-left: 0;
+    padding: 0 0.65rem;
+    gap: 0.55rem;
   }
 
   .site-main-nav {
