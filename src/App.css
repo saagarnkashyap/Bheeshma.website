@@ -747,19 +747,15 @@
   margin-bottom: 1rem;
 }
 
+.chapter-header-topline .section-kicker {
+  white-space: nowrap;
+}
+
 .chapter-navigation {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
   gap: 0.6rem;
-}
-
-.chapter-navigation-label {
-  color: var(--ink-soft);
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
 }
 
 .chapter-arrows {
@@ -1728,6 +1724,14 @@
 @media (max-width: 480px) {
   .chapter-overview {
     padding: 1rem;
+  }
+
+  .chapter-context {
+    display: none;
+  }
+
+  .chapter-header-topline {
+    gap: 0.5rem;
   }
 
   .shloka-card-header {
