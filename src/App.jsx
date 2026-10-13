@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 import ChapterExplorer from './components/ChapterExplorer';
 import ChakraLoader from './components/ChakraLoader';
 import EmotionSearch from './components/EmotionSearch';
@@ -29,6 +29,7 @@ function App() {
   const [currentView, setCurrentViewState] = useState(initialViewState.currentView);
   const [currentChapter, setCurrentChapterState] = useState(initialViewState.currentChapter);
   const [currentVerse, setCurrentVerseState] = useState(initialViewState.currentVerse);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
@@ -82,6 +83,19 @@ function App() {
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  useEffect(() => {
+    const handleMenuKeyDown = (event) => {
+      if (event.key === 'Escape') setIsMenuOpen(false);
+    };
+
+    window.addEventListener('keydown', handleMenuKeyDown);
+    return () => window.removeEventListener('keydown', handleMenuKeyDown);
+  }, []);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [currentView]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
@@ -181,6 +195,7 @@ function App() {
             href={getViewHref('home')}
             onClick={(event) => {
               event.preventDefault();
+              setIsMenuOpen(false);
               setCurrentView('home');
             }}
             className="site-brand"
@@ -188,13 +203,28 @@ function App() {
             <span className="site-brand-mark" aria-hidden="true">ॐ</span>
             <span className="site-brand-name">BHEESHMA</span>
           </a>
-          <nav className="site-main-nav" aria-label="Primary navigation">
+          <button
+            type="button"
+            className="site-mobile-menu-toggle"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-expanded={isMenuOpen}
+            aria-controls="primary-navigation"
+            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          >
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+          <nav
+            id="primary-navigation"
+            className={`site-main-nav ${isMenuOpen ? 'site-main-nav-open' : ''}`}
+            aria-label="Primary navigation"
+          >
             {NAV_ITEMS.map(({ id, label }) => (
               <a
                 key={id}
                 href={getViewHref(id, currentChapter, id === 'chapters' ? currentVerse : undefined)}
                 onClick={(event) => {
                   event.preventDefault();
+                  setIsMenuOpen(false);
                   setCurrentView(id, currentChapter, id === 'chapters' ? currentVerse : 1);
                 }}
                 className={`site-nav-link ${currentView === id ? 'site-nav-link-active' : ''}`}
