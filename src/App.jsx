@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import ChapterExplorer from './components/ChapterExplorer';
 import ChakraLoader from './components/ChakraLoader';
 import EmotionSearch from './components/EmotionSearch';
@@ -14,14 +14,14 @@ import useGitaData from './hooks/useGitaData';
 import { getViewHref, getViewState } from './lib/viewUrls';
 import './App.css';
 
-const VIEW_LABELS = {
-  home: 'Digital study edition',
-  chapters: 'Reading room',
-  emotions: 'Guidance by subject',
-  audio: 'Audio reference',
-  chat: 'Assistant',
-  about: 'About this edition',
-};
+const NAV_ITEMS = [
+  { id: 'home', label: 'Home' },
+  { id: 'chapters', label: 'Chapters' },
+  { id: 'emotions', label: 'Guidance' },
+  { id: 'audio', label: 'Audio' },
+  { id: 'chat', label: 'Assistant' },
+  { id: 'about', label: 'About' },
+];
 
 function App() {
   const initialViewState = getViewState();
@@ -168,22 +168,22 @@ function App() {
               <span className="block text-[0.6rem] uppercase tracking-[0.18em] text-soft-gold">Digital study edition</span>
             </span>
           </a>
-          <div className="site-topbar-meta">
-            <span className="hidden sm:inline">{VIEW_LABELS[currentView]}</span>
-            {currentView !== 'home' && (
+          <nav className="site-main-nav" aria-label="Primary navigation">
+            {NAV_ITEMS.map(({ id, label }) => (
               <a
-                href={getViewHref('home')}
+                key={id}
+                href={getViewHref(id, currentChapter)}
                 onClick={(event) => {
                   event.preventDefault();
-                  setCurrentView('home');
+                  setCurrentView(id);
                 }}
-                className="site-home-link"
+                className={`site-nav-link ${currentView === id ? 'site-nav-link-active' : ''}`}
+                aria-current={currentView === id ? 'page' : undefined}
               >
-                <ArrowLeft className="h-3.5 w-3.5" />
-                Home
+                {label}
               </a>
-            )}
-          </div>
+            ))}
+          </nav>
         </header>
 
         <main className="relative z-10 min-h-screen min-w-0">
