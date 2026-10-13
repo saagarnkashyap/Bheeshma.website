@@ -1478,10 +1478,6 @@
     top: 0.3rem;
   }
 
-  .section-link-card:last-child {
-    border-bottom: 1px solid var(--line);
-  }
-
   .section-link-label {
     margin-top: 1rem;
   }
