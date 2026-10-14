@@ -498,9 +498,12 @@
 }
 
 .home-landing-figure {
-  width: clamp(11rem, 29vw, 18rem);
-  height: clamp(13rem, 30vh, 19rem);
+  width: clamp(13rem, 30vw, 19rem);
+  height: auto;
+  aspect-ratio: 1;
   margin: 0.3rem auto -0.2rem;
+  overflow: hidden;
+  border-radius: 50%;
   opacity: 0.36;
 }
 
@@ -511,8 +514,8 @@
   object-fit: cover;
   object-position: center 8%;
   mix-blend-mode: multiply;
-  -webkit-mask-image: radial-gradient(ellipse 58% 62% at center, #000 30%, rgba(0, 0, 0, 0.68) 62%, transparent 100%);
-  mask-image: radial-gradient(ellipse 58% 62% at center, #000 30%, rgba(0, 0, 0, 0.68) 62%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle 50% at center, #000 58%, rgba(0, 0, 0, 0.68) 82%, transparent 100%);
+  mask-image: radial-gradient(circle 50% at center, #000 58%, rgba(0, 0, 0, 0.68) 82%, transparent 100%);
 }
 
 .home-landing-sanskrit {
