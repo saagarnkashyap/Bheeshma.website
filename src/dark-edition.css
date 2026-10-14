@@ -1548,11 +1548,11 @@
 
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(15rem, 0.75fr);
+  grid-template-columns: minmax(0, 1.28fr) minmax(16rem, 0.72fr);
   grid-template-areas:
     "theme theme"
     "summary practice"
-    "summary aspects";
+    "aspects aspects";
   column-gap: 2.75rem;
   row-gap: 0;
   margin-top: 0 !important;
@@ -1562,7 +1562,7 @@
 
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-summary {
   grid-area: summary;
-  padding: 0 2.75rem 0.25rem 0;
+  padding: 0 2.5rem 0.25rem 0;
   border-right: 1px solid rgba(223, 180, 94, 0.2);
 }
 
@@ -1577,12 +1577,18 @@
 
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-practice {
   grid-area: practice;
-  padding: 0 0 1.3rem 2.25rem;
+  align-self: start;
+  padding: 0 0 1.3rem 2.5rem;
 }
 
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-aspects {
   grid-area: aspects;
-  padding: 1.25rem 0 0 2.25rem;
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.34fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 2.5rem;
+  margin-top: 1.55rem;
+  padding: 1.3rem 0 0;
   border-top: 1px solid rgba(223, 180, 94, 0.2);
 }
 
@@ -1621,6 +1627,7 @@
 
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-tags {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
   gap: 0.55rem;
 }
 
@@ -1672,6 +1679,8 @@
   }
 
   .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-aspects {
+    display: block;
+    margin-top: 0;
     padding: 1.15rem 0 0;
     border-top: 0;
   }
