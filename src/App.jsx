@@ -1,15 +1,20 @@
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Menu, Moon, Sun, X } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import ChakraLoader from './components/ChakraLoader';
+import DarkAssistantView from './components/DarkAssistantView';
+import DarkEditionHeader from './components/DarkEditionHeader';
+import DarkHomeView from './components/DarkHomeView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
+import ThemeToggle from './components/ThemeToggle';
 import { getReadingProgress, saveReadingProgress } from './lib/readingProgress';
 import { getViewHref, getViewState } from './lib/viewUrls';
 import chapterCatalog from './assets/bhagavad_gita_chapter_catalog.json';
 import krishnaArjunaChariot from './assets/images/krishna-arjuna-chariot.webp';
 import './App.css';
+import './dark-edition.css';
 
 const ChapterFlipBook = lazy(() => import('./components/ChapterFlipBook'));
 const EmotionSearch = lazy(() => import('./components/EmotionSearch'));
@@ -179,17 +184,26 @@ function App() {
   };
 
   const renderMainContent = () => {
+    let pageContent;
+
     switch (currentView) {
       case 'home':
-        return (
+        pageContent = theme === 'dark' ? (
+          <DarkHomeView
+            onViewChange={setCurrentView}
+            chapters={chapterCatalog}
+            readingProgress={readingProgress}
+          />
+        ) : (
           <HomeView
             onViewChange={setCurrentView}
             chapters={chapterCatalog}
             readingProgress={readingProgress}
           />
         );
+        break;
       case 'chapters':
-        return (
+        pageContent = (
           <ChapterFlipBook
             chapterNumber={currentChapter}
             initialVerse={currentVerse}
@@ -198,18 +212,24 @@ function App() {
             onPlayAudio={showAudioPlayer}
           />
         );
+        break;
       case 'emotions':
-        return <EmotionSearch />;
+        pageContent = <EmotionSearch />;
+        break;
       case 'audio':
-        return <AudioView onPlayAudio={showAudioPlayer} />;
+        pageContent = <AudioView onPlayAudio={showAudioPlayer} />;
+        break;
       case 'chat':
-        return <ChatView />;
+        pageContent = theme === 'dark' ? <DarkAssistantView /> : <ChatView />;
+        break;
       case 'about':
-        return <AboutView />;
+        pageContent = <AboutView />;
+        break;
       case 'bookmarks':
-        return <BookmarksView onViewChange={setCurrentView} />;
+        pageContent = <BookmarksView onViewChange={setCurrentView} />;
+        break;
       default:
-        return (
+        pageContent = (
           <HomeView
             onViewChange={setCurrentView}
             chapters={chapterCatalog}
@@ -217,6 +237,12 @@ function App() {
           />
         );
     }
+
+    return theme === 'dark' ? (
+      <div className={`dark-template dark-template-${currentView}`}>
+        {pageContent}
+      </div>
+    ) : pageContent;
   };
 
   return (
@@ -229,6 +255,26 @@ function App() {
         chapterName={chapterName}
       />
       <div className="study-edition divine-bg sacred-pattern relative min-h-screen" data-theme={theme}>
+        {theme === 'dark' && (
+          <div className="theme-atmosphere" aria-hidden="true">
+            <span className="theme-atmosphere-orb theme-atmosphere-orb-red" />
+            <span className="theme-atmosphere-orb theme-atmosphere-orb-blue" />
+            <span className="theme-atmosphere-scanline" />
+          </div>
+        )}
+        {theme === 'dark' ? (
+          <DarkEditionHeader
+            navItems={NAV_ITEMS}
+            currentView={currentView}
+            currentChapter={currentChapter}
+            currentVerse={currentVerse}
+            onNavigate={setCurrentView}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            theme={theme}
+            onToggleTheme={() => setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light')}
+          />
+        ) : (
         <header className="site-topbar">
           <a
             href={getViewHref('home')}
@@ -250,7 +296,7 @@ function App() {
             aria-controls="primary-navigation"
             aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <span aria-hidden="true">{isMenuOpen ? '×' : '☰'}</span>
           </button>
           <nav
             id="primary-navigation"
@@ -273,19 +319,10 @@ function App() {
               </a>
             ))}
           </nav>
-          <button
-            type="button"
-            className="theme-toggle"
-            onClick={() => setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light')}
-            aria-pressed={theme === 'dark'}
-            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-            title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-          >
-            <span className="theme-toggle-icon" aria-hidden="true">
-              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </span>
-            <span className="theme-toggle-label">{theme === 'dark' ? 'Light' : 'Dark'}</span>
-          </button>
+          <ThemeToggle
+            theme={theme}
+            onToggle={() => setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light')}
+          />
           {isMenuOpen && (
             <button
               type="button"
@@ -296,6 +333,7 @@ function App() {
           )}
           <span className="site-mobile-om" aria-hidden="true">ॐ</span>
         </header>
+        )}
 
         <main
           id="main-content"
