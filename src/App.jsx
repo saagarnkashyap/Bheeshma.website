@@ -12,6 +12,7 @@ import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
 import useGitaData from './hooks/useGitaData';
 import { getViewHref, getViewState } from './lib/viewUrls';
+import krishnaArjunaChariot from './assets/images/krishna-arjuna-chariot.webp';
 import './App.css';
 
 const NAV_ITEMS = [
@@ -321,20 +322,7 @@ const HomeView = ({ onViewChange, chapters }) => (
         <div className="home-landing-rule" aria-hidden="true"><span>ॐ</span></div>
 
         <div className="home-landing-figure" aria-hidden="true">
-          <svg viewBox="0 0 280 360" role="presentation">
-            <path className="home-krishna-feather" d="M157 32c20-26 44-25 55-17-20 7-25 21-28 38-8-7-16-13-27-21Z" />
-            <circle cx="132" cy="80" r="25" />
-            <path d="M105 77c5-28 35-39 59-24l-8 14c-16-8-31-5-51 10Z" />
-            <path d="M111 108c19 16 39 18 59 3 4 24 12 41 27 57-14 36-31 65-44 103-16-15-32-16-50-3-7-36-5-72 7-106 8-17 8-34 1-54Z" />
-            <path d="M104 130c-22 7-36 22-52 41 27 3 48-6 64-23" />
-            <path d="M166 127c22 12 42 18 66 17-15 18-37 22-61 13" />
-            <path d="M100 253c-11 30-21 61-40 86 22 4 43-7 60-25l21-59" />
-            <path d="M153 253c9 31 19 61 42 85-24 3-45-8-60-27l-20-57" />
-            <path className="home-krishna-flute" d="M48 175c52 5 103 4 167-7" />
-            <circle className="home-krishna-flute-dot" cx="88" cy="171" r="3" />
-            <circle className="home-krishna-flute-dot" cx="111" cy="172" r="3" />
-            <circle className="home-krishna-flute-dot" cx="138" cy="170" r="3" />
-          </svg>
+          <img src={krishnaArjunaChariot} alt="" role="presentation" />
         </div>
 
         <p className="home-landing-sanskrit font-sanskrit">यत् भावो, तत् भवति</p>

@@ -501,35 +501,20 @@
   width: clamp(11rem, 29vw, 18rem);
   height: clamp(13rem, 30vh, 19rem);
   margin: 0.3rem auto -0.2rem;
-  color: rgba(104, 68, 18, 0.25);
+  overflow: hidden;
+  border-radius: 48% 52% 45% 55% / 18% 22% 78% 82%;
+  opacity: 0.36;
+  transform: rotate(-2deg);
 }
 
-.home-landing-figure svg {
+.home-landing-figure img {
   width: 100%;
   height: 100%;
-  overflow: visible;
+  display: block;
+  object-fit: cover;
+  object-position: center 34%;
+  mix-blend-mode: multiply;
   filter: drop-shadow(0 0.7rem 0.75rem rgba(107, 66, 19, 0.08));
-}
-
-.home-landing-figure svg path,
-.home-landing-figure svg circle {
-  fill: currentColor;
-}
-
-.home-landing-figure svg .home-krishna-feather {
-  fill: var(--terracotta);
-  opacity: 0.65;
-}
-
-.home-landing-figure svg .home-krishna-flute {
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-width: 8;
-}
-
-.home-landing-figure svg .home-krishna-flute-dot {
-  fill: var(--saffron);
 }
 
 .home-landing-sanskrit {
