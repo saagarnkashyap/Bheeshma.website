@@ -512,8 +512,8 @@
   object-fit: cover;
   object-position: center 8%;
   mix-blend-mode: multiply;
-  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 35%, rgba(0, 0, 0, 0.82) 52%, rgba(0, 0, 0, 0) 76%);
-  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 35%, rgba(0, 0, 0, 0.82) 52%, rgba(0, 0, 0, 0) 76%);
+  -webkit-mask-image: radial-gradient(circle closest-side at center, rgba(0, 0, 0, 1) 35%, rgba(0, 0, 0, 0.82) 62%, rgba(0, 0, 0, 0) 100%);
+  mask-image: radial-gradient(circle closest-side at center, rgba(0, 0, 0, 1) 35%, rgba(0, 0, 0, 0.82) 62%, rgba(0, 0, 0, 0) 100%);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
