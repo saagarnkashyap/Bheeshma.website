@@ -501,10 +501,7 @@
   width: clamp(11rem, 29vw, 18rem);
   height: clamp(13rem, 30vh, 19rem);
   margin: 0.3rem auto -0.2rem;
-  overflow: hidden;
-  border-radius: 48% 52% 45% 55% / 18% 22% 78% 82%;
   opacity: 0.36;
-  transform: rotate(-2deg);
 }
 
 .home-landing-figure img {
@@ -515,6 +512,8 @@
   object-position: center 34%;
   mix-blend-mode: multiply;
   filter: drop-shadow(0 0.7rem 0.75rem rgba(107, 66, 19, 0.08));
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 34%, rgba(0, 0, 0, 0.9) 50%, transparent 78%);
+  mask-image: radial-gradient(ellipse at center, #000 34%, rgba(0, 0, 0, 0.9) 50%, transparent 78%);
 }
 
 .home-landing-sanskrit {
