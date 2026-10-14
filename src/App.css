@@ -1237,6 +1237,13 @@
   margin-top: 0.5rem;
 }
 
+.verse-keyboard-hint {
+  margin-top: 0.45rem;
+  color: var(--ink-soft);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+}
+
 .verse-reader-actions {
   display: flex;
   align-items: end;
