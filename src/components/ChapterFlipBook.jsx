@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useEffect, useRef } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import { useReducedMotion } from 'framer-motion';
 import ChapterExplorer from './ChapterExplorer';
@@ -19,10 +19,10 @@ const keepTouchScrollInsidePage = (event) => {
   if (!isPageEdge) event.stopPropagation();
 };
 
-const FlipPage = forwardRef(({ children, chapterNumber, isActive = false }, ref) => (
+const FlipPage = forwardRef(({ children, chapterNumber, isActive = false, isFlipping = false }, ref) => (
   <div
     ref={ref}
-    className="chapter-flip-page"
+    className={`chapter-flip-page ${isFlipping ? 'chapter-flip-page-turning' : ''}`}
     data-density="soft"
     data-chapter={chapterNumber ?? 'blank'}
   >
@@ -48,6 +48,7 @@ const ChapterFlipBook = ({
   const bookRef = useRef(null);
   const pendingChapterRef = useRef(null);
   const isFlippingRef = useRef(false);
+  const [flipState, setFlipState] = useState('read');
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -114,6 +115,12 @@ const ChapterFlipBook = ({
     }
   }, [chapterNumber, onChapterChange]);
 
+  const handleFlipStateChange = useCallback((event) => {
+    setFlipState(event.data);
+  }, []);
+
+  const isTurning = flipState !== 'read';
+
   const pageChapters = Array.from({ length: TOTAL_CHAPTERS }, (_, index) => index + 1);
 
   return (
@@ -130,8 +137,8 @@ const ChapterFlipBook = ({
         maxHeight={1900}
         startPage={chapterNumber - 1}
         drawShadow
-        maxShadowOpacity={0.52}
-        flippingTime={780}
+        maxShadowOpacity={0.72}
+        flippingTime={920}
         usePortrait
         autoSize
         showPageCorners={false}
@@ -139,12 +146,14 @@ const ChapterFlipBook = ({
         disableFlipByClick
         mobileScrollSupport
         onFlip={handleFlip}
+        onChangeState={handleFlipStateChange}
       >
         {pageChapters.map((pageChapter) => (
           <FlipPage
             key={pageChapter}
             chapterNumber={pageChapter}
             isActive={pageChapter === chapterNumber}
+            isFlipping={isTurning && pageChapter === chapterNumber}
           >
             <ChapterExplorer
               chapterNumber={pageChapter}
