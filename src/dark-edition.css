@@ -1431,6 +1431,11 @@
   background: radial-gradient(ellipse at center, rgba(143, 31, 25, 0.08), transparent 70%);
 }
 
+.study-edition[data-theme="dark"] .dark-template-chapters .chapter-flip-page::before {
+  font-stretch: normal;
+  letter-spacing: normal;
+}
+
 .study-edition[data-theme="dark"] .dark-template-chapters .reading-header::before {
   display: none;
 }
