@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowDownRight, ArrowRight, Circle } from 'lucide-react';
+import { ArrowRight, Circle } from 'lucide-react';
 import { motion as Motion } from 'framer-motion';
 import { getViewHref } from '../lib/viewUrls';
 import krishnaArjunaChariot from '../assets/images/krishna-arjuna-chariot.webp';
@@ -14,14 +14,8 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
       transition={{ duration: 0.65, ease: 'easeOut' }}
     >
       <div className="dark-home-hero-grid">
-        <div className="dark-home-hero-meta">
-          <span>BH / 02</span>
-          <span>18 CHAPTERS</span>
-          <span>700 VERSES</span>
-        </div>
-
         <div className="dark-home-copy">
-          <p className="dark-home-kicker">The command text</p>
+          <p className="dark-home-kicker">Bhagavad Gita / Study edition</p>
           <h1 className="dark-home-title">
             <span>Bhagavad</span>
             <span>Gita</span>
@@ -63,18 +57,7 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
         <figure className="dark-home-art">
           <div className="dark-home-art-frame" />
           <img src={krishnaArjunaChariot} alt="Illustration of Krishna and Arjuna in the chariot" />
-          <figcaption>
-            <span>FROM FLUTE</span>
-            <span>TO BATTLEFIELD</span>
-          </figcaption>
         </figure>
-
-        <aside className="dark-home-aside">
-          <span className="dark-home-aside-line" />
-          <p>THE SACRED DIALOGUE</p>
-          <ArrowDownRight className="h-5 w-5" />
-          <p className="dark-home-aside-small">A text for the hour of decision.</p>
-        </aside>
       </div>
     </Motion.section>
 
@@ -84,7 +67,7 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
           <p className="dark-home-kicker">The field of action</p>
           <h2>Choose your chapter.</h2>
         </div>
-        <p>Read in Sanskrit, transliteration, and English. Return to the verse when the question returns.</p>
+        <p>Sanskrit, transliteration, and English.</p>
       </div>
       <div className="dark-home-chapter-grid">
         {chapters.map((chapter) => (

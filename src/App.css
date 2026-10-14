@@ -96,21 +96,21 @@
 }
 
 [data-theme="dark"] {
-  --font-body: "Trebuchet MS", "Segoe UI", sans-serif;
-  --font-heading: "Arial Narrow", "Roboto Condensed", "Inter", "Segoe UI", sans-serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 
   --ink: #f3eee5;
-  --ink-soft: #b7ada0;
+  --ink-soft: #cec5ba;
   --paper: #09090b;
   --paper-deep: #131316;
   --paper-warm: #242328;
-  --saffron: #d6aa55;
-  --saffron-light: #e7c879;
-  --terracotta: #d93624;
+  --saffron: #dfb45e;
+  --saffron-light: #f0d184;
+  --terracotta: #e3432f;
   --sage: #879777;
-  --slate: #9aa9b2;
-  --line: #3a3434;
-  --line-strong: #76504a;
+  --slate: #b1bec5;
+  --line: #4b4242;
+  --line-strong: #8b5e56;
 
   --surface-translucent: rgba(27, 27, 32, 0.78);
   --surface-soft: rgba(24, 24, 29, 0.7);

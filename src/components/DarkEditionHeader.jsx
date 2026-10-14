@@ -15,7 +15,6 @@ const DarkEditionHeader = ({
   onToggleTheme,
 }) => (
   <header className="dark-site-topbar">
-    <div className="dark-site-index" aria-hidden="true">BH / 02</div>
     <a
       href={getViewHref('home')}
       className="dark-site-brand"
@@ -27,7 +26,6 @@ const DarkEditionHeader = ({
       <span className="dark-site-brand-mark" aria-hidden="true">ॐ</span>
       <span>
         <span className="dark-site-brand-name">Bheeshma</span>
-        <span className="dark-site-brand-subtitle">Dharma after dark</span>
       </span>
     </a>
 
@@ -59,14 +57,12 @@ const DarkEditionHeader = ({
             onNavigate(id, currentChapter, id === 'chapters' ? currentVerse : 1);
           }}
         >
-          <span className="dark-site-nav-number">{String(navItems.findIndex((item) => item.id === id) + 1).padStart(2, '0')}</span>
           <span>{label}</span>
         </a>
       ))}
     </nav>
 
     <div className="dark-site-actions">
-      <span className="dark-site-status">Live study edition</span>
       <ThemeToggle theme={theme} onToggle={onToggleTheme} compact />
     </div>
 
