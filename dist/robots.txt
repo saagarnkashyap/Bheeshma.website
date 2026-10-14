@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://bheeshma.vercel.app/sitemap.xml
