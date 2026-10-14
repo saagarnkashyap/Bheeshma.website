@@ -99,18 +99,18 @@
   --font-body: "Trebuchet MS", "Segoe UI", sans-serif;
   --font-heading: "Arial Narrow", "Roboto Condensed", "Inter", "Segoe UI", sans-serif;
 
-  --ink: #f4ecdd;
-  --ink-soft: #b9ad9c;
-  --paper: #0d0d10;
-  --paper-deep: #17171c;
-  --paper-warm: #25252b;
-  --saffron: #e4ae42;
-  --saffron-light: #f2cf74;
-  --terracotta: #d04b31;
+  --ink: #f3eee5;
+  --ink-soft: #b7ada0;
+  --paper: #09090b;
+  --paper-deep: #131316;
+  --paper-warm: #242328;
+  --saffron: #d6aa55;
+  --saffron-light: #e7c879;
+  --terracotta: #d93624;
   --sage: #879777;
-  --slate: #8296ad;
-  --line: #39353a;
-  --line-strong: #735040;
+  --slate: #9aa9b2;
+  --line: #3a3434;
+  --line-strong: #76504a;
 
   --surface-translucent: rgba(27, 27, 32, 0.78);
   --surface-soft: rgba(24, 24, 29, 0.7);
@@ -126,14 +126,14 @@
   --popover: #18181d;
   --popover-foreground: var(--ink);
   --primary: var(--saffron);
-  --primary-foreground: #0d0d10;
+  --primary-foreground: #09090b;
   --secondary: var(--paper-deep);
   --secondary-foreground: var(--ink);
   --muted: var(--paper-deep);
   --muted-foreground: var(--ink-soft);
   --accent: var(--terracotta);
   --accent-foreground: #fff8ec;
-  --destructive: #dc5940;
+  --destructive: #f04b35;
   --border: var(--line);
   --input: var(--line);
   --ring: var(--saffron-light);

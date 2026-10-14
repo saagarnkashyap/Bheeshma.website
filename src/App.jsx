@@ -236,7 +236,7 @@ function App() {
         pageContent = <AudioView onPlayAudio={showAudioPlayer} />;
         break;
       case 'chat':
-        pageContent = theme === 'dark' ? <DarkAssistantView /> : <ChatView />;
+        pageContent = theme === 'dark' ? <DarkAssistantView onViewChange={setCurrentView} /> : <ChatView />;
         break;
       case 'about':
         pageContent = <AboutView />;

@@ -649,6 +649,13 @@
   animation: dark-template-enter 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.study-edition[data-theme="dark"] a:focus-visible,
+.study-edition[data-theme="dark"] button:focus-visible,
+.study-edition[data-theme="dark"] input:focus-visible {
+  outline: 2px solid #d6aa55;
+  outline-offset: 3px;
+}
+
 .dark-template .section-kicker {
   color: #d93624;
 }

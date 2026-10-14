@@ -1,8 +1,15 @@
 import React from 'react';
 import { ArrowRight, Brain, Circle, Search, Sparkles } from 'lucide-react';
 import { motion as Motion } from 'framer-motion';
+import { getViewHref } from '../lib/viewUrls';
 
-const DarkAssistantView = () => (
+const DarkAssistantView = ({ onViewChange }) => {
+  const navigate = (event, view) => {
+    event.preventDefault();
+    onViewChange(view);
+  };
+
+  return (
   <div className="dark-assistant-page">
     <div className="dark-assistant-grid">
       <header className="dark-assistant-header">
@@ -26,8 +33,8 @@ const DarkAssistantView = () => (
           reflection. Until then, use Guidance to enter through a feeling or challenge.
         </p>
         <div className="dark-assistant-links">
-          <a href="/?view=emotions"><Search className="h-4 w-4" /> Browse guidance <ArrowRight className="h-4 w-4" /></a>
-          <a href="/?view=chapters"><Sparkles className="h-4 w-4" /> Open the chapters <ArrowRight className="h-4 w-4" /></a>
+          <a href={getViewHref('emotions')} onClick={(event) => navigate(event, 'emotions')}><Search className="h-4 w-4" /> Browse guidance <ArrowRight className="h-4 w-4" /></a>
+          <a href={getViewHref('chapters')} onClick={(event) => navigate(event, 'chapters')}><Sparkles className="h-4 w-4" /> Open the chapters <ArrowRight className="h-4 w-4" /></a>
         </div>
       </section>
 
@@ -42,6 +49,7 @@ const DarkAssistantView = () => (
       </Motion.div>
     </div>
   </div>
-);
+  );
+};
 
 export default DarkAssistantView;
