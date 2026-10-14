@@ -444,7 +444,7 @@
   text-transform: uppercase;
 }
 
-.dark-home-section-heading > p {
+.dark-home-section-heading>p {
   max-width: 24rem;
   color: #81786f;
   font-size: 0.84rem;
@@ -495,7 +495,7 @@
   text-transform: uppercase;
 }
 
-.dark-home-chapter-card > svg {
+.dark-home-chapter-card>svg {
   align-self: flex-end;
   color: #d93624;
 }
@@ -531,7 +531,7 @@
   color: #d93624;
 }
 
-.dark-assistant-header > p:last-child {
+.dark-assistant-header>p:last-child {
   max-width: 28rem;
   margin-top: 2rem;
   border-left: 1px solid #76504a;
@@ -589,7 +589,7 @@
   text-transform: uppercase;
 }
 
-.dark-assistant-panel > p {
+.dark-assistant-panel>p {
   margin-top: 1.2rem;
   color: #b7ada0;
   font-size: 0.86rem;
@@ -699,7 +699,7 @@
   right: 1rem;
   z-index: 2;
   color: rgba(214, 170, 85, 0.5);
-  content: attr(data-chapter);
+  content: 'Chapter ' attr(data-chapter);
   font-family: "Arial Narrow", "Roboto Condensed", sans-serif;
   font-size: clamp(2.5rem, 6vw, 5.5rem);
   font-weight: 900;
@@ -991,6 +991,7 @@
     transform: translateY(0);
   }
 }
+
 .dark-template-emotions .emotion-tile {
   border-radius: 0;
   border-top: 3px solid #76504a;
@@ -1028,11 +1029,17 @@
 }
 
 @keyframes dark-home-image-breathe {
-  0% { transform: rotate(-4deg) scale(1); }
-  100% { transform: rotate(-1deg) scale(1.04); }
+  0% {
+    transform: rotate(-4deg) scale(1);
+  }
+
+  100% {
+    transform: rotate(-1deg) scale(1.04);
+  }
 }
 
 @media (max-width: 1100px) {
+
   .dark-site-status,
   .dark-site-index {
     display: none;
@@ -1180,7 +1187,7 @@
     display: block;
   }
 
-  .dark-home-section-heading > p {
+  .dark-home-section-heading>p {
     margin-top: 1.5rem;
   }
 
@@ -1204,6 +1211,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .theme-atmosphere-orb,
   .dark-home-art img {
     animation: none;
@@ -1262,7 +1270,7 @@
   line-height: 1;
 }
 
-.study-edition[data-theme="dark"] .dark-home-section-heading > p {
+.study-edition[data-theme="dark"] .dark-home-section-heading>p {
   color: #cec5ba;
   font-size: 0.92rem;
 }
@@ -1292,7 +1300,7 @@
 }
 
 .study-edition[data-theme="dark"] .dark-home-chapter-name,
-.study-edition[data-theme="dark"] .dark-home-chapter-card > svg {
+.study-edition[data-theme="dark"] .dark-home-chapter-card>svg {
   position: relative;
   z-index: 1;
 }
@@ -1336,8 +1344,8 @@
 }
 
 .study-edition[data-theme="dark"] .dark-home-description,
-.study-edition[data-theme="dark"] .dark-assistant-header > p:last-child,
-.study-edition[data-theme="dark"] .dark-assistant-panel > p {
+.study-edition[data-theme="dark"] .dark-assistant-header>p:last-child,
+.study-edition[data-theme="dark"] .dark-assistant-panel>p {
   color: #cec5ba;
   font-size: 1rem;
   line-height: 1.7;
@@ -1376,13 +1384,13 @@
 }
 
 .study-edition[data-theme="dark"] .dark-template-chapters .chapter-context,
-.study-edition[data-theme="dark"] .dark-template-chapters .reading-header-copy > p:not(.chapter-context),
+.study-edition[data-theme="dark"] .dark-template-chapters .reading-header-copy>p:not(.chapter-context),
 .study-edition[data-theme="dark"] .dark-template-chapters .verse-keyboard-hint,
-.study-edition[data-theme="dark"] .dark-template-chapters .chapter-overview button > span:first-child > span:last-child {
+.study-edition[data-theme="dark"] .dark-template-chapters .chapter-overview button>span:first-child>span:last-child {
   display: none;
 }
 
-.study-edition[data-theme="dark"] .dark-template .reading-header-copy > p,
+.study-edition[data-theme="dark"] .dark-template .reading-header-copy>p,
 .study-edition[data-theme="dark"] .dark-template .overview-copy p,
 .study-edition[data-theme="dark"] .dark-template .shloka-section p {
   color: #cec5ba;
@@ -1428,14 +1436,7 @@
 }
 
 .study-edition[data-theme="dark"] .dark-template-chapters .chapter-identity .section-kicker {
-  color: #dfb45e;
-  font-size: 0;
-  letter-spacing: 0.1em;
-}
-
-.study-edition[data-theme="dark"] .dark-template-chapters .chapter-identity .section-kicker::after {
-  content: 'Chapter';
-  font-size: 0.76rem;
+  display: none;
 }
 
 @media (max-width: 1100px) {
@@ -1464,6 +1465,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .study-edition[data-theme="dark"] .dark-template,
   .study-edition[data-theme="dark"] .dark-home-art img {
     animation: none !important;
