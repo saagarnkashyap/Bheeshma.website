@@ -80,7 +80,7 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
               onViewChange('chapters', chapter.number);
             }}
           >
-            <span className="dark-home-chapter-number">{String(chapter.number).padStart(2, '0')}</span>
+            <span className="dark-home-chapter-number">{chapter.number}</span>
             <span className="dark-home-chapter-name">{chapter.name.replace(/ Yoga$/, '')}</span>
             <ArrowRight className="h-4 w-4" />
           </a>
