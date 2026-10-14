@@ -1553,7 +1553,7 @@
     "theme theme"
     "summary practice"
     "aspects aspects";
-  column-gap: 2.75rem;
+  column-gap: 2rem;
   row-gap: 0;
   margin-top: 0 !important;
   padding-top: 0 !important;
@@ -1578,15 +1578,12 @@
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-practice {
   grid-area: practice;
   align-self: start;
-  padding: 0 0 1.3rem 2.5rem;
+  padding: 0 0 1.3rem 1.25rem;
 }
 
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-aspects {
   grid-area: aspects;
-  display: grid;
-  grid-template-columns: minmax(12rem, 0.34fr) minmax(0, 1fr);
-  align-items: start;
-  gap: 2.5rem;
+  display: block;
   margin-top: 1.55rem;
   padding: 1.3rem 0 0;
   border-top: 1px solid rgba(223, 180, 94, 0.2);
@@ -1612,11 +1609,12 @@
 
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-theme .overview-copy p,
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-theme p {
-  max-width: 62ch;
+  max-width: none;
   color: #f3eee5;
-  font-size: clamp(1.08rem, 1.9vw, 1.4rem);
+  font-size: clamp(1rem, 1.45vw, 1.2rem);
   font-weight: 650;
   line-height: 1.42;
+  white-space: normal;
 }
 
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-practice p {
@@ -1627,8 +1625,9 @@
 
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-tags {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.55rem;
+  margin-top: 0.95rem;
 }
 
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-tags .shloka-tag {
@@ -1687,6 +1686,17 @@
 
   .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-theme .overview-copy p {
     font-size: 1.08rem;
+    white-space: normal;
+  }
+
+  .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-tags {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1100px) {
+  .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-theme p {
+    white-space: nowrap;
   }
 }
 
