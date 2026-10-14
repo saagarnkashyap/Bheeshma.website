@@ -502,8 +502,6 @@
   height: auto;
   aspect-ratio: 1;
   margin: 0.3rem auto -0.2rem;
-  overflow: hidden;
-  border-radius: 50%;
   opacity: 0.36;
 }
 
