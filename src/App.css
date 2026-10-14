@@ -511,9 +511,8 @@
   object-fit: cover;
   object-position: center 34%;
   mix-blend-mode: multiply;
-  filter: drop-shadow(0 0.7rem 0.75rem rgba(107, 66, 19, 0.08));
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 34%, rgba(0, 0, 0, 0.9) 50%, transparent 78%);
-  mask-image: radial-gradient(ellipse at center, #000 34%, rgba(0, 0, 0, 0.9) 50%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 22%, rgba(0, 0, 0, 0.68) 39%, transparent 64%);
+  mask-image: radial-gradient(ellipse at center, #000 22%, rgba(0, 0, 0, 0.68) 39%, transparent 64%);
 }
 
 .home-landing-sanskrit {
