@@ -188,16 +188,17 @@ const ChapterExplorer = ({
           </div>
         </header>
 
-        <section className="chapter-overview mt-12">
+        <section className="chapter-overview dark-overview mt-12">
           <button
             type="button"
-            className="flex w-full items-center justify-between text-left"
+            className="dark-overview-trigger flex w-full items-center justify-between text-left"
             onClick={() => setShowChapterInfo(!showChapterInfo)}
             aria-expanded={showChapterInfo}
+            aria-controls="chapter-overview-content"
           >
             <span className="flex items-center gap-3">
-              <span className="overview-icon"><BookOpen className="h-4 w-4" /></span>
-              <span>
+              <span className="overview-icon dark-overview-icon"><BookOpen className="h-4 w-4" /></span>
+              <span className="dark-overview-heading">
                 <span className="block text-sm font-semibold text-cosmic-blue">Chapter overview</span>
                 <span className="mt-1 block text-xs text-soft-gold">Context before the verses</span>
               </span>
@@ -208,30 +209,31 @@ const ChapterExplorer = ({
           <AnimatePresence initial={false}>
             {showChapterInfo && (
               <Motion.div
+                id="chapter-overview-content"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="overflow-hidden"
+                className="dark-overview-content overflow-hidden"
               >
-                <div className="overview-grid mt-8 border-t border-line pt-7">
-                  <div className="overview-copy">
+                <div className="overview-grid dark-overview-grid mt-8 border-t border-line pt-7">
+                  <div className="overview-copy dark-overview-summary">
                     <div className="overview-label"><Target className="h-3.5 w-3.5" /> Summary</div>
                     <p>{chapterData.summary}</p>
                   </div>
-                  <div className="overview-copy">
+                  <div className="overview-copy dark-overview-theme">
                     <div className="overview-label"><Lightbulb className="h-3.5 w-3.5" /> Main theme</div>
                     <p>{chapterData.main_theme}</p>
                   </div>
                   {chapterData.yoga_type && (
-                    <div className="overview-copy">
+                    <div className="overview-copy dark-overview-practice">
                       <div className="overview-label">Practice</div>
                       <p>{chapterData.yoga_type}</p>
                     </div>
                   )}
                   {chapterData.philosophical_aspects?.length > 0 && (
-                    <div className="overview-copy">
+                    <div className="overview-copy dark-overview-aspects">
                       <div className="overview-label">Philosophical aspects</div>
-                      <div className="shloka-tags">
+                      <div className="shloka-tags dark-overview-tags">
                         {chapterData.philosophical_aspects.map((aspect, index) => (
                           <span className="shloka-tag" key={index}>{aspect}</span>
                         ))}
