@@ -123,6 +123,26 @@
   font-feature-settings: "kern" 1, "liga" 1;
 }
 
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  padding: 0.65rem 0.9rem;
+  color: var(--paper);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .font-heading {
   font-family: "Inter", "Segoe UI", sans-serif;
   font-weight: 600;

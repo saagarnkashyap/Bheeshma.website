@@ -218,6 +218,7 @@ function App() {
 
   return (
     <Router>
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <SeoMetadata
         currentView={currentView}
         currentChapter={currentChapter}
@@ -280,7 +281,7 @@ function App() {
           <span className="site-mobile-om" aria-hidden="true">ॐ</span>
         </header>
 
-        <main className="relative z-10 min-h-screen min-w-0">
+        <main id="main-content" className="relative z-10 min-h-screen min-w-0">
           <AnimatePresence mode="wait" initial={false} custom={pageDirection}>
             <Motion.div
               key={currentView}
