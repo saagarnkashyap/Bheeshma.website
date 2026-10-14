@@ -502,6 +502,8 @@
   height: auto;
   aspect-ratio: 1;
   margin: 0.3rem auto -0.2rem;
+  overflow: hidden;
+  border-radius: 50%;
   opacity: 0.36;
 }
 
@@ -512,8 +514,8 @@
   object-fit: cover;
   object-position: center 8%;
   mix-blend-mode: multiply;
-  -webkit-mask-image: radial-gradient(circle 50% at center, #000 58%, rgba(0, 0, 0, 0.68) 82%, transparent 100%);
-  mask-image: radial-gradient(circle 50% at center, #000 58%, rgba(0, 0, 0, 0.68) 82%, transparent 100%);
+  -webkit-mask: radial-gradient(circle 50% at center, #000 58%, rgba(0, 0, 0, 0.68) 82%, transparent 100%);
+  mask: radial-gradient(circle 50% at center, #000 58%, rgba(0, 0, 0, 0.68) 82%, transparent 100%);
 }
 
 .home-landing-sanskrit {
