@@ -1769,6 +1769,14 @@
   border-bottom-color: rgba(115, 80, 64, 0.7);
 }
 
+.study-edition[data-theme="dark"] .site-mobile-menu-toggle {
+  background: rgba(23, 23, 28, 0.78);
+}
+
+.study-edition[data-theme="dark"] .site-mobile-nav-backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
 .study-edition[data-theme="dark"] .site-brand-name,
 .study-edition[data-theme="dark"] .home-landing-title,
 .study-edition[data-theme="dark"] .home-landing-rule,
@@ -1806,6 +1814,11 @@
 .study-edition[data-theme="dark"] .home-landing-figure img {
   filter: saturate(1.2) contrast(1.1) brightness(0.86);
   mix-blend-mode: screen;
+}
+
+.study-edition[data-theme="dark"] .home-landing-edge,
+.study-edition[data-theme="dark"] .home-landing-meta {
+  color: rgba(242, 207, 116, 0.62);
 }
 
 .study-edition[data-theme="dark"] .home-feature,
@@ -1889,6 +1902,17 @@
 
 .study-edition[data-theme="dark"] .audio-play-button:hover {
   background: var(--saffron-light);
+}
+
+.study-edition[data-theme="dark"] .audio-player {
+  background: rgba(22, 22, 26, 0.96);
+  border-color: var(--line-strong);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.48);
+}
+
+.study-edition[data-theme="dark"] .audio-player-error {
+  background: rgba(208, 75, 49, 0.1);
+  border-color: rgba(208, 75, 49, 0.38);
 }
 
 .study-edition[data-theme="dark"] .about-dedication {
