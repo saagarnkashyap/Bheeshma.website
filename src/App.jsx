@@ -40,6 +40,22 @@ const fadeVariants = {
   exit: { opacity: 0, y: -8, transition: { duration: 0.2, ease: 'easeIn' } },
 };
 
+const darkFadeVariants = {
+  initial: { opacity: 0, y: 18, clipPath: 'inset(0 0 12% 0)' },
+  animate: {
+    opacity: 1,
+    y: 0,
+    clipPath: 'inset(0 0 0% 0)',
+    transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: {
+    opacity: 0,
+    y: -14,
+    clipPath: 'inset(0 0 100% 0)',
+    transition: { duration: 0.34, ease: [0.65, 0, 0.35, 1] },
+  },
+};
+
 const reducedMotionVariants = {
   initial: { opacity: 0 },
   animate: { opacity: 1, transition: { duration: 0 } },
@@ -348,7 +364,7 @@ function App() {
               custom={pageDirection}
               variants={shouldReduceMotion
                 ? reducedMotionVariants
-                : fadeVariants}
+                : theme === 'dark' ? darkFadeVariants : fadeVariants}
               initial="initial"
               animate="animate"
               exit="exit"
