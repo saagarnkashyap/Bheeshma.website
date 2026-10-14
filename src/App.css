@@ -52,6 +52,16 @@
 :root {
   --radius: 0.25rem;
 
+  --font-body: "Inter", "Segoe UI", sans-serif;
+  --font-heading: "Inter", "Segoe UI", sans-serif;
+
+  --surface-translucent: rgba(255, 253, 248, 0.5);
+  --surface-soft: rgba(255, 253, 248, 0.42);
+  --surface-strong: rgba(255, 253, 248, 0.78);
+  --topbar-background: rgba(245, 229, 181, 0.92);
+  --scrim: rgba(59, 28, 14, 0.2);
+  --shadow-color: rgba(59, 28, 14, 0.14);
+
   --ink: #3b1c0e;
   --ink-soft: #765538;
   --paper: #f5e5b5;
@@ -85,6 +95,50 @@
   --ring: var(--saffron-light);
 }
 
+[data-theme="dark"] {
+  --font-body: "Arial Narrow", "Roboto Condensed", "Inter", "Segoe UI", sans-serif;
+  --font-heading: "Arial Narrow", "Roboto Condensed", "Inter", "Segoe UI", sans-serif;
+
+  --ink: #f4ecdd;
+  --ink-soft: #b9ad9c;
+  --paper: #0d0d10;
+  --paper-deep: #17171c;
+  --paper-warm: #25252b;
+  --saffron: #e4ae42;
+  --saffron-light: #f2cf74;
+  --terracotta: #d04b31;
+  --sage: #879777;
+  --slate: #8296ad;
+  --line: #39353a;
+  --line-strong: #735040;
+
+  --surface-translucent: rgba(27, 27, 32, 0.78);
+  --surface-soft: rgba(24, 24, 29, 0.7);
+  --surface-strong: rgba(28, 28, 34, 0.9);
+  --topbar-background: rgba(13, 13, 16, 0.9);
+  --scrim: rgba(0, 0, 0, 0.58);
+  --shadow-color: rgba(0, 0, 0, 0.45);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: #16161a;
+  --card-foreground: var(--ink);
+  --popover: #18181d;
+  --popover-foreground: var(--ink);
+  --primary: var(--saffron);
+  --primary-foreground: #0d0d10;
+  --secondary: var(--paper-deep);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-deep);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--terracotta);
+  --accent-foreground: #fff8ec;
+  --destructive: #dc5940;
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--saffron-light);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -92,11 +146,12 @@
 
   html {
     background: var(--paper);
+    transition: background-color 0.45s ease;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Inter", "Segoe UI", sans-serif;
+    font-family: var(--font-body);
     font-weight: 400;
     line-height: 1.6;
     overflow-x: hidden;
@@ -144,13 +199,13 @@
 }
 
 .font-heading {
-  font-family: "Inter", "Segoe UI", sans-serif;
+  font-family: var(--font-heading);
   font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 .font-body {
-  font-family: "Inter", "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   font-weight: 400;
   line-height: 1.7;
 }
@@ -325,9 +380,10 @@
   justify-content: space-between;
   gap: 1rem;
   border-bottom: 1px solid rgba(184, 139, 66, 0.48);
-  background: rgba(245, 229, 181, 0.92);
+  background: var(--topbar-background);
   padding: 0.85rem clamp(1.25rem, 4vw, 4rem);
   backdrop-filter: blur(14px);
+  transition: background-color 0.45s ease, border-color 0.45s ease, color 0.45s ease;
 }
 
 .site-brand {
@@ -389,6 +445,48 @@
   align-items: center;
   gap: 0.2rem;
   margin-left: auto;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.25rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  padding: 0.4rem 0.7rem;
+  color: var(--ink-soft);
+  font-family: var(--font-heading);
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle[aria-pressed="true"] {
+  border-color: var(--saffron);
+  background: var(--paper-deep);
+  color: var(--saffron);
+  transform: translateY(-1px);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--saffron-light);
+  outline-offset: 3px;
+}
+
+.theme-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle-label {
+  line-height: 1;
 }
 
 .site-nav-link {
@@ -1745,6 +1843,17 @@
     margin-left: 0;
   }
 
+  .theme-toggle {
+    width: 2.75rem;
+    min-height: 2.75rem;
+    margin-left: auto;
+    padding: 0;
+  }
+
+  .theme-toggle-label {
+    display: none;
+  }
+
   .site-main-nav {
     position: fixed;
     top: 4.45rem;
@@ -1779,19 +1888,7 @@
   }
 
   .site-mobile-om {
-    position: absolute;
-    top: 50%;
-    right: 1rem;
-    display: grid;
-    width: 2.75rem;
-    height: 2.75rem;
-    margin-left: 0;
-    place-items: center;
-    color: var(--terracotta);
-    font-family: "Noto Sans Devanagari", sans-serif;
-    font-size: 1.35rem;
-    line-height: 1;
-    transform: translateY(-45%);
+    display: none;
   }
 
   .site-mobile-nav-backdrop {

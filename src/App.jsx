@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, Moon, Sun, X } from 'lucide-react';
 import ChakraLoader from './components/ChakraLoader';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
@@ -27,6 +27,8 @@ const NAV_ITEMS = [
   { id: 'bookmarks', label: 'Bookmarks' },
 ];
 
+const THEME_STORAGE_KEY = 'bheeshma-theme';
+
 const fadeVariants = {
   initial: { opacity: 0, y: 8 },
   animate: { opacity: 1, y: 0, transition: { duration: 0.28, ease: 'easeOut' } },
@@ -50,6 +52,12 @@ function App() {
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
   const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') return 'light';
+
+    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+    return savedTheme === 'dark' ? 'dark' : 'light';
+  });
   const shouldReduceMotion = useReducedMotion();
   const chapterName = chapterCatalog.find((chapter) => chapter.number === currentChapter)?.name;
   const mainContentRef = useRef(null);
@@ -117,6 +125,12 @@ function App() {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [currentView]);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
 
   useEffect(() => {
     if (currentView !== 'chapters') return;
@@ -214,7 +228,7 @@ function App() {
         currentVerse={currentVerse}
         chapterName={chapterName}
       />
-      <div className="study-edition divine-bg sacred-pattern relative min-h-screen">
+      <div className="study-edition divine-bg sacred-pattern relative min-h-screen" data-theme={theme}>
         <header className="site-topbar">
           <a
             href={getViewHref('home')}
@@ -259,6 +273,19 @@ function App() {
               </a>
             ))}
           </nav>
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={() => setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light')}
+            aria-pressed={theme === 'dark'}
+            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+          >
+            <span className="theme-toggle-icon" aria-hidden="true">
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </span>
+            <span className="theme-toggle-label">{theme === 'dark' ? 'Light' : 'Dark'}</span>
+          </button>
           {isMenuOpen && (
             <button
               type="button"
