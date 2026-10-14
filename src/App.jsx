@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Menu, X } from 'lucide-react';
@@ -52,6 +52,7 @@ function App() {
   const shouldReduceMotion = useReducedMotion();
   const { gitaData, loading, error } = useGitaData();
   const chapterName = gitaData?.chapters.find((chapter) => chapter.number === currentChapter)?.name;
+  const mainContentRef = useRef(null);
 
   const updateUrl = (view, chapter = currentChapter, verse = currentVerse, replace = false) => {
     const params = new URLSearchParams();
@@ -127,6 +128,10 @@ function App() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [currentChapter, currentView]);
+
+  useEffect(() => {
+    mainContentRef.current?.focus({ preventScroll: true });
   }, [currentChapter, currentView]);
 
   const showAudioPlayer = (chapter, verse) => {
@@ -281,7 +286,12 @@ function App() {
           <span className="site-mobile-om" aria-hidden="true">ॐ</span>
         </header>
 
-        <main id="main-content" className="relative z-10 min-h-screen min-w-0">
+        <main
+          id="main-content"
+          ref={mainContentRef}
+          tabIndex="-1"
+          className="relative z-10 min-h-screen min-w-0"
+        >
           <AnimatePresence mode="wait" initial={false} custom={pageDirection}>
             <Motion.div
               key={currentView}
