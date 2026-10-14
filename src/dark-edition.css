@@ -1553,7 +1553,7 @@
     "theme theme"
     "summary practice"
     "aspects aspects";
-  column-gap: 2rem;
+  column-gap: 1rem;
   row-gap: 0;
   margin-top: 0 !important;
   padding-top: 0 !important;
@@ -1578,7 +1578,7 @@
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-practice {
   grid-area: practice;
   align-self: start;
-  padding: 0 0 1.3rem 1.25rem;
+  padding: 0 0 1.3rem 0.75rem;
 }
 
 .study-edition[data-theme="dark"] .dark-template-chapters .dark-overview-aspects {
