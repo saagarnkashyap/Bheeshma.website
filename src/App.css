@@ -2378,7 +2378,21 @@
   }
 
   .site-mobile-om {
-    display: none;
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    transform: translateY(-50%);
+    border: 1px solid var(--line-strong);
+    border-radius: 0.2rem;
+    color: var(--saffron);
+    font-family: "Noto Serif Devanagari", serif;
+    font-size: 1rem;
+    line-height: 1;
+    background: var(--paper);
   }
 
   .site-mobile-nav-backdrop {
