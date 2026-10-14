@@ -1274,15 +1274,19 @@
 }
 
 .study-edition[data-theme="dark"] .dark-home-chapter-number {
-  font-size: 1.55rem;
+  color: #dfb45e;
+  font-size: 0.74rem;
   font-weight: 750;
-  letter-spacing: 0;
+  letter-spacing: 0.08em;
+  line-height: 1;
 }
 
 .study-edition[data-theme="dark"] .dark-home-chapter-name {
-  font-size: 0.86rem;
-  font-weight: 700;
-  line-height: 1.2;
+  max-width: 13ch;
+  color: #f3eee5;
+  font-size: clamp(1rem, 1.35vw, 1.22rem);
+  font-weight: 750;
+  line-height: 1.18;
   text-transform: none;
 }
 
