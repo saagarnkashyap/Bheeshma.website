@@ -1,15 +1,20 @@
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import ChakraLoader from './components/ChakraLoader';
+import DarkAssistantView from './components/DarkAssistantView';
+import DarkEditionHeader from './components/DarkEditionHeader';
+import DarkHomeView from './components/DarkHomeView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
+import ThemeToggle from './components/ThemeToggle';
 import { getReadingProgress, saveReadingProgress } from './lib/readingProgress';
 import { getViewHref, getViewState } from './lib/viewUrls';
 import chapterCatalog from './assets/bhagavad_gita_chapter_catalog.json';
 import krishnaArjunaChariot from './assets/images/krishna-arjuna-chariot.webp';
 import './App.css';
+import './dark-edition.css';
 
 const ChapterFlipBook = lazy(() => import('./components/ChapterFlipBook'));
 const EmotionSearch = lazy(() => import('./components/EmotionSearch'));
@@ -27,10 +32,28 @@ const NAV_ITEMS = [
   { id: 'bookmarks', label: 'Bookmarks' },
 ];
 
+const THEME_STORAGE_KEY = 'bheeshma-theme';
+
 const fadeVariants = {
   initial: { opacity: 0, y: 8 },
   animate: { opacity: 1, y: 0, transition: { duration: 0.28, ease: 'easeOut' } },
   exit: { opacity: 0, y: -8, transition: { duration: 0.2, ease: 'easeIn' } },
+};
+
+const darkFadeVariants = {
+  initial: { opacity: 0, y: 18, clipPath: 'inset(0 0 12% 0)' },
+  animate: {
+    opacity: 1,
+    y: 0,
+    clipPath: 'inset(0 0 0% 0)',
+    transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: {
+    opacity: 0,
+    y: -14,
+    clipPath: 'inset(0 0 100% 0)',
+    transition: { duration: 0.34, ease: [0.65, 0, 0.35, 1] },
+  },
 };
 
 const reducedMotionVariants = {
@@ -50,6 +73,12 @@ function App() {
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
   const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') return 'light';
+
+    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+    return savedTheme === 'dark' ? 'dark' : 'light';
+  });
   const shouldReduceMotion = useReducedMotion();
   const chapterName = chapterCatalog.find((chapter) => chapter.number === currentChapter)?.name;
   const mainContentRef = useRef(null);
@@ -119,6 +148,12 @@ function App() {
   }, [currentView]);
 
   useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
+
+  useEffect(() => {
     if (currentView !== 'chapters') return;
 
     const nextProgress = { chapter: currentChapter, verse: currentVerse };
@@ -165,17 +200,26 @@ function App() {
   };
 
   const renderMainContent = () => {
+    let pageContent;
+
     switch (currentView) {
       case 'home':
-        return (
+        pageContent = theme === 'dark' ? (
+          <DarkHomeView
+            onViewChange={setCurrentView}
+            chapters={chapterCatalog}
+            readingProgress={readingProgress}
+          />
+        ) : (
           <HomeView
             onViewChange={setCurrentView}
             chapters={chapterCatalog}
             readingProgress={readingProgress}
           />
         );
+        break;
       case 'chapters':
-        return (
+        pageContent = (
           <ChapterFlipBook
             chapterNumber={currentChapter}
             initialVerse={currentVerse}
@@ -184,18 +228,24 @@ function App() {
             onPlayAudio={showAudioPlayer}
           />
         );
+        break;
       case 'emotions':
-        return <EmotionSearch />;
+        pageContent = <EmotionSearch />;
+        break;
       case 'audio':
-        return <AudioView onPlayAudio={showAudioPlayer} />;
+        pageContent = <AudioView onPlayAudio={showAudioPlayer} />;
+        break;
       case 'chat':
-        return <ChatView />;
+        pageContent = theme === 'dark' ? <DarkAssistantView onViewChange={setCurrentView} /> : <ChatView />;
+        break;
       case 'about':
-        return <AboutView />;
+        pageContent = <AboutView />;
+        break;
       case 'bookmarks':
-        return <BookmarksView onViewChange={setCurrentView} />;
+        pageContent = <BookmarksView onViewChange={setCurrentView} />;
+        break;
       default:
-        return (
+        pageContent = (
           <HomeView
             onViewChange={setCurrentView}
             chapters={chapterCatalog}
@@ -203,6 +253,12 @@ function App() {
           />
         );
     }
+
+    return theme === 'dark' ? (
+      <div className={`dark-template dark-template-${currentView}`}>
+        {pageContent}
+      </div>
+    ) : pageContent;
   };
 
   return (
@@ -214,7 +270,27 @@ function App() {
         currentVerse={currentVerse}
         chapterName={chapterName}
       />
-      <div className="study-edition divine-bg sacred-pattern relative min-h-screen">
+      <div className="study-edition divine-bg sacred-pattern relative min-h-screen" data-theme={theme}>
+        {theme === 'dark' && (
+          <div className="theme-atmosphere" aria-hidden="true">
+            <span className="theme-atmosphere-orb theme-atmosphere-orb-red" />
+            <span className="theme-atmosphere-orb theme-atmosphere-orb-blue" />
+            <span className="theme-atmosphere-scanline" />
+          </div>
+        )}
+        {theme === 'dark' ? (
+          <DarkEditionHeader
+            navItems={NAV_ITEMS}
+            currentView={currentView}
+            currentChapter={currentChapter}
+            currentVerse={currentVerse}
+            onNavigate={setCurrentView}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            theme={theme}
+            onToggleTheme={() => setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light')}
+          />
+        ) : (
         <header className="site-topbar">
           <a
             href={getViewHref('home')}
@@ -236,7 +312,7 @@ function App() {
             aria-controls="primary-navigation"
             aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <span aria-hidden="true">{isMenuOpen ? '×' : '☰'}</span>
           </button>
           <nav
             id="primary-navigation"
@@ -259,6 +335,10 @@ function App() {
               </a>
             ))}
           </nav>
+          <ThemeToggle
+            theme={theme}
+            onToggle={() => setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light')}
+          />
           {isMenuOpen && (
             <button
               type="button"
@@ -269,6 +349,7 @@ function App() {
           )}
           <span className="site-mobile-om" aria-hidden="true">ॐ</span>
         </header>
+        )}
 
         <main
           id="main-content"
@@ -283,7 +364,7 @@ function App() {
               custom={pageDirection}
               variants={shouldReduceMotion
                 ? reducedMotionVariants
-                : fadeVariants}
+                : theme === 'dark' ? darkFadeVariants : fadeVariants}
               initial="initial"
               animate="animate"
               exit="exit"
