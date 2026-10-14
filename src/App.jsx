@@ -1,20 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Menu, X } from 'lucide-react';
-import ChapterFlipBook from './components/ChapterFlipBook';
 import ChakraLoader from './components/ChakraLoader';
-import EmotionSearch from './components/EmotionSearch';
-import AudioView from './components/AudioView';
-import AboutView from './components/AboutView';
-import BookmarksView from './components/BookmarksView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
-import useGitaData from './hooks/useGitaData';
 import { getReadingProgress, saveReadingProgress } from './lib/readingProgress';
 import { getViewHref, getViewState } from './lib/viewUrls';
+import chapterCatalog from './assets/bhagavad_gita_chapter_catalog.json';
 import krishnaArjunaChariot from './assets/images/krishna-arjuna-chariot.webp';
 import './App.css';
+
+const ChapterFlipBook = lazy(() => import('./components/ChapterFlipBook'));
+const EmotionSearch = lazy(() => import('./components/EmotionSearch'));
+const AudioView = lazy(() => import('./components/AudioView'));
+const AboutView = lazy(() => import('./components/AboutView'));
+const BookmarksView = lazy(() => import('./components/BookmarksView'));
 
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
@@ -50,8 +51,7 @@ function App() {
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
   const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
   const shouldReduceMotion = useReducedMotion();
-  const { gitaData, loading, error } = useGitaData();
-  const chapterName = gitaData?.chapters.find((chapter) => chapter.number === currentChapter)?.name;
+  const chapterName = chapterCatalog.find((chapter) => chapter.number === currentChapter)?.name;
   const mainContentRef = useRef(null);
 
   const updateUrl = (view, chapter = currentChapter, verse = currentVerse, replace = false) => {
@@ -164,29 +164,13 @@ function App() {
     }
   };
 
-  if (loading) {
-    return <ChakraLoader isLoading={true} message="Opening the text..." />;
-  }
-
-  if (error) {
-    return (
-      <div className="divine-bg flex min-h-screen items-center justify-center px-6">
-        <div className="max-w-md text-center">
-          <p className="section-kicker mb-4">A pause in the path</p>
-          <h2 className="font-heading mb-4 text-3xl text-cosmic-blue">The Gita could not be opened.</h2>
-          <p className="text-soft-gold">{error}</p>
-        </div>
-      </div>
-    );
-  }
-
   const renderMainContent = () => {
     switch (currentView) {
       case 'home':
         return (
           <HomeView
             onViewChange={setCurrentView}
-            chapters={gitaData.chapters}
+            chapters={chapterCatalog}
             readingProgress={readingProgress}
           />
         );
@@ -203,7 +187,7 @@ function App() {
       case 'emotions':
         return <EmotionSearch />;
       case 'audio':
-        return <AudioViewComponent onPlayAudio={showAudioPlayer} />;
+        return <AudioView onPlayAudio={showAudioPlayer} />;
       case 'chat':
         return <ChatView />;
       case 'about':
@@ -214,7 +198,7 @@ function App() {
         return (
           <HomeView
             onViewChange={setCurrentView}
-            chapters={gitaData.chapters}
+            chapters={chapterCatalog}
             readingProgress={readingProgress}
           />
         );
@@ -304,7 +288,9 @@ function App() {
               animate="animate"
               exit="exit"
             >
-              {renderMainContent()}
+              <Suspense fallback={<ChakraLoader isLoading={true} message="Opening the text..." />}>
+                {renderMainContent()}
+              </Suspense>
             </Motion.div>
           </AnimatePresence>
         </main>
@@ -425,10 +411,6 @@ const HomeView = ({ onViewChange, chapters, readingProgress }) => (
 );
 
 const EmotionsView = () => <EmotionSearch />;
-
-const AudioViewComponent = ({ onPlayAudio }) => (
-  <AudioView onPlayAudio={onPlayAudio} />
-);
 
 const ChatView = () => (
   <div className="min-h-screen px-5 py-16 lg:px-10 xl:px-16">
