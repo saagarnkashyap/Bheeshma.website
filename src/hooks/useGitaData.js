@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import gitaCompleteData from '../assets/bhagavad_gita_complete.json';
 import gitaMetaData from '../assets/bhagavad_gita_meta_data.json';
-import audioLinksData from '../assets/gita_audio_links.json';
 
 export const useGitaData = () => {
   const [gitaData, setGitaData] = useState(null);
@@ -11,15 +9,30 @@ export const useGitaData = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    try {
-      setGitaData(gitaCompleteData);
-      setMetaData(gitaMetaData);
-      setAudioLinks(audioLinksData);
-      setLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
-    }
+    let isActive = true;
+
+    Promise.all([
+      import('../assets/bhagavad_gita_complete.json'),
+      import('../assets/gita_audio_links.json'),
+    ])
+      .then(([gitaDataModule, audioLinksModule]) => {
+        if (!isActive) return;
+
+        setGitaData(gitaDataModule.default);
+        setMetaData(gitaMetaData);
+        setAudioLinks(audioLinksModule.default);
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (!isActive) return;
+
+        setError(err.message);
+        setLoading(false);
+      });
+
+    return () => {
+      isActive = false;
+    };
   }, []);
 
   const getChapterData = (chapterNumber) => {

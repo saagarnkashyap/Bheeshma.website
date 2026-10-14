@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Menu, X } from 'lucide-react';
-import ChapterFlipBook from './components/ChapterFlipBook';
 import ChakraLoader from './components/ChakraLoader';
-import EmotionSearch from './components/EmotionSearch';
-import AudioView from './components/AudioView';
-import AboutView from './components/AboutView';
-import BookmarksView from './components/BookmarksView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
-import useGitaData from './hooks/useGitaData';
+import { getReadingProgress, saveReadingProgress } from './lib/readingProgress';
 import { getViewHref, getViewState } from './lib/viewUrls';
+import chapterCatalog from './assets/bhagavad_gita_chapter_catalog.json';
 import krishnaArjunaChariot from './assets/images/krishna-arjuna-chariot.webp';
 import './App.css';
+
+const ChapterFlipBook = lazy(() => import('./components/ChapterFlipBook'));
+const EmotionSearch = lazy(() => import('./components/EmotionSearch'));
+const AudioView = lazy(() => import('./components/AudioView'));
+const AboutView = lazy(() => import('./components/AboutView'));
+const BookmarksView = lazy(() => import('./components/BookmarksView'));
 
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
@@ -42,15 +44,15 @@ function App() {
   const [currentView, setCurrentViewState] = useState(initialViewState.currentView);
   const [currentChapter, setCurrentChapterState] = useState(initialViewState.currentChapter);
   const [currentVerse, setCurrentVerseState] = useState(initialViewState.currentVerse);
+  const [readingProgress, setReadingProgress] = useState(() => getReadingProgress());
   const [pageDirection, setPageDirection] = useState(1);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
   const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
   const shouldReduceMotion = useReducedMotion();
-  const { gitaData, loading, error } = useGitaData();
-  const chapterName = gitaData?.chapters.find((chapter) => chapter.number === currentChapter)?.name;
+  const chapterName = chapterCatalog.find((chapter) => chapter.number === currentChapter)?.name;
+  const mainContentRef = useRef(null);
 
   const updateUrl = (view, chapter = currentChapter, verse = currentVerse, replace = false) => {
     const params = new URLSearchParams();
@@ -117,7 +119,19 @@ function App() {
   }, [currentView]);
 
   useEffect(() => {
+    if (currentView !== 'chapters') return;
+
+    const nextProgress = { chapter: currentChapter, verse: currentVerse };
+    saveReadingProgress(currentChapter, currentVerse);
+    setReadingProgress(nextProgress);
+  }, [currentChapter, currentVerse, currentView]);
+
+  useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [currentChapter, currentView]);
+
+  useEffect(() => {
+    mainContentRef.current?.focus({ preventScroll: true });
   }, [currentChapter, currentView]);
 
   const showAudioPlayer = (chapter, verse) => {
@@ -150,31 +164,16 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsInitialLoading(false), 1400);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isInitialLoading || loading) {
-    return <ChakraLoader isLoading={true} message="Opening the text..." />;
-  }
-
-  if (error) {
-    return (
-      <div className="divine-bg flex min-h-screen items-center justify-center px-6">
-        <div className="max-w-md text-center">
-          <p className="section-kicker mb-4">A pause in the path</p>
-          <h2 className="font-heading mb-4 text-3xl text-cosmic-blue">The Gita could not be opened.</h2>
-          <p className="text-soft-gold">{error}</p>
-        </div>
-      </div>
-    );
-  }
-
   const renderMainContent = () => {
     switch (currentView) {
       case 'home':
-        return <HomeView onViewChange={setCurrentView} chapters={gitaData.chapters} />;
+        return (
+          <HomeView
+            onViewChange={setCurrentView}
+            chapters={chapterCatalog}
+            readingProgress={readingProgress}
+          />
+        );
       case 'chapters':
         return (
           <ChapterFlipBook
@@ -188,7 +187,7 @@ function App() {
       case 'emotions':
         return <EmotionSearch />;
       case 'audio':
-        return <AudioViewComponent onPlayAudio={showAudioPlayer} />;
+        return <AudioView onPlayAudio={showAudioPlayer} />;
       case 'chat':
         return <ChatView />;
       case 'about':
@@ -196,12 +195,19 @@ function App() {
       case 'bookmarks':
         return <BookmarksView onViewChange={setCurrentView} />;
       default:
-        return <HomeView onViewChange={setCurrentView} chapters={gitaData.chapters} />;
+        return (
+          <HomeView
+            onViewChange={setCurrentView}
+            chapters={chapterCatalog}
+            readingProgress={readingProgress}
+          />
+        );
     }
   };
 
   return (
     <Router>
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <SeoMetadata
         currentView={currentView}
         currentChapter={currentChapter}
@@ -264,7 +270,12 @@ function App() {
           <span className="site-mobile-om" aria-hidden="true">ॐ</span>
         </header>
 
-        <main className="relative z-10 min-h-screen min-w-0">
+        <main
+          id="main-content"
+          ref={mainContentRef}
+          tabIndex="-1"
+          className="relative z-10 min-h-screen min-w-0"
+        >
           <AnimatePresence mode="wait" initial={false} custom={pageDirection}>
             <Motion.div
               key={currentView}
@@ -277,7 +288,9 @@ function App() {
               animate="animate"
               exit="exit"
             >
-              {renderMainContent()}
+              <Suspense fallback={<ChakraLoader isLoading={true} message="Opening the text..." />}>
+                {renderMainContent()}
+              </Suspense>
             </Motion.div>
           </AnimatePresence>
         </main>
@@ -305,7 +318,7 @@ function App() {
   );
 }
 
-const HomeView = ({ onViewChange, chapters }) => (
+const HomeView = ({ onViewChange, chapters, readingProgress }) => (
   <div className="home-page">
     <Motion.section
       className="home-landing"
@@ -341,6 +354,19 @@ const HomeView = ({ onViewChange, chapters }) => (
           Enter the Gita
           <ArrowRight className="h-4 w-4" />
         </a>
+        {readingProgress && (
+          <a
+            href={getViewHref('chapters', readingProgress.chapter, readingProgress.verse)}
+            onClick={(event) => {
+              event.preventDefault();
+              onViewChange('chapters', readingProgress.chapter, readingProgress.verse);
+            }}
+            className="home-landing-continue"
+          >
+            <span>Continue reading</span>
+            <span>Chapter {readingProgress.chapter}, verse {readingProgress.verse}</span>
+          </a>
+        )}
       </div>
 
       <div className="home-landing-meta" aria-label="Edition details">
@@ -385,10 +411,6 @@ const HomeView = ({ onViewChange, chapters }) => (
 );
 
 const EmotionsView = () => <EmotionSearch />;
-
-const AudioViewComponent = ({ onPlayAudio }) => (
-  <AudioView onPlayAudio={onPlayAudio} />
-);
 
 const ChatView = () => (
   <div className="min-h-screen px-5 py-16 lg:px-10 xl:px-16">

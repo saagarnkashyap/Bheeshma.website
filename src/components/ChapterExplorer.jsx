@@ -100,6 +100,7 @@ const ChapterExplorer = ({
         <div className="verse-progress">
           <div style={{ width: `${((currentShlokaIndex + 1) / totalShlokas) * 100}%` }} />
         </div>
+        <p className="verse-keyboard-hint">Use ← → keys to move between verses</p>
       </div>
 
       <div className="verse-reader-actions">
