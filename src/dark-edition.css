@@ -1274,11 +1274,31 @@
 }
 
 .study-edition[data-theme="dark"] .dark-home-chapter-number {
-  color: #dfb45e;
-  font-size: 0.74rem;
-  font-weight: 750;
-  letter-spacing: 0.08em;
-  line-height: 1;
+  position: absolute;
+  right: -2.15rem;
+  bottom: -1.55rem;
+  z-index: 0;
+  color: rgba(223, 180, 94, 0.16);
+  font-size: clamp(7.5rem, 10vw, 10rem);
+  font-weight: 850;
+  letter-spacing: -0.08em;
+  line-height: 0.78;
+  pointer-events: none;
+  user-select: none;
+}
+
+.study-edition[data-theme="dark"] .dark-home-chapter-card {
+  overflow: hidden;
+}
+
+.study-edition[data-theme="dark"] .dark-home-chapter-name,
+.study-edition[data-theme="dark"] .dark-home-chapter-card > svg {
+  position: relative;
+  z-index: 1;
+}
+
+.study-edition[data-theme="dark"] .dark-home-chapter-name {
+  margin-top: 2.1rem;
 }
 
 .study-edition[data-theme="dark"] .dark-home-chapter-name {
