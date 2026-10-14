@@ -568,6 +568,30 @@
   transform: translateY(-2px);
 }
 
+.home-landing-continue {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 1rem;
+  color: var(--terracotta);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.home-landing-continue span:last-child {
+  color: var(--ink-soft);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.home-landing-continue:hover {
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
 .home-landing-edge {
   position: absolute;
   top: 50%;

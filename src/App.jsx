@@ -11,6 +11,7 @@ import BookmarksView from './components/BookmarksView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
 import useGitaData from './hooks/useGitaData';
+import { getReadingProgress, saveReadingProgress } from './lib/readingProgress';
 import { getViewHref, getViewState } from './lib/viewUrls';
 import krishnaArjunaChariot from './assets/images/krishna-arjuna-chariot.webp';
 import './App.css';
@@ -42,6 +43,7 @@ function App() {
   const [currentView, setCurrentViewState] = useState(initialViewState.currentView);
   const [currentChapter, setCurrentChapterState] = useState(initialViewState.currentChapter);
   const [currentVerse, setCurrentVerseState] = useState(initialViewState.currentVerse);
+  const [readingProgress, setReadingProgress] = useState(() => getReadingProgress());
   const [pageDirection, setPageDirection] = useState(1);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
@@ -116,6 +118,14 @@ function App() {
   }, [currentView]);
 
   useEffect(() => {
+    if (currentView !== 'chapters') return;
+
+    const nextProgress = { chapter: currentChapter, verse: currentVerse };
+    saveReadingProgress(currentChapter, currentVerse);
+    setReadingProgress(nextProgress);
+  }, [currentChapter, currentVerse, currentView]);
+
+  useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, [currentChapter, currentView]);
 
@@ -168,7 +178,13 @@ function App() {
   const renderMainContent = () => {
     switch (currentView) {
       case 'home':
-        return <HomeView onViewChange={setCurrentView} chapters={gitaData.chapters} />;
+        return (
+          <HomeView
+            onViewChange={setCurrentView}
+            chapters={gitaData.chapters}
+            readingProgress={readingProgress}
+          />
+        );
       case 'chapters':
         return (
           <ChapterFlipBook
@@ -190,7 +206,13 @@ function App() {
       case 'bookmarks':
         return <BookmarksView onViewChange={setCurrentView} />;
       default:
-        return <HomeView onViewChange={setCurrentView} chapters={gitaData.chapters} />;
+        return (
+          <HomeView
+            onViewChange={setCurrentView}
+            chapters={gitaData.chapters}
+            readingProgress={readingProgress}
+          />
+        );
     }
   };
 
@@ -299,7 +321,7 @@ function App() {
   );
 }
 
-const HomeView = ({ onViewChange, chapters }) => (
+const HomeView = ({ onViewChange, chapters, readingProgress }) => (
   <div className="home-page">
     <Motion.section
       className="home-landing"
@@ -335,6 +357,19 @@ const HomeView = ({ onViewChange, chapters }) => (
           Enter the Gita
           <ArrowRight className="h-4 w-4" />
         </a>
+        {readingProgress && (
+          <a
+            href={getViewHref('chapters', readingProgress.chapter, readingProgress.verse)}
+            onClick={(event) => {
+              event.preventDefault();
+              onViewChange('chapters', readingProgress.chapter, readingProgress.verse);
+            }}
+            className="home-landing-continue"
+          >
+            <span>Continue reading</span>
+            <span>Chapter {readingProgress.chapter}, verse {readingProgress.verse}</span>
+          </a>
+        )}
       </div>
 
       <div className="home-landing-meta" aria-label="Edition details">
