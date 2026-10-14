@@ -44,7 +44,6 @@ function App() {
   const [currentVerse, setCurrentVerseState] = useState(initialViewState.currentVerse);
   const [pageDirection, setPageDirection] = useState(1);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
   const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
@@ -150,12 +149,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsInitialLoading(false), 1400);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isInitialLoading || loading) {
+  if (loading) {
     return <ChakraLoader isLoading={true} message="Opening the text..." />;
   }
 
