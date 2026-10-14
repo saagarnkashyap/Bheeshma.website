@@ -1731,6 +1731,201 @@
   box-shadow: none !important;
 }
 
+/* Dark theme: a cinematic, high-contrast alternate reading environment. */
+.study-edition[data-theme="dark"] {
+  isolation: isolate;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.study-edition[data-theme="dark"]::before,
+.study-edition[data-theme="dark"]::after {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  content: '';
+  pointer-events: none;
+}
+
+.study-edition[data-theme="dark"]::before {
+  background:
+    radial-gradient(circle at 16% 18%, rgba(208, 75, 49, 0.14), transparent 23rem),
+    radial-gradient(circle at 85% 72%, rgba(67, 105, 148, 0.12), transparent 25rem);
+  animation: dark-ember-drift 18s ease-in-out infinite alternate;
+}
+
+.study-edition[data-theme="dark"]::after {
+  background-image: repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.016) 0 1px, transparent 1px 9px);
+  opacity: 0.5;
+}
+
+.study-edition[data-theme="dark"] .sacred-pattern {
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(208, 75, 49, 0.1), transparent 25rem),
+    repeating-linear-gradient(25deg, rgba(228, 174, 66, 0.025) 0 2px, transparent 2px 12px);
+}
+
+.study-edition[data-theme="dark"] .site-topbar {
+  border-bottom-color: rgba(115, 80, 64, 0.7);
+}
+
+.study-edition[data-theme="dark"] .site-brand-name,
+.study-edition[data-theme="dark"] .home-landing-title,
+.study-edition[data-theme="dark"] .home-landing-rule,
+.study-edition[data-theme="dark"] .home-landing-translation,
+.study-edition[data-theme="dark"] .home-chapter-index,
+.study-edition[data-theme="dark"] .home-chapter-name,
+.study-edition[data-theme="dark"] .audio-choice {
+  font-family: var(--font-heading);
+}
+
+.study-edition[data-theme="dark"] .home-landing {
+  background:
+    radial-gradient(circle at 50% 48%, rgba(208, 75, 49, 0.18), transparent 20rem),
+    linear-gradient(135deg, #09090b 0%, #111218 52%, #181316 100%);
+}
+
+.study-edition[data-theme="dark"] .home-landing::before {
+  background:
+    radial-gradient(ellipse at 15% 20%, rgba(208, 75, 49, 0.22), transparent 25%),
+    radial-gradient(ellipse at 87% 67%, rgba(67, 105, 148, 0.16), transparent 28%),
+    repeating-linear-gradient(8deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 7px);
+  mix-blend-mode: screen;
+}
+
+.study-edition[data-theme="dark"] .home-landing::after {
+  background: radial-gradient(ellipse at center, transparent 38%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.study-edition[data-theme="dark"] .home-landing-wash {
+  border-color: rgba(208, 75, 49, 0.22);
+  box-shadow: inset 0 0 8rem rgba(208, 75, 49, 0.08);
+  animation: dark-wash-drift 20s ease-in-out infinite alternate;
+}
+
+.study-edition[data-theme="dark"] .home-landing-figure img {
+  filter: saturate(1.2) contrast(1.1) brightness(0.86);
+  mix-blend-mode: screen;
+}
+
+.study-edition[data-theme="dark"] .home-feature,
+.study-edition[data-theme="dark"] .home-chapter-link,
+.study-edition[data-theme="dark"] .chapter-overview,
+.study-edition[data-theme="dark"] .bookmark-entry,
+.study-edition[data-theme="dark"] .emotion-tile,
+.study-edition[data-theme="dark"] .audio-feature {
+  background: var(--surface-translucent);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
+}
+
+.study-edition[data-theme="dark"] .home-feature:hover,
+.study-edition[data-theme="dark"] .emotion-tile:hover,
+.study-edition[data-theme="dark"] .bookmark-entry:hover {
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(208, 75, 49, 0.12);
+}
+
+.study-edition[data-theme="dark"] .chapter-flip-page {
+  border-color: rgba(115, 80, 64, 0.68);
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(208, 75, 49, 0.11), transparent 28rem),
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(25deg, rgba(228, 174, 66, 0.025) 0 2px, transparent 2px 11px);
+}
+
+.study-edition[data-theme="dark"] .chapter-flip-blank {
+  background: linear-gradient(135deg, rgba(208, 75, 49, 0.16), rgba(13, 13, 16, 0.2));
+}
+
+.study-edition[data-theme="dark"] .chapter-arrows,
+.study-edition[data-theme="dark"] .reading-nav-button,
+.study-edition[data-theme="dark"] .icon-button,
+.study-edition[data-theme="dark"] .verse-jump-control {
+  background: var(--surface-soft);
+}
+
+.study-edition[data-theme="dark"] .reading-nav-button:hover:not(:disabled),
+.study-edition[data-theme="dark"] .icon-button:hover:not(:disabled) {
+  background: rgba(228, 174, 66, 0.12);
+}
+
+.study-edition[data-theme="dark"] .shloka-card,
+.study-edition[data-theme="dark"] .audio-verse {
+  background: var(--surface-strong);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(208, 75, 49, 0.06);
+}
+
+.study-edition[data-theme="dark"] .shloka-card-header,
+.study-edition[data-theme="dark"] .shloka-section,
+.study-edition[data-theme="dark"] .shloka-tags-footer {
+  background: rgba(13, 13, 16, 0.18);
+}
+
+.study-edition[data-theme="dark"] .shloka-tag {
+  border-color: rgba(228, 174, 66, 0.42);
+  background: rgba(228, 174, 66, 0.06);
+}
+
+.study-edition[data-theme="dark"] .search-field input::placeholder {
+  color: rgba(185, 173, 156, 0.58);
+}
+
+.study-edition[data-theme="dark"] .audio-studio {
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34);
+}
+
+.study-edition[data-theme="dark"] .audio-panel {
+  background: rgba(22, 22, 26, 0.9);
+}
+
+.study-edition[data-theme="dark"] .audio-selection {
+  background: linear-gradient(145deg, #09090b, #211318);
+}
+
+.study-edition[data-theme="dark"] .audio-play-button {
+  background: var(--saffron);
+  color: #0d0d10;
+  box-shadow: 0 0 0 1px rgba(242, 207, 116, 0.28), 0 10px 28px rgba(228, 174, 66, 0.18);
+}
+
+.study-edition[data-theme="dark"] .audio-play-button:hover {
+  background: var(--saffron-light);
+}
+
+.study-edition[data-theme="dark"] .about-dedication {
+  background: #050506;
+  box-shadow: inset 0 0 0 1px rgba(115, 80, 64, 0.55), 0 18px 48px rgba(0, 0, 0, 0.3);
+}
+
+.study-edition[data-theme="dark"] .loader-screen {
+  background: var(--paper);
+}
+
+.study-edition[data-theme="dark"] .assistant-launch {
+  box-shadow: 0 0 0 1px rgba(208, 75, 49, 0.2), 0 12px 28px rgba(0, 0, 0, 0.34);
+}
+
+@keyframes dark-ember-drift {
+  0% {
+    transform: translate3d(-1%, -1%, 0) scale(1);
+    opacity: 0.48;
+  }
+
+  100% {
+    transform: translate3d(1%, 1%, 0) scale(1.06);
+    opacity: 0.86;
+  }
+}
+
+@keyframes dark-wash-drift {
+  0% {
+    transform: rotate(-2deg) scale(1);
+  }
+
+  100% {
+    transform: rotate(1deg) scale(1.035);
+  }
+}
+
 @media (max-width: 900px) {
   .home-hero {
     min-height: auto;
