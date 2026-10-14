@@ -509,7 +509,7 @@
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: center 34%;
+  object-position: center 8%;
   mix-blend-mode: multiply;
   -webkit-mask-image: radial-gradient(ellipse at center, #000 22%, rgba(0, 0, 0, 0.68) 39%, transparent 64%);
   mask-image: radial-gradient(ellipse at center, #000 22%, rgba(0, 0, 0, 0.68) 39%, transparent 64%);
