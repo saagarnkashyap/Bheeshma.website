@@ -19,16 +19,10 @@ const keepTouchScrollInsidePage = (event) => {
   if (!isPageEdge) event.stopPropagation();
 };
 
-const FlipPage = forwardRef(({
-  children,
-  chapterNumber,
-  isActive = false,
-  isFlipping = false,
-  flipDirection = 'next',
-}, ref) => (
+const FlipPage = forwardRef(({ children, chapterNumber, isActive = false, isFlipping = false }, ref) => (
   <div
     ref={ref}
-    className={`chapter-flip-page ${isFlipping ? `chapter-flip-page-turning chapter-flip-page-turning-${flipDirection}` : ''}`}
+    className={`chapter-flip-page ${isFlipping ? 'chapter-flip-page-turning' : ''}`}
     data-density="soft"
     data-chapter={chapterNumber ?? 'blank'}
   >
@@ -54,18 +48,12 @@ const ChapterFlipBook = ({
   const bookRef = useRef(null);
   const pendingChapterRef = useRef(null);
   const isFlippingRef = useRef(false);
-  const flippingChapterRef = useRef(null);
   const [flipState, setFlipState] = useState('read');
-  const [flippingChapter, setFlippingChapter] = useState(null);
-  const [flipDirection, setFlipDirection] = useState('next');
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     pendingChapterRef.current = null;
     isFlippingRef.current = false;
-    flippingChapterRef.current = null;
-    setFlippingChapter(null);
-    setFlipState('read');
   }, [chapterNumber]);
 
   const requestChapterChange = useCallback((nextChapter) => {
@@ -92,10 +80,6 @@ const ChapterFlipBook = ({
 
     pendingChapterRef.current = nextChapter;
     isFlippingRef.current = true;
-    flippingChapterRef.current = chapterNumber;
-    const nextDirection = nextChapter > chapterNumber ? 'next' : 'previous';
-    setFlippingChapter(chapterNumber);
-    setFlipDirection(nextDirection);
 
     // react-pageflip applies `disableFlipByClick` inside its public flip
     // methods too. Temporarily bypass that guard for an explicit button
@@ -132,18 +116,8 @@ const ChapterFlipBook = ({
   }, [chapterNumber, onChapterChange]);
 
   const handleFlipStateChange = useCallback((event) => {
-    if (event.data !== 'read' && flippingChapterRef.current === null) {
-      flippingChapterRef.current = chapterNumber;
-      setFlippingChapter(chapterNumber);
-    }
-
     setFlipState(event.data);
-
-    if (event.data === 'read') {
-      flippingChapterRef.current = null;
-      setFlippingChapter(null);
-    }
-  }, [chapterNumber]);
+  }, []);
 
   const isTurning = flipState !== 'read';
 
@@ -179,8 +153,7 @@ const ChapterFlipBook = ({
             key={pageChapter}
             chapterNumber={pageChapter}
             isActive={pageChapter === chapterNumber}
-            isFlipping={isTurning && pageChapter === flippingChapter}
-            flipDirection={flipDirection}
+            isFlipping={isTurning && pageChapter === chapterNumber}
           >
             <ChapterExplorer
               chapterNumber={pageChapter}
