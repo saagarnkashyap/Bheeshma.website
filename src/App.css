@@ -3020,7 +3020,7 @@
 
 .zen-verse {
   box-sizing: border-box;
-  height: 20rem;
+  height: 18rem;
   overflow-y: auto;
   padding: 0 0 2.5rem;
   scrollbar-width: thin;
@@ -3101,7 +3101,7 @@
   }
 
   .zen-verse {
-    height: 20rem;
+    height: 18rem;
   }
 
   .zen-transport-row {
