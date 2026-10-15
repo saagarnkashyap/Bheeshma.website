@@ -276,7 +276,10 @@ function App() {
         currentVerse={currentVerse}
         chapterName={chapterName}
       />
-      <div className="study-edition divine-bg sacred-pattern relative min-h-screen" data-theme={theme}>
+      <div
+        className={`study-edition divine-bg sacred-pattern relative min-h-screen ${audioPlayerVisible ? 'audio-player-open' : ''}`}
+        data-theme={theme}
+      >
         {theme === 'dark' && (
           <div className="theme-atmosphere" aria-hidden="true">
             <span className="theme-atmosphere-orb theme-atmosphere-orb-red" />
