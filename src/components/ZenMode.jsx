@@ -223,6 +223,8 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
       </header>
 
       <main className="zen-main">
+        <p className="zen-work-title">BHAGAVAD GITA</p>
+
         <p className="sr-only" aria-live="polite">
           Now playing Chapter {currentVerse.chapterNumber}, Verse {currentVerse.verseNumber}.
         </p>
@@ -236,7 +238,6 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
           </div>
 
           <div className="zen-player-title">
-            <p className="zen-work-title">BHAGAVAD GITA</p>
             <h1 className="zen-chapter-title">{currentVerse.chapterName}</h1>
           </div>
         </div>

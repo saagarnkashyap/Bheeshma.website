@@ -2865,7 +2865,7 @@
   max-width: 54rem;
   flex: 1;
   margin: 0 auto;
-  padding: 2.5rem 0 3rem;
+  padding: 0 0 3rem;
 }
 
 .zen-player {
@@ -2874,7 +2874,7 @@
 }
 
 .zen-now-playing {
-  padding-top: 2.5rem;
+  padding-top: 1rem;
 }
 
 .zen-player-header,
@@ -2894,7 +2894,7 @@
 }
 
 .zen-player-title {
-  padding: 3rem 0 2.5rem;
+  padding: 1.5rem 0 1.25rem;
 }
 
 .zen-work-title {
