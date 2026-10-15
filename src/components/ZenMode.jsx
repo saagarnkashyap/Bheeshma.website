@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useGitaData from '../hooks/useGitaData';
 import { getGitaSupersiteAudioUrl } from '../lib/audioUrls';
 import '../App.css';
@@ -60,6 +60,20 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
     params.set('chapter', String(currentVerse.chapterNumber));
     params.set('verse', String(currentVerse.verseNumber));
     window.history.replaceState({}, '', `/?${params.toString()}`);
+  }, [currentVerse]);
+
+  useEffect(() => {
+    if (!currentVerse || typeof navigator === 'undefined' || !('mediaSession' in navigator)) return undefined;
+
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: `Chapter ${String(currentVerse.chapterNumber).padStart(2, '0')} · Verse ${String(currentVerse.verseNumber).padStart(2, '0')}`,
+      artist: 'Bheeshma · Zen Mode',
+      album: currentVerse.chapterName,
+    });
+
+    return () => {
+      navigator.mediaSession.metadata = null;
+    };
   }, [currentVerse]);
 
   useEffect(() => {
@@ -145,7 +159,7 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
     };
   }, [currentAudioUrl, currentIndex, verses.length]);
 
-  const togglePlayback = async () => {
+  const togglePlayback = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio) return;
 
@@ -175,23 +189,69 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
       setPlaybackError('Press play to begin the recitation.');
       setIsLoading(false);
     }
-  };
+  }, [isPlaying]);
 
-  const goToVerse = (nextIndex) => {
+  const goToVerse = useCallback((nextIndex) => {
     if (nextIndex < 0 || nextIndex >= verses.length) return;
     shouldContinueRef.current = true;
     playbackGenerationRef.current += 1;
     setCurrentIndex(nextIndex);
-  };
+  }, [verses.length]);
 
-  const handleSeek = (event) => {
+  const handleSeek = useCallback((event) => {
     const audio = audioRef.current;
     if (!audio || !duration) return;
 
     const nextTime = Number(event.target.value);
     audio.currentTime = nextTime;
     setCurrentTime(nextTime);
-  };
+  }, [duration]);
+
+  const seekBy = useCallback((offset) => {
+    const audio = audioRef.current;
+    if (!audio || !Number.isFinite(audio.duration)) return;
+
+    const nextTime = Math.max(0, Math.min(audio.duration, audio.currentTime + offset));
+    audio.currentTime = nextTime;
+    setCurrentTime(nextTime);
+  }, []);
+
+  useEffect(() => {
+    if (typeof navigator === 'undefined' || !('mediaSession' in navigator)) return undefined;
+
+    const mediaSession = navigator.mediaSession;
+    const setActionHandler = (action, handler) => {
+      try {
+        mediaSession.setActionHandler(action, handler);
+      } catch {
+        // Some browsers expose Media Session but not every action.
+      }
+    };
+
+    setActionHandler('play', () => { void togglePlayback(); });
+    setActionHandler('pause', () => { void togglePlayback(); });
+    setActionHandler('nexttrack', () => goToVerse(currentIndex + 1));
+    setActionHandler('previoustrack', () => goToVerse(currentIndex - 1));
+    setActionHandler('seekbackward', (details) => seekBy(-(details.seekOffset || 10)));
+    setActionHandler('seekforward', (details) => seekBy(details.seekOffset || 10));
+    setActionHandler('seekto', (details) => {
+      const audio = audioRef.current;
+      if (!audio || !Number.isFinite(details.seekTime)) return;
+      audio.currentTime = Math.max(0, Math.min(audio.duration || details.seekTime, details.seekTime));
+      setCurrentTime(audio.currentTime);
+    });
+
+    return () => {
+      ['play', 'pause', 'nexttrack', 'previoustrack', 'seekbackward', 'seekforward', 'seekto'].forEach((action) => {
+        setActionHandler(action, null);
+      });
+    };
+  }, [currentIndex, goToVerse, seekBy, togglePlayback]);
+
+  useEffect(() => {
+    if (typeof navigator === 'undefined' || !('mediaSession' in navigator)) return;
+    navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+  }, [isPlaying]);
 
   if (loading || !hasResolvedInitialVerse) {
     return (
@@ -292,7 +352,7 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
         <span>CONTINUOUS RECITATION</span>
       </footer>
 
-      <audio ref={audioRef} src={currentAudioUrl || undefined} preload="auto" aria-label="Gita recitation audio" />
+      <audio ref={audioRef} src={currentAudioUrl || undefined} preload="auto" playsInline aria-label="Gita recitation audio" />
     </div>
   );
 };
