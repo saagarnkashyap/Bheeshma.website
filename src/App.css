@@ -2862,9 +2862,9 @@
 .zen-main {
   width: 100%;
   max-width: 54rem;
-  flex: 1;
+  flex: 0 1 auto;
   margin: 0 auto;
-  padding: 0 0 3rem;
+  padding: 0 0 1rem;
 }
 
 .zen-player {
