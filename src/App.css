@@ -2869,8 +2869,8 @@
 }
 
 .zen-player {
-  border-bottom: 1px solid #000000;
-  padding-bottom: 2rem;
+  border-top: 1px solid #000000;
+  padding-top: 2rem;
 }
 
 .zen-player-header,
@@ -3020,7 +3020,7 @@
 }
 
 .zen-verse {
-  padding: 2.5rem 0 0;
+  padding: 0 0 2.5rem;
 }
 
 .zen-verse-label {

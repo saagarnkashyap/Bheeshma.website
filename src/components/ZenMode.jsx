@@ -223,6 +223,16 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
       </header>
 
       <main className="zen-main">
+        <p className="sr-only" aria-live="polite">
+          Now playing Chapter {currentVerse.chapterNumber}, Verse {currentVerse.verseNumber}.
+        </p>
+
+        <article className="zen-verse">
+          <p className="zen-verse-label">VERSE {currentVerse.chapterNumber}.{currentVerse.verseNumber}</p>
+          <p className="zen-sanskrit font-sanskrit">{currentVerse.shloka.sanskrit_text}</p>
+          <p className="zen-transliteration">{currentVerse.shloka.transliteration}</p>
+        </article>
+
         <section className="zen-player" aria-label="Continuous Gita recitation" aria-busy={isLoading}>
           <div className="zen-player-header">
             <p className="zen-micro-label">NOW PLAYING</p>
@@ -273,15 +283,6 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
           )}
         </section>
 
-        <p className="sr-only" aria-live="polite">
-          Now playing Chapter {currentVerse.chapterNumber}, Verse {currentVerse.verseNumber}.
-        </p>
-
-        <article className="zen-verse">
-          <p className="zen-verse-label">VERSE {currentVerse.chapterNumber}.{currentVerse.verseNumber}</p>
-          <p className="zen-sanskrit font-sanskrit">{currentVerse.shloka.sanskrit_text}</p>
-          <p className="zen-transliteration">{currentVerse.shloka.transliteration}</p>
-        </article>
       </main>
 
       <footer className="zen-footer">
