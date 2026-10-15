@@ -2845,7 +2845,6 @@
 .zen-button:hover,
 .zen-button:focus-visible,
 .zen-transport-button:hover:not(:disabled),
-.zen-transport-button:focus-visible:not(:disabled),
 .zen-play-button:hover,
 .zen-play-button:focus-visible {
   background: #000000;
