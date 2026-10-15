@@ -3025,9 +3025,32 @@
 
 .zen-play-button {
   min-width: 10rem;
+  overflow: hidden;
   padding: 0 1.25rem;
   background: #000000;
   color: #ffffff;
+}
+
+.zen-play-label {
+  display: inline-block;
+  animation: zen-play-label-in 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes zen-play-label-in {
+  0% {
+    opacity: 0;
+    transform: translateY(0.75em) skewY(5deg);
+  }
+
+  55% {
+    opacity: 1;
+    transform: translateY(-0.08em) skewY(-1deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) skewY(0);
+  }
 }
 
 .zen-status {

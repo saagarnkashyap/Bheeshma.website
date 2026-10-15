@@ -270,8 +270,10 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
 
           <div className="zen-transport-row">
             <button type="button" className="zen-transport-button" onClick={() => goToVerse(currentIndex - 1)} disabled={isFirstVerse} aria-label="Previous verse">|&lt;</button>
-            <button type="button" className="zen-play-button" onClick={togglePlayback} disabled={isLoading} aria-busy={isLoading} aria-label={isLoading ? 'Loading recitation' : isPlaying ? 'Pause recitation' : 'Play recitation'}>
-              {isLoading ? 'LOADING' : isPlaying ? 'PAUSE' : 'PLAY'}
+            <button type="button" className="zen-play-button" onClick={togglePlayback} disabled={isLoading} aria-busy={isLoading} aria-label={isPlaying ? 'Pause recitation' : 'Play recitation'}>
+              <span key={isPlaying ? 'pause' : 'play'} className="zen-play-label" aria-hidden="true">
+                {isPlaying ? 'PAUSE' : 'PLAY'}
+              </span>
             </button>
             <button type="button" className="zen-transport-button" onClick={() => goToVerse(currentIndex + 1)} disabled={isLastVerse} aria-label="Next verse">&gt;|</button>
           </div>
