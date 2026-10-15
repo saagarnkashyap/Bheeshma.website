@@ -2985,7 +2985,7 @@
 
 .zen-transport-button,
 .zen-play-button {
-  min-height: 3rem;
+  height: 3rem;
   border: 1px solid #000000;
   border-radius: 0;
   background: #ffffff;
@@ -3019,7 +3019,11 @@
 }
 
 .zen-verse {
+  box-sizing: border-box;
+  height: 18rem;
+  overflow-y: auto;
   padding: 0 0 2.5rem;
+  scrollbar-width: thin;
 }
 
 .zen-sanskrit {
@@ -3094,6 +3098,10 @@
   .zen-transliteration {
     margin-top: 1.25rem;
     line-height: 1.7;
+  }
+
+  .zen-verse {
+    height: 15rem;
   }
 
   .zen-transport-row {
