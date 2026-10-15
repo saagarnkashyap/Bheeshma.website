@@ -227,17 +227,11 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
           Now playing Chapter {currentVerse.chapterNumber}, Verse {currentVerse.verseNumber}.
         </p>
 
-        <article className="zen-verse">
-          <p className="zen-verse-label">VERSE {currentVerse.chapterNumber}.{currentVerse.verseNumber}</p>
-          <p className="zen-sanskrit font-sanskrit">{currentVerse.shloka.sanskrit_text}</p>
-          <p className="zen-transliteration">{currentVerse.shloka.transliteration}</p>
-        </article>
-
-        <section className="zen-player" aria-label="Continuous Gita recitation" aria-busy={isLoading}>
+        <div className="zen-now-playing">
           <div className="zen-player-header">
             <p className="zen-micro-label">NOW PLAYING</p>
             <p className="zen-counter">
-              CHAPTER {String(currentVerse.chapterNumber).padStart(2, '0')} · VERSE {String(currentVerse.verseNumber).padStart(2, '0')}
+              CHAPTER {String(currentVerse.chapterNumber).padStart(2, '0')} / VERSE {String(currentVerse.verseNumber).padStart(2, '0')}
             </p>
           </div>
 
@@ -245,7 +239,15 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
             <p>BHAGAVAD GITA</p>
             <span>{currentVerse.chapterName}</span>
           </div>
+        </div>
 
+        <article className="zen-verse">
+          <p className="zen-verse-label">VERSE {currentVerse.chapterNumber}.{currentVerse.verseNumber}</p>
+          <p className="zen-sanskrit font-sanskrit">{currentVerse.shloka.sanskrit_text}</p>
+          <p className="zen-transliteration">{currentVerse.shloka.transliteration}</p>
+        </article>
+
+        <section className="zen-player" aria-label="Continuous Gita recitation" aria-busy={isLoading}>
           <div className="zen-progress-wrap">
             <input
               type="range"

@@ -2873,6 +2873,10 @@
   padding-top: 2rem;
 }
 
+.zen-now-playing {
+  padding-top: 2.5rem;
+}
+
 .zen-player-header,
 .zen-time-row,
 .zen-footer {
