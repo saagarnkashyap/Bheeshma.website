@@ -2813,8 +2813,7 @@
 
 .zen-micro-label,
 .zen-counter,
-.zen-footer,
-.zen-verse-label {
+.zen-footer {
   margin: 0;
   color: #000000;
   font-size: 0.62rem;
@@ -3029,10 +3028,6 @@
 
 .zen-verse {
   padding: 0 0 2.5rem;
-}
-
-.zen-verse-label {
-  color: #555555;
 }
 
 .zen-sanskrit {

@@ -243,7 +243,6 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
         </div>
 
         <article className="zen-verse">
-          <p className="zen-verse-label">VERSE {currentVerse.chapterNumber}.{currentVerse.verseNumber}</p>
           <p className="zen-sanskrit font-sanskrit">{currentVerse.shloka.sanskrit_text}</p>
           <p className="zen-transliteration">{currentVerse.shloka.transliteration}</p>
         </article>
