@@ -27,8 +27,9 @@ const FloatingAudioPlayer = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume] = useState(1);
+  const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
+  const previousVolumeRef = useRef(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -148,12 +149,29 @@ const FloatingAudioPlayer = ({
     const audio = audioRef.current;
     if (!audio) return;
     
-    if (isMuted) {
-      audio.volume = volume;
+    if (isMuted || volume === 0) {
+      const restoredVolume = previousVolumeRef.current || 0.5;
+      audio.volume = restoredVolume;
+      setVolume(restoredVolume);
       setIsMuted(false);
     } else {
+      previousVolumeRef.current = volume;
       audio.volume = 0;
       setIsMuted(true);
+    }
+  };
+
+  const handleVolumeChange = (e) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const nextVolume = Number(e.target.value);
+    audio.volume = nextVolume;
+    setVolume(nextVolume);
+    setIsMuted(nextVolume === 0);
+
+    if (nextVolume > 0) {
+      previousVolumeRef.current = nextVolume;
     }
   };
 
@@ -274,19 +292,32 @@ const FloatingAudioPlayer = ({
                 <SkipForward className="w-4 h-4" />
               </Button>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleMute}
-                className="audio-control h-8 w-8 p-0"
-                title="Toggle Mute"
-              >
-                {isMuted || volume === 0 ? (
-                  <VolumeX className="w-4 h-4" />
-                ) : (
-                  <Volume2 className="w-4 h-4" />
-                )}
-              </Button>
+              <div className="audio-volume-control">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={toggleMute}
+                  className="audio-control h-8 w-8 p-0"
+                  title={isMuted || volume === 0 ? 'Unmute audio' : 'Mute audio'}
+                  aria-label={isMuted || volume === 0 ? 'Unmute audio' : 'Mute audio'}
+                >
+                  {isMuted || volume === 0 ? (
+                    <VolumeX className="w-4 h-4" />
+                  ) : (
+                    <Volume2 className="w-4 h-4" />
+                  )}
+                </Button>
+                <input
+                  type="range"
+                  className="audio-volume-slider"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={isMuted ? 0 : volume}
+                  onChange={handleVolumeChange}
+                  aria-label="Volume level"
+                />
+              </div>
             </div>
 
             {error && (

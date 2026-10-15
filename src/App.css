@@ -388,6 +388,52 @@
   box-shadow: 0 0 0 1px var(--saffron);
 }
 
+.audio-volume-control {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.audio-volume-slider {
+  width: 4.25rem;
+  height: 1.25rem;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.audio-volume-slider::-webkit-slider-runnable-track {
+  height: 0.25rem;
+  border-radius: 999px;
+  background: var(--paper-deep);
+}
+
+.audio-volume-slider::-moz-range-track {
+  height: 0.25rem;
+  border-radius: 999px;
+  background: var(--paper-deep);
+}
+
+.audio-volume-slider::-webkit-slider-thumb {
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-top: -0.225rem;
+  appearance: none;
+  border: 2px solid var(--paper);
+  border-radius: 50%;
+  background: var(--saffron);
+  box-shadow: 0 0 0 1px var(--saffron);
+}
+
+.audio-volume-slider::-moz-range-thumb {
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 2px solid var(--paper);
+  border-radius: 50%;
+  background: var(--saffron);
+  box-shadow: 0 0 0 1px var(--saffron);
+}
+
 .audio-player-time {
   color: var(--ink-soft);
 }
