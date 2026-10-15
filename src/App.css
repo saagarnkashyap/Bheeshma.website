@@ -2011,6 +2011,11 @@
   z-index: 1;
 }
 
+.study-edition[data-theme="dark"] .audio-player-floating {
+  position: fixed;
+  z-index: 50;
+}
+
 .study-edition[data-theme="dark"] .site-topbar {
   min-height: 4.7rem;
   padding-top: 1rem;
