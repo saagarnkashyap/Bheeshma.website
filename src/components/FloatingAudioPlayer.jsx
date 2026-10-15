@@ -5,6 +5,8 @@ import {
   Pause, 
   SkipBack, 
   SkipForward, 
+  RotateCcw,
+  RotateCw,
   Volume2, 
   VolumeX,
   X
@@ -20,6 +22,7 @@ const FloatingAudioPlayer = ({
   onNext, 
   onPrevious,
   onClose,
+  autoPlay = false,
   isVisible = true
 }) => {
   const audioRef = useRef(null);
@@ -72,12 +75,45 @@ const FloatingAudioPlayer = ({
   }, [currentAudioUrl, onNext]);
 
   useEffect(() => {
-    if (currentAudioUrl) {
-      setCurrentTime(0);
-      setDuration(0);
-      setIsPlaying(false);
-    }
-  }, [currentAudioUrl]);
+    const audio = audioRef.current;
+    if (!audio || !currentAudioUrl) return undefined;
+
+    let cancelled = false;
+    setCurrentTime(0);
+    setDuration(0);
+    setError(null);
+    setIsPlaying(false);
+    setIsLoading(autoPlay);
+    audio.pause();
+    audio.load();
+
+    if (!autoPlay) return undefined;
+
+    const startPlayback = async () => {
+      if (cancelled) return;
+
+      try {
+        await audio.play();
+        if (!cancelled) setIsPlaying(true);
+      } catch (error) {
+        if (!cancelled) {
+          console.error('Audio autoplay error:', error);
+          setError('Click play to start this audio');
+          setIsPlaying(false);
+        }
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    };
+
+    audio.addEventListener('canplay', startPlayback, { once: true });
+
+    return () => {
+      cancelled = true;
+      audio.removeEventListener('canplay', startPlayback);
+      audio.pause();
+    };
+  }, [currentAudioUrl, autoPlay]);
 
   const togglePlay = async () => {
     const audio = audioRef.current;
@@ -104,10 +140,17 @@ const FloatingAudioPlayer = ({
   const handleSeek = (e) => {
     const audio = audioRef.current;
     if (!audio) return;
-    
-    const rect = e.currentTarget.getBoundingClientRect();
-    const percent = (e.clientX - rect.left) / rect.width;
-    const newTime = percent * duration;
+
+    const newTime = Number(e.target.value);
+    audio.currentTime = newTime;
+    setCurrentTime(newTime);
+  };
+
+  const seekBy = (seconds) => {
+    const audio = audioRef.current;
+    if (!audio || !Number.isFinite(audio.duration)) return;
+
+    const newTime = Math.min(Math.max(audio.currentTime + seconds, 0), audio.duration);
     audio.currentTime = newTime;
     setCurrentTime(newTime);
   };
@@ -126,14 +169,7 @@ const FloatingAudioPlayer = ({
   };
 
   const handlePrevious = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    
-    if (audio.currentTime > 3) {
-      audio.currentTime = 0;
-    } else if (onPrevious) {
-      onPrevious();
-    }
+    if (onPrevious) onPrevious();
   };
 
   const handleNext = () => {
@@ -186,13 +222,23 @@ const FloatingAudioPlayer = ({
 
             {/* Progress Bar */}
             <div className="mb-3">
-              <div 
-                className="audio-progress-track w-full h-1 rounded-full cursor-pointer"
-                onClick={handleSeek}
-              >
+              <div className="audio-progress-control">
+                <div className="audio-progress-track w-full h-1 rounded-full" aria-hidden="true">
                 <div 
                   className="audio-progress-fill h-full rounded-full transition-all duration-300"
                   style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                />
+                </div>
+                <input
+                  type="range"
+                  className="audio-progress-slider"
+                  min="0"
+                  max={duration || 0}
+                  step="0.1"
+                  value={Math.min(currentTime, duration || 0)}
+                  onChange={handleSeek}
+                  disabled={!duration}
+                  aria-label="Audio position"
                 />
               </div>
               <div className="audio-player-time flex justify-between text-xs mt-1">
@@ -211,6 +257,17 @@ const FloatingAudioPlayer = ({
                 title="Previous Verse"
               >
                 <SkipBack className="w-4 h-4" />
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => seekBy(-5)}
+                className="audio-control h-8 w-8 p-0"
+                title="Back 5 seconds"
+                aria-label="Back 5 seconds"
+              >
+                <RotateCcw className="w-4 h-4" />
               </Button>
 
               <Button
@@ -242,6 +299,17 @@ const FloatingAudioPlayer = ({
               <Button
                 variant="ghost"
                 size="sm"
+                onClick={() => seekBy(5)}
+                className="audio-control h-8 w-8 p-0"
+                title="Forward 5 seconds"
+                aria-label="Forward 5 seconds"
+              >
+                <RotateCw className="w-4 h-4" />
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={toggleMute}
                 className="audio-control h-8 w-8 p-0"
                 title="Toggle Mute"
@@ -260,7 +328,7 @@ const FloatingAudioPlayer = ({
               </div>
             )}
 
-            <audio ref={audioRef} src={currentAudioUrl} />
+            <audio ref={audioRef} src={currentAudioUrl} preload="auto" autoPlay={autoPlay} />
           </CardContent>
         </Card>
       </Motion.div>

@@ -28,4 +28,14 @@ export const getGitaSupersiteAudioUrl = (chapter, verse) => {
   return `${GITA_SUPERSITE_AUDIO_BASE_URL}/CHAP${chapterNumber}/${chapterNumber}-${verseNumber}.MP3`;
 };
 
+export const getChapterVerseCount = (chapter) => {
+  const chapterNumber = Number(chapter);
+
+  if (!Number.isInteger(chapterNumber) || chapterNumber < 1 || chapterNumber > 18) {
+    return 0;
+  }
+
+  return VERSE_COUNTS[chapterNumber];
+};
+
 export { GITA_SUPERSITE_AUDIO_BASE_URL };
