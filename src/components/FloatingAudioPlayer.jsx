@@ -5,8 +5,6 @@ import {
   Pause, 
   SkipBack, 
   SkipForward, 
-  RotateCcw,
-  RotateCw,
   Volume2, 
   VolumeX,
   X
@@ -146,15 +144,6 @@ const FloatingAudioPlayer = ({
     setCurrentTime(newTime);
   };
 
-  const seekBy = (seconds) => {
-    const audio = audioRef.current;
-    if (!audio || !Number.isFinite(audio.duration)) return;
-
-    const newTime = Math.min(Math.max(audio.currentTime + seconds, 0), audio.duration);
-    audio.currentTime = newTime;
-    setCurrentTime(newTime);
-  };
-
   const toggleMute = () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -262,17 +251,6 @@ const FloatingAudioPlayer = ({
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => seekBy(-5)}
-                className="audio-control h-8 w-8 p-0"
-                title="Back 5 seconds"
-                aria-label="Back 5 seconds"
-              >
-                <RotateCcw className="w-4 h-4" />
-              </Button>
-
-              <Button
-                variant="ghost"
-                size="sm"
                 onClick={togglePlay}
                 disabled={isLoading}
                 className="audio-control audio-play-control h-10 w-10 p-0 rounded-full"
@@ -284,17 +262,6 @@ const FloatingAudioPlayer = ({
                 ) : (
                   <Play className="w-5 h-5" />
                 )}
-              </Button>
-
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => seekBy(5)}
-                className="audio-control h-8 w-8 p-0"
-                title="Forward 5 seconds"
-                aria-label="Forward 5 seconds"
-              >
-                <RotateCw className="w-4 h-4" />
               </Button>
 
               <Button
