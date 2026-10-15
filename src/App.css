@@ -3026,7 +3026,7 @@
 
 .zen-verse {
   box-sizing: border-box;
-  height: 4.5rem;
+  max-height: 18rem;
   overflow-y: auto;
   padding: 0 0 1.25rem;
   scrollbar-width: thin;
@@ -3081,7 +3081,7 @@
   }
 
   .zen-main {
-    gap: 1rem;
+    gap: 0.5rem;
     padding-top: 1rem;
   }
 
@@ -3108,7 +3108,7 @@
   }
 
   .zen-verse {
-    height: 4.5rem;
+    max-height: 18rem;
   }
 
   .zen-transport-row {
