@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
-import audioLinksData from '../assets/gita_audio_links.json';
+import { getGeetanjaliAudioUrl } from '../lib/audioUrls';
 import '../App.css';
 
 const FloatingAudioPlayer = ({ 
@@ -31,25 +31,7 @@ const FloatingAudioPlayer = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Generate audio URL based on provided audio links
-  const getAudioUrl = (chapter, verse) => {
-    try {
-      if (!chapter || !verse) {
-        return null;
-      }
-      
-      const audioPath = audioLinksData[chapter.toString()]?.[verse.toString()];
-      if (audioPath) {
-        return `https://www.gitasupersite.iitk.ac.in/sites/default/files/audio/${audioPath}`;
-      }
-      return null;
-    } catch (error) {
-      console.error('Error getting audio URL:', error);
-      return null;
-    }
-  };
-
-  const currentAudioUrl = getAudioUrl(currentChapter, currentVerse);
+  const currentAudioUrl = getGeetanjaliAudioUrl(currentChapter, currentVerse);
 
   useEffect(() => {
     const audio = audioRef.current;

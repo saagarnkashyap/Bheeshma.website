@@ -4,7 +4,6 @@ import gitaMetaData from '../assets/bhagavad_gita_meta_data.json';
 export const useGitaData = () => {
   const [gitaData, setGitaData] = useState(null);
   const [metaData, setMetaData] = useState(null);
-  const [audioLinks, setAudioLinks] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -13,14 +12,12 @@ export const useGitaData = () => {
 
     Promise.all([
       import('../assets/bhagavad_gita_complete.json'),
-      import('../assets/gita_audio_links.json'),
     ])
-      .then(([gitaDataModule, audioLinksModule]) => {
+      .then(([gitaDataModule]) => {
         if (!isActive) return;
 
         setGitaData(gitaDataModule.default);
         setMetaData(gitaMetaData);
-        setAudioLinks(audioLinksModule.default);
         setLoading(false);
       })
       .catch((err) => {
@@ -72,22 +69,15 @@ export const useGitaData = () => {
     }));
   };
 
-  const getChapterAudio = (chapterNumber) => {
-    if (!audioLinks) return null;
-    return audioLinks[`chapter_${chapterNumber}`] || null;
-  };
-
   return {
     gitaData,
     metaData,
-    audioLinks,
     loading,
     error,
     getChapterData,
     getShlokaData,
     getEmotionBasedVerses,
-    getAllEmotions,
-    getChapterAudio
+    getAllEmotions
   };
 };
 
