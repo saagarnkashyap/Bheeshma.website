@@ -193,23 +193,44 @@ function App() {
     setAudioShouldPlay(false);
   };
 
+  const navigateToAudioVerse = (chapter, verse) => {
+    if (currentView !== 'chapters') {
+      setCurrentView('chapters', chapter, verse);
+      return;
+    }
+
+    setPageDirection(chapter >= currentChapter ? 1 : -1);
+    setCurrentChapterState(chapter);
+    setCurrentVerseState(verse);
+    updateUrl('chapters', chapter, verse, chapter === currentChapter);
+  };
+
   const handleAudioNext = () => {
     const verseCount = getChapterVerseCount(audioCurrentChapter);
 
     if (audioCurrentVerse < verseCount) {
-      setAudioCurrentVerse(audioCurrentVerse + 1);
+      const nextVerse = audioCurrentVerse + 1;
+      setAudioCurrentVerse(nextVerse);
+      navigateToAudioVerse(audioCurrentChapter, nextVerse);
     } else if (audioCurrentChapter < 18) {
-      setAudioCurrentChapter(audioCurrentChapter + 1);
+      const nextChapter = audioCurrentChapter + 1;
+      setAudioCurrentChapter(nextChapter);
       setAudioCurrentVerse(1);
+      navigateToAudioVerse(nextChapter, 1);
     }
   };
 
   const handleAudioPrevious = () => {
     if (audioCurrentVerse > 1) {
-      setAudioCurrentVerse(audioCurrentVerse - 1);
+      const previousVerse = audioCurrentVerse - 1;
+      setAudioCurrentVerse(previousVerse);
+      navigateToAudioVerse(audioCurrentChapter, previousVerse);
     } else if (audioCurrentChapter > 1) {
-      setAudioCurrentChapter(audioCurrentChapter - 1);
-      setAudioCurrentVerse(getChapterVerseCount(audioCurrentChapter - 1));
+      const previousChapter = audioCurrentChapter - 1;
+      const previousVerse = getChapterVerseCount(previousChapter);
+      setAudioCurrentChapter(previousChapter);
+      setAudioCurrentVerse(previousVerse);
+      navigateToAudioVerse(previousChapter, previousVerse);
     }
   };
 
