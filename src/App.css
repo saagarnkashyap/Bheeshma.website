@@ -478,23 +478,47 @@
 }
 
 .audio-volume-slider {
-  width: 4.25rem;
+  position: relative;
+  z-index: 1;
+  width: 100%;
   height: 1.25rem;
   appearance: none;
   background: transparent;
   cursor: pointer;
 }
 
-.audio-volume-slider::-webkit-slider-runnable-track {
+.audio-volume-slider-control {
+  position: relative;
+  width: 4.25rem;
+  height: 1.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.audio-volume-track {
+  position: absolute;
+  right: 0;
+  left: 0;
   height: 0.25rem;
   border-radius: 999px;
-  background: var(--paper-deep);
+  background: var(--line);
+  pointer-events: none;
+}
+
+.audio-volume-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--saffron);
+}
+
+.audio-volume-slider::-webkit-slider-runnable-track {
+  height: 0.25rem;
+  background: transparent;
 }
 
 .audio-volume-slider::-moz-range-track {
   height: 0.25rem;
-  border-radius: 999px;
-  background: var(--paper-deep);
+  background: transparent;
 }
 
 .audio-volume-slider::-webkit-slider-thumb {
@@ -2664,6 +2688,10 @@
   }
 
   .audio-volume-slider {
+    width: 100%;
+  }
+
+  .audio-volume-slider-control {
     width: 7rem;
   }
 
@@ -2712,6 +2740,10 @@
   }
 
   .audio-volume-slider {
+    width: 100%;
+  }
+
+  .audio-volume-slider-control {
     width: 6.5rem;
   }
 }

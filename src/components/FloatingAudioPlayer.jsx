@@ -340,18 +340,26 @@ const FloatingAudioPlayer = ({
                     <Volume2 className="w-4 h-4" />
                   )}
                 </Button>
-                <input
-                  type="range"
-                  className="audio-volume-slider"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={isMuted ? 0 : volume}
-                  onChange={handleVolumeChange}
-                  aria-label="Volume level"
-                  aria-valuenow={Math.round((isMuted ? 0 : volume) * 100)}
-                  aria-valuetext={`${Math.round((isMuted ? 0 : volume) * 100)} percent`}
-                />
+                <div className="audio-volume-slider-control">
+                  <div className="audio-volume-track" aria-hidden="true">
+                    <div
+                      className="audio-volume-fill"
+                      style={{ width: `${(isMuted ? 0 : volume) * 100}%` }}
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    className="audio-volume-slider"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={isMuted ? 0 : volume}
+                    onChange={handleVolumeChange}
+                    aria-label="Volume level"
+                    aria-valuenow={Math.round((isMuted ? 0 : volume) * 100)}
+                    aria-valuetext={`${Math.round((isMuted ? 0 : volume) * 100)} percent`}
+                  />
+                </div>
               </div>
             </div>
 
