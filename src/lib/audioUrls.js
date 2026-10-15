@@ -1,5 +1,5 @@
-const GEETANJALI_AUDIO_BASE_URL =
-  'https://media.githubusercontent.com/media/geetanjaliapp/geetanjali/main/public/audio/mp3';
+const GITA_SUPERSITE_AUDIO_BASE_URL =
+  'https://www.gitasupersite.in/books/audio/bhagavad_gita';
 
 const VERSE_COUNTS = [
   0, 47, 72, 43, 42, 29, 47, 30, 28, 34,
@@ -7,10 +7,10 @@ const VERSE_COUNTS = [
 ];
 
 /**
- * Geetanjali publishes one Sanskrit MP3 per verse using the project's
- * chapter/verse numbering, for example BG_1_1.mp3 and BG_18_78.mp3.
+ * Gita Supersite publishes one Sanskrit MP3 per verse using the project's
+ * chapter/verse numbering, for example CHAP1/1-1.MP3 and CHAP18/18-78.MP3.
  */
-export const getGeetanjaliAudioUrl = (chapter, verse) => {
+export const getGitaSupersiteAudioUrl = (chapter, verse) => {
   const chapterNumber = Number(chapter);
   const verseNumber = Number(verse);
 
@@ -25,7 +25,17 @@ export const getGeetanjaliAudioUrl = (chapter, verse) => {
     return null;
   }
 
-  return `${GEETANJALI_AUDIO_BASE_URL}/${String(chapterNumber).padStart(2, '0')}/BG_${chapterNumber}_${verseNumber}.mp3`;
+  return `${GITA_SUPERSITE_AUDIO_BASE_URL}/CHAP${chapterNumber}/${chapterNumber}-${verseNumber}.MP3`;
 };
 
-export { GEETANJALI_AUDIO_BASE_URL };
+export const getChapterVerseCount = (chapter) => {
+  const chapterNumber = Number(chapter);
+
+  if (!Number.isInteger(chapterNumber) || chapterNumber < 1 || chapterNumber > 18) {
+    return 0;
+  }
+
+  return VERSE_COUNTS[chapterNumber];
+};
+
+export { GITA_SUPERSITE_AUDIO_BASE_URL };

@@ -11,6 +11,7 @@ import SeoMetadata from './components/SeoMetadata';
 import ThemeToggle from './components/ThemeToggle';
 import { getReadingProgress, saveReadingProgress } from './lib/readingProgress';
 import { getViewHref, getViewState } from './lib/viewUrls';
+import { getChapterVerseCount } from './lib/audioUrls';
 import chapterCatalog from './assets/bhagavad_gita_chapter_catalog.json';
 import krishnaArjunaChariot from './assets/images/krishna-arjuna-chariot.webp';
 import './App.css';
@@ -73,6 +74,7 @@ function App() {
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
   const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
+  const [audioShouldPlay, setAudioShouldPlay] = useState(false);
   const [theme, setTheme] = useState(() => {
     if (typeof window === 'undefined') return 'light';
 
@@ -172,6 +174,7 @@ function App() {
   const showAudioPlayer = (chapter, verse) => {
     setAudioCurrentChapter(chapter);
     setAudioCurrentVerse(verse);
+    setAudioShouldPlay(true);
     setAudioPlayerVisible(true);
   };
 
@@ -179,10 +182,13 @@ function App() {
     setAudioPlayerVisible(false);
     setAudioCurrentChapter(null);
     setAudioCurrentVerse(null);
+    setAudioShouldPlay(false);
   };
 
   const handleAudioNext = () => {
-    if (audioCurrentVerse < 47) {
+    const verseCount = getChapterVerseCount(audioCurrentChapter);
+
+    if (audioCurrentVerse < verseCount) {
       setAudioCurrentVerse(audioCurrentVerse + 1);
     } else if (audioCurrentChapter < 18) {
       setAudioCurrentChapter(audioCurrentChapter + 1);
@@ -195,7 +201,7 @@ function App() {
       setAudioCurrentVerse(audioCurrentVerse - 1);
     } else if (audioCurrentChapter > 1) {
       setAudioCurrentChapter(audioCurrentChapter - 1);
-      setAudioCurrentVerse(47);
+      setAudioCurrentVerse(getChapterVerseCount(audioCurrentChapter - 1));
     }
   };
 
@@ -270,7 +276,10 @@ function App() {
         currentVerse={currentVerse}
         chapterName={chapterName}
       />
-      <div className="study-edition divine-bg sacred-pattern relative min-h-screen" data-theme={theme}>
+      <div
+        className={`study-edition divine-bg sacred-pattern relative min-h-screen ${audioPlayerVisible ? 'audio-player-open' : ''}`}
+        data-theme={theme}
+      >
         {theme === 'dark' && (
           <div className="theme-atmosphere" aria-hidden="true">
             <span className="theme-atmosphere-orb theme-atmosphere-orb-red" />
@@ -392,6 +401,7 @@ function App() {
           onNext={handleAudioNext}
           onPrevious={handleAudioPrevious}
           onClose={hideAudioPlayer}
+          autoPlay={audioShouldPlay}
           isVisible={audioPlayerVisible}
         />
       </div>
