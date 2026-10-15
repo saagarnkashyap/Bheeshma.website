@@ -1,6 +1,6 @@
 export const SITE_URL = 'https://bheeshma.vercel.app/';
 
-const VIEW_IDS = new Set(['home', 'chapters', 'emotions', 'audio', 'chat', 'about', 'bookmarks']);
+const VIEW_IDS = new Set(['home', 'chapters', 'emotions', 'audio', 'chat', 'about', 'bookmarks', 'zen']);
 
 export const getViewHref = (view, chapter = 1, verse) => {
   if (view === 'home') return '/';
