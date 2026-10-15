@@ -236,8 +236,8 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
           </div>
 
           <div className="zen-player-title">
-            <p>BHAGAVAD GITA</p>
-            <span>{currentVerse.chapterName}</span>
+            <p className="zen-work-title">BHAGAVAD GITA</p>
+            <h1 className="zen-chapter-title">{currentVerse.chapterName}</h1>
           </div>
         </div>
 
