@@ -92,9 +92,10 @@ function App() {
 
     if (view !== 'home') {
       params.set('view', view);
-      if (view === 'chapters') {
+      if (view === 'chapters' || view === 'zen') {
         params.set('chapter', String(chapter));
-        if (verse > 1) params.set('verse', String(verse));
+        if (view === 'chapters' && verse > 1) params.set('verse', String(verse));
+        if (view === 'zen') params.set('verse', String(verse));
       }
     }
 
@@ -280,7 +281,13 @@ function App() {
         pageContent = <BookmarksView onViewChange={setCurrentView} />;
         break;
       case 'zen':
-        pageContent = <ZenMode onExit={() => setCurrentView('home')} />;
+        pageContent = (
+          <ZenMode
+            initialChapter={currentChapter}
+            initialVerse={currentVerse}
+            onExit={() => setCurrentView('home')}
+          />
+        );
         break;
       default:
         pageContent = (

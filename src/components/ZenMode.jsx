@@ -19,7 +19,7 @@ const getVerseQueue = (gitaData) => (
   }))) ?? []
 );
 
-const ZenMode = ({ onExit }) => {
+const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
   const { gitaData, loading, error } = useGitaData();
   const audioRef = useRef(null);
   const shouldContinueRef = useRef(true);
@@ -29,15 +29,37 @@ const ZenMode = ({ onExit }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [playbackError, setPlaybackError] = useState(null);
+  const [hasResolvedInitialVerse, setHasResolvedInitialVerse] = useState(false);
 
   const verses = useMemo(() => getVerseQueue(gitaData), [gitaData]);
   const currentVerse = verses[currentIndex] ?? null;
-  const currentAudioUrl = currentVerse
+  const currentAudioUrl = hasResolvedInitialVerse && currentVerse
     ? getGitaSupersiteAudioUrl(currentVerse.chapterNumber, currentVerse.verseNumber)
     : null;
   const progress = duration ? Math.min(100, (currentTime / duration) * 100) : 0;
   const isFirstVerse = currentIndex === 0;
   const isLastVerse = verses.length > 0 && currentIndex === verses.length - 1;
+
+  useEffect(() => {
+    if (!verses.length) return;
+
+    const requestedIndex = verses.findIndex((verse) => (
+      verse.chapterNumber === initialChapter && verse.verseNumber === initialVerse
+    ));
+
+    setCurrentIndex(requestedIndex >= 0 ? requestedIndex : 0);
+    setHasResolvedInitialVerse(true);
+  }, [initialChapter, initialVerse, verses]);
+
+  useEffect(() => {
+    if (!currentVerse) return;
+
+    const params = new URLSearchParams(window.location.search);
+    params.set('view', 'zen');
+    params.set('chapter', String(currentVerse.chapterNumber));
+    params.set('verse', String(currentVerse.verseNumber));
+    window.history.replaceState({}, '', `/?${params.toString()}`);
+  }, [currentVerse]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -149,7 +171,7 @@ const ZenMode = ({ onExit }) => {
     setCurrentTime(nextTime);
   };
 
-  if (loading) {
+  if (loading || !hasResolvedInitialVerse) {
     return (
       <div className="zen-mode zen-mode-state">
         <p className="zen-micro-label">ZEN MODE</p>
