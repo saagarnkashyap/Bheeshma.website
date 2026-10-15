@@ -217,14 +217,12 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
       <header className="zen-header">
         <div>
           <p className="zen-wordmark">BHEESHMA</p>
-          <p className="zen-micro-label">ZEN MODE</p>
+          <p className="zen-micro-label">ZEN MODE - BHAGAVAD GITA</p>
         </div>
         <button type="button" className="zen-text-button" onClick={onExit}>EXIT</button>
       </header>
 
       <main className="zen-main">
-        <p className="zen-work-title">BHAGAVAD GITA</p>
-
         <p className="sr-only" aria-live="polite">
           Now playing Chapter {currentVerse.chapterNumber}, Verse {currentVerse.verseNumber}.
         </p>
