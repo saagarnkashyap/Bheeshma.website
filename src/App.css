@@ -2844,11 +2844,17 @@
 .zen-text-button:focus-visible,
 .zen-button:hover,
 .zen-button:focus-visible,
-.zen-transport-button:hover:not(:disabled),
 .zen-play-button:hover,
 .zen-play-button:focus-visible {
   background: #000000;
   color: #ffffff;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .zen-transport-button:hover:not(:disabled) {
+    background: #000000;
+    color: #ffffff;
+  }
 }
 
 .zen-transport-button:active:not(:disabled) {
