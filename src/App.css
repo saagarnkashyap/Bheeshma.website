@@ -3071,28 +3071,28 @@
   }
 
   .zen-main {
-    padding-top: 0;
+    padding-top: 1rem;
   }
 
   .zen-now-playing {
-    padding-top: 0.6rem;
+    padding-top: 0.8rem;
   }
 
   .zen-player-title {
-    padding: 0.8rem 0 0.6rem;
+    padding: 1.6rem 0 1.1rem;
   }
 
   .zen-chapter-title {
-    margin-top: 0.35rem;
+    margin-top: 0.45rem;
   }
 
   .zen-sanskrit {
-    margin-top: 0.8rem;
+    margin-top: 1.1rem;
     line-height: 1.7;
   }
 
   .zen-transliteration {
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     line-height: 1.7;
   }
 
