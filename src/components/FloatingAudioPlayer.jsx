@@ -48,10 +48,6 @@ const FloatingAudioPlayer = ({
       setError(null);
     };
 
-    const handleTimeUpdate = () => {
-      setCurrentTime(audio.currentTime);
-    };
-
     const handleError = () => {
       setError('Failed to load audio');
       setIsLoading(false);
@@ -68,7 +64,6 @@ const FloatingAudioPlayer = ({
     const handleCanPlay = () => setIsLoading(false);
 
     audio.addEventListener('loadeddata', handleLoadedData);
-    audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('error', handleError);
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
@@ -77,7 +72,6 @@ const FloatingAudioPlayer = ({
 
     return () => {
       audio.removeEventListener('loadeddata', handleLoadedData);
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('error', handleError);
       audio.removeEventListener('play', handlePlay);
       audio.removeEventListener('pause', handlePause);
@@ -85,6 +79,21 @@ const FloatingAudioPlayer = ({
       audio.removeEventListener('canplay', handleCanPlay);
     };
   }, [currentAudioUrl]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !isPlaying) return undefined;
+
+    let animationFrameId;
+    const syncProgress = () => {
+      setCurrentTime(audio.currentTime);
+      animationFrameId = window.requestAnimationFrame(syncProgress);
+    };
+
+    animationFrameId = window.requestAnimationFrame(syncProgress);
+
+    return () => window.cancelAnimationFrame(animationFrameId);
+  }, [isPlaying]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -250,7 +259,7 @@ const FloatingAudioPlayer = ({
               <div className="audio-progress-control">
                 <div className="audio-progress-track w-full h-1 rounded-full" aria-hidden="true">
                   <div
-                    className="audio-progress-fill h-full rounded-full transition-all duration-300"
+                    className="audio-progress-fill h-full rounded-full"
                     style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
                   />
                 </div>
