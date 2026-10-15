@@ -3029,7 +3029,7 @@
 .zen-sanskrit {
   max-width: 48rem;
   margin: 1.5rem 0 0;
-  font-size: clamp(1.5rem, 4vw, 2.7rem);
+  font-size: clamp(1.125rem, 3vw, 2.025rem);
   line-height: 1.9;
   white-space: pre-line;
 }
@@ -3038,7 +3038,7 @@
   max-width: 46rem;
   margin: 1.6rem 0 0;
   color: #555555;
-  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  font-size: clamp(0.8rem, 1.7vw, 1rem);
   font-style: italic;
   line-height: 1.9;
 }
