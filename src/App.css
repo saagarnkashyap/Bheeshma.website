@@ -2852,6 +2852,12 @@
   color: #ffffff;
 }
 
+.zen-transport-button:active:not(:disabled) {
+  background: #000000;
+  color: #ffffff;
+  opacity: 0.6;
+}
+
 .zen-text-button:focus-visible,
 .zen-button:focus-visible,
 .zen-transport-button:focus-visible,
