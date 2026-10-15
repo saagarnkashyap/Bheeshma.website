@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
-import { getGeetanjaliAudioUrl } from '../lib/audioUrls';
+import { getGitaSupersiteAudioUrl } from '../lib/audioUrls';
 import '../App.css';
 
 const AudioPlayer = ({ 
@@ -37,7 +37,7 @@ const AudioPlayer = ({
   const [repeat, setRepeat] = useState(false);
   const [error, setError] = useState(null);
 
-  const currentAudioUrl = getGeetanjaliAudioUrl(currentChapter, currentVerse);
+  const currentAudioUrl = getGitaSupersiteAudioUrl(currentChapter, currentVerse);
 
   useEffect(() => {
     const audio = audioRef.current;
