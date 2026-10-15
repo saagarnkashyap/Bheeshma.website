@@ -289,22 +289,22 @@ const FloatingAudioPlayer = ({
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={handleNext}
-                className="audio-control h-8 w-8 p-0"
-                title="Next Verse"
-              >
-                <SkipForward className="w-4 h-4" />
-              </Button>
-
-              <Button
-                variant="ghost"
-                size="sm"
                 onClick={() => seekBy(5)}
                 className="audio-control h-8 w-8 p-0"
                 title="Forward 5 seconds"
                 aria-label="Forward 5 seconds"
               >
                 <RotateCw className="w-4 h-4" />
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleNext}
+                className="audio-control h-8 w-8 p-0"
+                title="Next Verse"
+              >
+                <SkipForward className="w-4 h-4" />
               </Button>
 
               <Button
