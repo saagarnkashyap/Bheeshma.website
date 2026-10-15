@@ -9,6 +9,7 @@ import DarkHomeView from './components/DarkHomeView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
 import ThemeToggle from './components/ThemeToggle';
+import ZenMode from './components/ZenMode';
 import { getReadingProgress, saveReadingProgress } from './lib/readingProgress';
 import { getViewHref, getViewState } from './lib/viewUrls';
 import { getChapterVerseCount } from './lib/audioUrls';
@@ -31,6 +32,7 @@ const NAV_ITEMS = [
   { id: 'chat', label: 'Assistant' },
   { id: 'about', label: 'About' },
   { id: 'bookmarks', label: 'Bookmarks' },
+  { id: 'zen', label: 'Zen' },
 ];
 
 const THEME_STORAGE_KEY = 'bheeshma-theme';
@@ -90,9 +92,10 @@ function App() {
 
     if (view !== 'home') {
       params.set('view', view);
-      if (view === 'chapters') {
+      if (view === 'chapters' || view === 'zen') {
         params.set('chapter', String(chapter));
-        if (verse > 1) params.set('verse', String(verse));
+        if (view === 'chapters' && verse > 1) params.set('verse', String(verse));
+        if (view === 'zen') params.set('verse', String(verse));
       }
     }
 
@@ -102,6 +105,12 @@ function App() {
 
   const setCurrentView = (view, chapter = currentChapter, verse = 1) => {
     setCurrentViewState(view);
+    if (view === 'zen') {
+      setAudioPlayerVisible(false);
+      setAudioCurrentChapter(null);
+      setAudioCurrentVerse(null);
+      setAudioShouldPlay(false);
+    }
     if (view === 'chapters') {
       setCurrentChapterState(chapter);
       setCurrentVerseState(verse);
@@ -271,6 +280,15 @@ function App() {
       case 'bookmarks':
         pageContent = <BookmarksView onViewChange={setCurrentView} />;
         break;
+      case 'zen':
+        pageContent = (
+          <ZenMode
+            initialChapter={currentChapter}
+            initialVerse={currentVerse}
+            onExit={() => setCurrentView('home')}
+          />
+        );
+        break;
       default:
         pageContent = (
           <HomeView
@@ -280,6 +298,8 @@ function App() {
           />
         );
     }
+
+    if (currentView === 'zen') return pageContent;
 
     return theme === 'dark' ? (
       <div className={`dark-template dark-template-${currentView}`}>
@@ -298,17 +318,17 @@ function App() {
         chapterName={chapterName}
       />
       <div
-        className={`study-edition divine-bg sacred-pattern relative min-h-screen ${audioPlayerVisible ? 'audio-player-open' : ''}`}
+        className={`study-edition divine-bg sacred-pattern relative min-h-screen ${audioPlayerVisible ? 'audio-player-open' : ''} ${currentView === 'zen' ? 'zen-edition' : ''}`}
         data-theme={theme}
       >
-        {theme === 'dark' && (
+        {currentView !== 'zen' && theme === 'dark' && (
           <div className="theme-atmosphere" aria-hidden="true">
             <span className="theme-atmosphere-orb theme-atmosphere-orb-red" />
             <span className="theme-atmosphere-orb theme-atmosphere-orb-blue" />
             <span className="theme-atmosphere-scanline" />
           </div>
         )}
-        {theme === 'dark' ? (
+        {currentView === 'zen' ? null : theme === 'dark' ? (
           <DarkEditionHeader
             navItems={NAV_ITEMS}
             currentView={currentView}
@@ -406,7 +426,7 @@ function App() {
           </AnimatePresence>
         </main>
 
-        <Motion.button
+        {currentView !== 'zen' && <Motion.button
           type="button"
           aria-label="Open assistant"
           onClick={() => setCurrentView('chat')}
@@ -414,9 +434,9 @@ function App() {
           whileTap={{ scale: 0.94 }}
         >
           Ask
-        </Motion.button>
+        </Motion.button>}
 
-        <FloatingAudioPlayer
+        {currentView !== 'zen' && <FloatingAudioPlayer
           currentChapter={audioCurrentChapter}
           currentVerse={audioCurrentVerse}
           onNext={handleAudioNext}
@@ -424,7 +444,7 @@ function App() {
           onClose={hideAudioPlayer}
           autoPlay={audioShouldPlay}
           isVisible={audioPlayerVisible}
-        />
+        />}
       </div>
     </Router>
   );

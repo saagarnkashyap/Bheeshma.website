@@ -1,14 +1,17 @@
 export const SITE_URL = 'https://bheeshma.vercel.app/';
 
-const VIEW_IDS = new Set(['home', 'chapters', 'emotions', 'audio', 'chat', 'about', 'bookmarks']);
+const VIEW_IDS = new Set(['home', 'chapters', 'emotions', 'audio', 'chat', 'about', 'bookmarks', 'zen']);
 
 export const getViewHref = (view, chapter = 1, verse) => {
   if (view === 'home') return '/';
 
   const params = new URLSearchParams({ view });
-  if (view === 'chapters') {
+  if (view === 'chapters' || view === 'zen') {
     params.set('chapter', String(chapter));
-    if (Number.isInteger(verse) && verse >= 1) params.set('verse', String(verse));
+    if (view === 'chapters' && Number.isInteger(verse) && verse >= 1) {
+      params.set('verse', String(verse));
+    }
+    if (view === 'zen') params.set('verse', String(verse ?? 1));
   }
 
   return `/?${params.toString()}`;
