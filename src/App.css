@@ -3061,10 +3061,11 @@
 }
 
 .zen-mode-state {
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 1rem;
   padding: 2rem;
+  text-align: center;
 }
 
 .zen-mode-state p {
