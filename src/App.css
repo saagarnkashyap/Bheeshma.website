@@ -3015,6 +3015,8 @@
 .zen-play-button {
   min-width: 10rem;
   padding: 0 1.25rem;
+  background: #000000;
+  color: #ffffff;
 }
 
 .zen-status {
