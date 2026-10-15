@@ -2762,7 +2762,20 @@
 .study-edition.zen-edition {
   min-height: 100vh;
   background: #ffffff;
+  background-image: none !important;
   color: #000000;
+  color-scheme: light;
+  isolation: isolate;
+}
+
+.study-edition.zen-edition::before,
+.study-edition.zen-edition::after {
+  display: none;
+  content: none;
+}
+
+.study-edition.zen-edition .sacred-pattern {
+  background-image: none !important;
 }
 
 .zen-mode {

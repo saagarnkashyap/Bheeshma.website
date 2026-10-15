@@ -23,6 +23,7 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
   const { gitaData, loading, error } = useGitaData();
   const audioRef = useRef(null);
   const shouldContinueRef = useRef(true);
+  const playbackGenerationRef = useRef(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -64,6 +65,7 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio || !currentAudioUrl) return undefined;
+    const playbackGeneration = ++playbackGenerationRef.current;
 
     const handleLoadedMetadata = () => setDuration(audio.duration);
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
@@ -110,8 +112,16 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
 
       try {
         await audio.play();
+        if (
+          playbackGenerationRef.current !== playbackGeneration
+          || audioRef.current !== audio
+        ) return;
         setIsPlaying(true);
       } catch {
+        if (
+          playbackGenerationRef.current !== playbackGeneration
+          || audioRef.current !== audio
+        ) return;
         setPlaybackError('Press play to begin the recitation.');
         setIsPlaying(false);
         setIsLoading(false);
@@ -131,6 +141,7 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
       audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('canplay', startPlayback);
       audio.pause();
+      playbackGenerationRef.current += 1;
     };
   }, [currentAudioUrl, currentIndex, verses.length]);
 
@@ -140,17 +151,27 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
 
     if (isPlaying) {
       shouldContinueRef.current = false;
+      playbackGenerationRef.current += 1;
       audio.pause();
       return;
     }
 
     shouldContinueRef.current = true;
+    const playbackGeneration = ++playbackGenerationRef.current;
     setIsLoading(true);
     setPlaybackError(null);
 
     try {
       await audio.play();
+      if (
+        playbackGenerationRef.current !== playbackGeneration
+        || audioRef.current !== audio
+      ) return;
     } catch {
+      if (
+        playbackGenerationRef.current !== playbackGeneration
+        || audioRef.current !== audio
+      ) return;
       setPlaybackError('Press play to begin the recitation.');
       setIsLoading(false);
     }
@@ -159,6 +180,7 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
   const goToVerse = (nextIndex) => {
     if (nextIndex < 0 || nextIndex >= verses.length) return;
     shouldContinueRef.current = true;
+    playbackGenerationRef.current += 1;
     setCurrentIndex(nextIndex);
   };
 
@@ -201,7 +223,7 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
       </header>
 
       <main className="zen-main">
-        <section className="zen-player" aria-label="Continuous Gita recitation">
+        <section className="zen-player" aria-label="Continuous Gita recitation" aria-busy={isLoading}>
           <div className="zen-player-header">
             <p className="zen-micro-label">NOW PLAYING</p>
             <p className="zen-counter">
@@ -238,7 +260,7 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
 
           <div className="zen-transport-row">
             <button type="button" className="zen-transport-button" onClick={() => goToVerse(currentIndex - 1)} disabled={isFirstVerse} aria-label="Previous verse">|&lt;</button>
-            <button type="button" className="zen-play-button" onClick={togglePlayback} aria-label={isPlaying ? 'Pause recitation' : 'Play recitation'}>
+            <button type="button" className="zen-play-button" onClick={togglePlayback} disabled={isLoading} aria-busy={isLoading} aria-label={isLoading ? 'Loading recitation' : isPlaying ? 'Pause recitation' : 'Play recitation'}>
               {isLoading ? 'LOADING' : isPlaying ? 'PAUSE' : 'PLAY'}
             </button>
             <button type="button" className="zen-transport-button" onClick={() => goToVerse(currentIndex + 1)} disabled={isLastVerse} aria-label="Next verse">&gt;|</button>
@@ -251,7 +273,11 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
           )}
         </section>
 
-        <article className="zen-verse" aria-live="polite">
+        <p className="sr-only" aria-live="polite">
+          Now playing Chapter {currentVerse.chapterNumber}, Verse {currentVerse.verseNumber}.
+        </p>
+
+        <article className="zen-verse">
           <p className="zen-verse-label">VERSE {currentVerse.chapterNumber}.{currentVerse.verseNumber}</p>
           <p className="zen-sanskrit font-sanskrit">{currentVerse.shloka.sanskrit_text}</p>
           <p className="zen-transliteration">{currentVerse.shloka.transliteration}</p>
@@ -263,7 +289,7 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
         <span>CONTINUOUS RECITATION</span>
       </footer>
 
-      <audio ref={audioRef} src={currentAudioUrl || undefined} preload="auto" />
+      <audio ref={audioRef} src={currentAudioUrl || undefined} preload="auto" aria-label="Gita recitation audio" />
     </div>
   );
 };

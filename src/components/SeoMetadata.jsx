@@ -43,6 +43,11 @@ const getMetadata = (view, chapterNumber, chapterName) => {
         title: 'Saved Bhagavad Gita Verses | Bheeshma',
         description: 'Return to your saved Bhagavad Gita verses and continue your personal reading journey.',
       };
+    case 'zen':
+      return {
+        title: 'Zen Recitation | Bhagavad Gita | Bheeshma',
+        description: 'Listen through the Bhagavad Gita in continuous Sanskrit recitation with Devanagari text and transliteration.',
+      };
     default:
       return DEFAULT_METADATA;
   }
