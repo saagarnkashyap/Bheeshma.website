@@ -52,13 +52,6 @@ const FloatingAudioPlayer = ({
       setCurrentTime(audio.currentTime);
     };
 
-    const handleEnded = () => {
-      setIsPlaying(false);
-      if (onNext) {
-        onNext();
-      }
-    };
-
     const handleError = () => {
       setError('Failed to load audio');
       setIsLoading(false);
@@ -76,7 +69,6 @@ const FloatingAudioPlayer = ({
 
     audio.addEventListener('loadeddata', handleLoadedData);
     audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('ended', handleEnded);
     audio.addEventListener('error', handleError);
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
@@ -86,14 +78,13 @@ const FloatingAudioPlayer = ({
     return () => {
       audio.removeEventListener('loadeddata', handleLoadedData);
       audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('error', handleError);
       audio.removeEventListener('play', handlePlay);
       audio.removeEventListener('pause', handlePause);
       audio.removeEventListener('waiting', handleWaiting);
       audio.removeEventListener('canplay', handleCanPlay);
     };
-  }, [currentAudioUrl, onNext]);
+  }, [currentAudioUrl]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -361,7 +352,7 @@ const FloatingAudioPlayer = ({
               </div>
             )}
 
-            <audio ref={audioRef} src={currentAudioUrl} preload="auto" />
+            <audio ref={audioRef} src={currentAudioUrl} preload="auto" loop />
           </CardContent>
         </Card>
       </Motion.div>
