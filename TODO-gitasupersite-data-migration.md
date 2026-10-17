@@ -125,4 +125,7 @@ At each milestone, record what changed, how it was verified, and any follow-up w
 - Validation passed for 18 chapters and 701 verses: all four scripts and all Purohit translations are present; 413 verses have all three Sanskrit commentaries available.
 - The old JSON remains intact and is no longer the active verse-data import path.
 - The changed feature files lint cleanly; the repository lint command now exits successfully with existing Fast Refresh warnings only.
-- Production build and runtime smoke checks remain to be completed.
+- Production build passed successfully.
+- Local preview smoke check returned HTTP 200 for the chapter-reader route.
+- ZenMode.jsx was not changed.
+- Migration implementation and verification are complete. Obsolete data cleanup remains intentionally deferred until explicit approval.
