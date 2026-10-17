@@ -137,12 +137,19 @@ def extract_field_text(field, chapter: int, verse: int, label: str | None = None
 
 
 def fetch_page(session: requests.Session, url: str, delay: float) -> BeautifulSoup:
-    response = session.get(url, timeout=45)
-    response.raise_for_status()
-    response.encoding = response.encoding or "utf-8"
-    if delay > 0:
-        time.sleep(delay)
-    return BeautifulSoup(response.content, "lxml")
+    last_error: Exception | None = None
+    for attempt in range(3):
+        try:
+            response = session.get(url, timeout=45)
+            response.raise_for_status()
+            response.encoding = response.encoding or "utf-8"
+            if delay > 0:
+                time.sleep(delay)
+            return BeautifulSoup(response.content, "lxml")
+        except requests.RequestException as error:
+            last_error = error
+            time.sleep(max(delay, 0.5) * (attempt + 1))
+    raise RuntimeError(f"Unable to fetch {url}: {last_error}")
 
 
 def scrape_verse(session: requests.Session, chapter: int, verse: int, delay: float) -> dict[str, Any]:
@@ -225,7 +232,9 @@ def fetch_all(raw_dir: Path, delay: float, chapter: int | None, verse: int | Non
         if output_path.exists():
             try:
                 existing = load_json(output_path)
-                if all(existing.get("scripts", {}).get(key) for key in SCRIPT_KEYS.values()):
+                has_scripts = all(existing.get("scripts", {}).get(key) for key in SCRIPT_KEYS.values())
+                has_content_keys = all(key in existing.get("translations", {}) for key in CONTENT_KEYS.values())
+                if has_scripts and has_content_keys:
                     completed += 1
                     continue
             except (OSError, json.JSONDecodeError):
