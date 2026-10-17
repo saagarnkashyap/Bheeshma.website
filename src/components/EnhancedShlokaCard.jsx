@@ -12,7 +12,6 @@ const EnhancedShlokaCard = ({
   isPlaying = false,
   verseNavigation,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
   const [selectedScript, setSelectedScript] = useState('devanagari');
   const [showCommentaries, setShowCommentaries] = useState(false);
   const [isBookmarkedState, setIsBookmarkedState] = useState(() => (
@@ -40,7 +39,7 @@ const EnhancedShlokaCard = ({
 
   const scriptOptions = [
     { key: 'devanagari', label: 'Devanagari' },
-    { key: 'roman', label: 'Roman' },
+    { key: 'roman', label: 'English transliteration' },
     { key: 'kannada', label: 'Kannada' },
     { key: 'telugu', label: 'Telugu' },
   ].filter(({ key }) => shloka.scripts?.[key] || (key === 'devanagari' && shloka.sanskrit_text) || (key === 'roman' && shloka.transliteration));
@@ -187,7 +186,7 @@ const EnhancedShlokaCard = ({
       <div className="shloka-section">
         <div className="shloka-section-heading">
           <BookOpen className="h-4 w-4" />
-          <span>Purohit Swami translation</span>
+          <span>Translation</span>
         </div>
         <p className="text-base leading-8 text-cosmic-blue">{translationText}</p>
       </div>
@@ -229,7 +228,7 @@ const EnhancedShlokaCard = ({
         </div>
       )}
 
-      {shloka.life_application && (
+      {/* {shloka.life_application && (
         <div className="shloka-section">
           <button
             type="button"
@@ -255,7 +254,7 @@ const EnhancedShlokaCard = ({
             )}
           </AnimatePresence>
         </div>
-      )}
+      )} */}
 
       {(shloka.keywords?.length > 0 || shloka.addresses_problems?.length > 0) && (
         <footer className="shloka-tags-footer">
