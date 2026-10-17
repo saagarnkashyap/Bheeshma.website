@@ -179,10 +179,12 @@ function App() {
   }, [currentChapter, currentVerse, currentView]);
 
   useEffect(() => {
+    if (currentView === 'zen') return;
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, [currentChapter, currentView]);
 
   useEffect(() => {
+    if (currentView === 'zen') return;
     mainContentRef.current?.focus({ preventScroll: true });
   }, [currentChapter, currentView]);
 
