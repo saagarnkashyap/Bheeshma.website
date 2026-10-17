@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -84,6 +84,10 @@ function App() {
   const shouldReduceMotion = useReducedMotion();
   const chapterName = chapterCatalog.find((chapter) => chapter.number === currentChapter)?.name;
   const mainContentRef = useRef(null);
+  const handleZenVerseChange = useCallback((chapter, verse) => {
+    setCurrentChapterState(chapter);
+    setCurrentVerseState(verse);
+  }, []);
 
   const updateUrl = (view, chapter = currentChapter, verse = currentVerse, replace = false) => {
     const params = new URLSearchParams();
@@ -282,6 +286,7 @@ function App() {
           <ZenMode
             initialChapter={currentChapter}
             initialVerse={currentVerse}
+            onVerseChange={handleZenVerseChange}
             onExit={() => setCurrentView('home')}
           />
         );

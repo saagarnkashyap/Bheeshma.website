@@ -19,7 +19,7 @@ const getVerseQueue = (gitaData) => (
   }))) ?? []
 );
 
-const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
+const ZenMode = ({ initialChapter = 1, initialVerse = 1, onVerseChange, onExit }) => {
   const { gitaData, loading, error } = useGitaData();
   const audioRef = useRef(null);
   const shouldContinueRef = useRef(true);
@@ -55,12 +55,14 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onExit }) => {
   useEffect(() => {
     if (!currentVerse) return;
 
+    onVerseChange?.(currentVerse.chapterNumber, currentVerse.verseNumber);
+
     const params = new URLSearchParams(window.location.search);
     params.set('view', 'zen');
     params.set('chapter', String(currentVerse.chapterNumber));
     params.set('verse', String(currentVerse.verseNumber));
     window.history.replaceState({}, '', `/?${params.toString()}`);
-  }, [currentVerse]);
+  }, [currentVerse, onVerseChange]);
 
   useEffect(() => {
     if (!currentVerse || typeof navigator === 'undefined' || !('mediaSession' in navigator)) return undefined;
