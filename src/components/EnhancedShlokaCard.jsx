@@ -45,7 +45,7 @@ const EnhancedShlokaCard = ({
     { key: 'telugu', label: 'Telugu' },
   ].filter(({ key }) => shloka.scripts?.[key] || (key === 'devanagari' && shloka.sanskrit_text) || (key === 'roman' && shloka.transliteration));
   const selectedScriptText = shloka.scripts?.[selectedScript]
-    || (selectedScript === 'devanagari' ? shloka.sanskrit_text : shloka.transliteration);
+    || (selectedScript === 'devanagari' ? shloka.sanskrit_text : selectedScript === 'roman' ? shloka.transliteration : null);
   const translationText = shloka.translation?.purohitSwami || shloka.meaning;
   const commentaries = shloka.commentaries || {};
   const hasCompleteCommentary = [
