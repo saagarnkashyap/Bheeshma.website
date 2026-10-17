@@ -88,6 +88,28 @@ Bheeshma is fully responsive and optimized for:
 
 ## Data Structure
 
+The Supersite migration uses a repeatable, build-time data workflow. It does not
+scrape the website at runtime and does not require a backend:
+
+```text
+IIT Kanpur Gita Supersite -> scripts/gitasupersite_data.py -> normalized JSON -> React app
+```
+
+Install the Python acquisition dependencies when refreshing the source data:
+
+```bash
+python -m pip install -r scripts/requirements.txt
+pnpm data:fetch
+pnpm data:normalize
+pnpm data:validate
+```
+
+The importer uses the legacy endpoint referenced by the project requirements,
+`https://old.gitasupersite.in`, and records source URLs and field mappings in
+the generated data. Raw acquisition files are resumable and ignored by Git.
+The existing `bhagavad_gita_complete.json` is intentionally preserved as a
+fallback/reference during the migration.
+
 The comprehensive JSON database:
 
 ```json

@@ -1361,6 +1361,47 @@
   text-align: center;
 }
 
+.shloka-language-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin: -1rem auto 2.25rem;
+  flex-wrap: wrap;
+}
+
+.shloka-language-label {
+  color: var(--ink-soft);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.shloka-language-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.shloka-language-button {
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--ink-soft);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  padding: 0.4rem 0.7rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.shloka-language-button:hover,
+.shloka-language-button.is-active {
+  border-color: rgba(154, 85, 67, 0.5);
+  background: rgba(154, 85, 67, 0.08);
+  color: var(--terracotta);
+}
+
 .shloka-text p,
 .audio-verse p,
 .audio-selection p,
@@ -1391,6 +1432,33 @@
 
 .shloka-toggle:hover {
   color: var(--saffron);
+}
+
+.shloka-commentaries {
+  display: grid;
+  gap: 1.25rem;
+  overflow: hidden;
+}
+
+.shloka-commentary {
+  border-left: 2px solid rgba(168, 111, 63, 0.35);
+  padding-left: 1rem;
+}
+
+.shloka-commentary h3 {
+  margin-bottom: 0.45rem;
+  color: var(--terracotta);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.shloka-commentary p {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.85;
+  white-space: pre-line;
 }
 
 .shloka-tags-footer {
@@ -2095,6 +2163,22 @@
 .study-edition[data-theme="dark"] .shloka-tag {
   border-color: rgba(228, 174, 66, 0.42);
   background: rgba(228, 174, 66, 0.06);
+}
+
+.study-edition[data-theme="dark"] .shloka-language-button {
+  border-color: rgba(228, 174, 66, 0.32);
+  color: var(--ink-soft);
+}
+
+.study-edition[data-theme="dark"] .shloka-language-button:hover,
+.study-edition[data-theme="dark"] .shloka-language-button.is-active {
+  border-color: rgba(228, 174, 66, 0.65);
+  background: rgba(228, 174, 66, 0.1);
+  color: var(--saffron-light);
+}
+
+.study-edition[data-theme="dark"] .shloka-commentary {
+  border-left-color: rgba(228, 174, 66, 0.42);
 }
 
 .study-edition[data-theme="dark"] .search-field input::placeholder {

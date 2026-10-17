@@ -11,7 +11,7 @@ export const useGitaData = () => {
     let isActive = true;
 
     Promise.all([
-      import('../assets/bhagavad_gita_complete.json'),
+      import('../assets/bhagavad_gita_supersite.json'),
     ])
       .then(([gitaDataModule]) => {
         if (!isActive) return;

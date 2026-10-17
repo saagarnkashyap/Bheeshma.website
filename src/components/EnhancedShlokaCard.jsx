@@ -13,6 +13,8 @@ const EnhancedShlokaCard = ({
   verseNavigation,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedScript, setSelectedScript] = useState('devanagari');
+  const [showCommentaries, setShowCommentaries] = useState(false);
   const [isBookmarkedState, setIsBookmarkedState] = useState(() => (
     shloka ? isBookmarked(chapterNumber, shloka.shloka_number) : false
   ));
@@ -24,6 +26,7 @@ const EnhancedShlokaCard = ({
 
     setIsBookmarkedState(isBookmarked(chapterNumber, shlokaNumber));
     setShareStatus('idle');
+    setShowCommentaries(false);
   }, [chapterNumber, shlokaNumber]);
 
   useEffect(() => {
@@ -35,6 +38,22 @@ const EnhancedShlokaCard = ({
 
   if (!shloka) return null;
 
+  const scriptOptions = [
+    { key: 'devanagari', label: 'Devanagari' },
+    { key: 'roman', label: 'Roman' },
+    { key: 'kannada', label: 'Kannada' },
+    { key: 'telugu', label: 'Telugu' },
+  ].filter(({ key }) => shloka.scripts?.[key] || (key === 'devanagari' && shloka.sanskrit_text) || (key === 'roman' && shloka.transliteration));
+  const selectedScriptText = shloka.scripts?.[selectedScript]
+    || (selectedScript === 'devanagari' ? shloka.sanskrit_text : selectedScript === 'roman' ? shloka.transliteration : null);
+  const translationText = shloka.translation?.purohitSwami || shloka.meaning;
+  const commentaries = shloka.commentaries || {};
+  const hasCompleteCommentary = [
+    commentaries.shankaracharya,
+    commentaries.madhvacharya,
+    commentaries.ramanujacharya,
+  ].every(Boolean);
+
   const handleBookmark = () => {
     setIsBookmarkedState(toggleBookmark(chapterNumber, shloka.shloka_number));
   };
@@ -44,7 +63,7 @@ const EnhancedShlokaCard = ({
       getViewHref('chapters', chapterNumber, shloka.shloka_number),
       window.location.origin,
     ).toString();
-    const shareText = `${shloka.sanskrit_text}\n\n"${shloka.meaning}"\n\n- Bhagavad Gita ${chapterNumber}.${shloka.shloka_number}`;
+    const shareText = `${selectedScriptText}\n\n"${translationText}"\n\n- Bhagavad Gita ${chapterNumber}.${shloka.shloka_number}`;
     const clipboardText = `${shareText}\n\n${shareUrl}`;
 
     setShareStatus('sharing');
@@ -142,19 +161,73 @@ const EnhancedShlokaCard = ({
       </header>
 
       <div className="shloka-text">
-        <p className="font-sanskrit text-2xl leading-[2.1] text-cosmic-blue sm:text-3xl">
-          {shloka.sanskrit_text}
+        {scriptOptions.length > 1 && (
+          <div className="shloka-language-switcher" aria-label="Verse script">
+            <span className="shloka-language-label">Script</span>
+            <div className="shloka-language-options" role="group">
+              {scriptOptions.map(({ key, label }) => (
+                <button
+                  type="button"
+                  key={key}
+                  className={`shloka-language-button ${selectedScript === key ? 'is-active' : ''}`}
+                  onClick={() => setSelectedScript(key)}
+                  aria-pressed={selectedScript === key}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        <p className={`${selectedScript === 'devanagari' ? 'font-sanskrit' : 'font-body'} text-2xl leading-[2.1] text-cosmic-blue sm:text-3xl`}>
+          {selectedScriptText}
         </p>
-        <p className="mt-5 text-sm italic leading-7 text-soft-gold">{shloka.transliteration}</p>
       </div>
 
       <div className="shloka-section">
         <div className="shloka-section-heading">
           <BookOpen className="h-4 w-4" />
-          <span>Meaning</span>
+          <span>Purohit Swami translation</span>
         </div>
-        <p className="text-base leading-8 text-cosmic-blue">{shloka.meaning}</p>
+        <p className="text-base leading-8 text-cosmic-blue">{translationText}</p>
       </div>
+
+      {hasCompleteCommentary && (
+        <div className="shloka-section shloka-commentary-section">
+          <button
+            type="button"
+            onClick={() => setShowCommentaries(!showCommentaries)}
+            className="shloka-toggle"
+            aria-expanded={showCommentaries}
+          >
+            <span>Sanskrit commentaries</span>
+            {showCommentaries ? <span className="text-lg leading-none">−</span> : <Plus className="h-4 w-4" />}
+          </button>
+          <AnimatePresence initial={false}>
+            {showCommentaries && (
+              <Motion.div
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ opacity: 1, height: 'auto', marginTop: 14 }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                className="shloka-commentaries"
+              >
+                <div className="shloka-commentary">
+                  <h3>Shankaracharya</h3>
+                  <p>{commentaries.shankaracharya}</p>
+                </div>
+                <div className="shloka-commentary">
+                  <h3>Madhvacharya</h3>
+                  <p>{commentaries.madhvacharya}</p>
+                </div>
+                <div className="shloka-commentary">
+                  <h3>Ramanujacharya</h3>
+                  <p>{commentaries.ramanujacharya}</p>
+                </div>
+              </Motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      )}
 
       {shloka.life_application && (
         <div className="shloka-section">
