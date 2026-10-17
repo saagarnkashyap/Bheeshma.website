@@ -116,21 +116,6 @@ const FloatingAudioPlayer = ({
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio || !isPlaying) return undefined;
-
-    let animationFrameId;
-    const syncProgress = () => {
-      setCurrentTime(audio.currentTime);
-      animationFrameId = window.requestAnimationFrame(syncProgress);
-    };
-
-    animationFrameId = window.requestAnimationFrame(syncProgress);
-
-    return () => window.cancelAnimationFrame(animationFrameId);
-  }, [isPlaying]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
     if (!audio || !currentAudioUrl) return undefined;
 
     let cancelled = false;
