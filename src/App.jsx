@@ -87,6 +87,7 @@ function App() {
   const handleZenVerseChange = useCallback((chapter, verse) => {
     setCurrentChapterState(chapter);
     setCurrentVerseState(verse);
+    window.history.replaceState({}, '', getViewHref('zen', chapter, verse));
   }, []);
 
   const updateUrl = (view, chapter = currentChapter, verse = currentVerse, replace = false) => {

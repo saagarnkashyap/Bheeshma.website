@@ -52,17 +52,15 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onVerseChange, onExit }
     setHasResolvedInitialVerse(true);
   }, [initialChapter, initialVerse, verses]);
 
-  useEffect(() => {
-    if (!currentVerse) return;
+  const goToVerse = useCallback((nextIndex) => {
+    const nextVerse = verses[nextIndex];
+    if (!nextVerse) return;
 
-    onVerseChange?.(currentVerse.chapterNumber, currentVerse.verseNumber);
-
-    const params = new URLSearchParams(window.location.search);
-    params.set('view', 'zen');
-    params.set('chapter', String(currentVerse.chapterNumber));
-    params.set('verse', String(currentVerse.verseNumber));
-    window.history.replaceState({}, '', `/?${params.toString()}`);
-  }, [currentVerse, onVerseChange]);
+    shouldContinueRef.current = true;
+    playbackGenerationRef.current += 1;
+    setCurrentIndex(nextIndex);
+    onVerseChange?.(nextVerse.chapterNumber, nextVerse.verseNumber);
+  }, [onVerseChange, verses]);
 
   useEffect(() => {
     if (!currentVerse || typeof navigator === 'undefined' || !('mediaSession' in navigator)) return undefined;
@@ -104,7 +102,7 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onVerseChange, onExit }
         return;
       }
 
-      setCurrentIndex((index) => index + 1);
+      goToVerse(currentIndex + 1);
     };
 
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
@@ -159,7 +157,7 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onVerseChange, onExit }
       audio.pause();
       playbackGenerationRef.current += 1;
     };
-  }, [currentAudioUrl, currentIndex, verses.length]);
+  }, [currentAudioUrl, currentIndex, goToVerse, verses.length]);
 
   const togglePlayback = useCallback(async () => {
     const audio = audioRef.current;
@@ -192,13 +190,6 @@ const ZenMode = ({ initialChapter = 1, initialVerse = 1, onVerseChange, onExit }
       setIsLoading(false);
     }
   }, [isPlaying]);
-
-  const goToVerse = useCallback((nextIndex) => {
-    if (nextIndex < 0 || nextIndex >= verses.length) return;
-    shouldContinueRef.current = true;
-    playbackGenerationRef.current += 1;
-    setCurrentIndex(nextIndex);
-  }, [verses.length]);
 
   const handleSeek = useCallback((event) => {
     const audio = audioRef.current;
