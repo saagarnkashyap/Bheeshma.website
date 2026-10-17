@@ -74,8 +74,6 @@ function App() {
   const [pageDirection, setPageDirection] = useState(1);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
-  const [audioCurrentChapter, setAudioCurrentChapter] = useState(null);
-  const [audioCurrentVerse, setAudioCurrentVerse] = useState(null);
   const [audioShouldPlay, setAudioShouldPlay] = useState(false);
   const [theme, setTheme] = useState(() => {
     if (typeof window === 'undefined') return 'light';
@@ -107,13 +105,12 @@ function App() {
     setCurrentViewState(view);
     if (view === 'zen') {
       setAudioPlayerVisible(false);
-      setAudioCurrentChapter(null);
-      setAudioCurrentVerse(null);
       setAudioShouldPlay(false);
     }
     if (view === 'chapters') {
       setCurrentChapterState(chapter);
       setCurrentVerseState(verse);
+      if (audioPlayerVisible) setAudioShouldPlay(true);
     }
     updateUrl(view, chapter, verse);
   };
@@ -122,11 +119,13 @@ function App() {
     setPageDirection(chapter > currentChapter ? 1 : -1);
     setCurrentChapterState(chapter);
     setCurrentVerseState(1);
+    if (audioPlayerVisible) setAudioShouldPlay(true);
     if (currentView === 'chapters') updateUrl('chapters', chapter, 1);
   };
 
   const setCurrentVerse = (verse) => {
     setCurrentVerseState(verse);
+    if (audioPlayerVisible) setAudioShouldPlay(true);
     if (currentView === 'chapters') updateUrl('chapters', currentChapter, verse, true);
   };
 
@@ -139,11 +138,14 @@ function App() {
       setCurrentViewState(nextViewState.currentView);
       setCurrentChapterState(nextViewState.currentChapter);
       setCurrentVerseState(nextViewState.currentVerse);
+      if (audioPlayerVisible && nextViewState.currentView === 'chapters') {
+        setAudioShouldPlay(true);
+      }
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [currentChapter, currentView]);
+  }, [audioPlayerVisible, currentChapter, currentView]);
 
   useEffect(() => {
     const handleMenuKeyDown = (event) => {
@@ -181,16 +183,18 @@ function App() {
   }, [currentChapter, currentView]);
 
   const showAudioPlayer = (chapter, verse) => {
-    setAudioCurrentChapter(chapter);
-    setAudioCurrentVerse(verse);
+    setPageDirection(chapter >= currentChapter ? 1 : -1);
+    setCurrentChapterState(chapter);
+    setCurrentVerseState(verse);
     setAudioShouldPlay(true);
     setAudioPlayerVisible(true);
+    if (currentView === 'chapters') {
+      updateUrl('chapters', chapter, verse, chapter === currentChapter);
+    }
   };
 
   const hideAudioPlayer = () => {
     setAudioPlayerVisible(false);
-    setAudioCurrentChapter(null);
-    setAudioCurrentVerse(null);
     setAudioShouldPlay(false);
   };
 
@@ -203,34 +207,27 @@ function App() {
     setPageDirection(chapter >= currentChapter ? 1 : -1);
     setCurrentChapterState(chapter);
     setCurrentVerseState(verse);
+    setAudioShouldPlay(true);
     updateUrl('chapters', chapter, verse, chapter === currentChapter);
   };
 
   const handleAudioNext = () => {
-    const verseCount = getChapterVerseCount(audioCurrentChapter);
+    const verseCount = getChapterVerseCount(currentChapter);
 
-    if (audioCurrentVerse < verseCount) {
-      const nextVerse = audioCurrentVerse + 1;
-      setAudioCurrentVerse(nextVerse);
-      navigateToAudioVerse(audioCurrentChapter, nextVerse);
-    } else if (audioCurrentChapter < 18) {
-      const nextChapter = audioCurrentChapter + 1;
-      setAudioCurrentChapter(nextChapter);
-      setAudioCurrentVerse(1);
+    if (currentVerse < verseCount) {
+      navigateToAudioVerse(currentChapter, currentVerse + 1);
+    } else if (currentChapter < 18) {
+      const nextChapter = currentChapter + 1;
       navigateToAudioVerse(nextChapter, 1);
     }
   };
 
   const handleAudioPrevious = () => {
-    if (audioCurrentVerse > 1) {
-      const previousVerse = audioCurrentVerse - 1;
-      setAudioCurrentVerse(previousVerse);
-      navigateToAudioVerse(audioCurrentChapter, previousVerse);
-    } else if (audioCurrentChapter > 1) {
-      const previousChapter = audioCurrentChapter - 1;
+    if (currentVerse > 1) {
+      navigateToAudioVerse(currentChapter, currentVerse - 1);
+    } else if (currentChapter > 1) {
+      const previousChapter = currentChapter - 1;
       const previousVerse = getChapterVerseCount(previousChapter);
-      setAudioCurrentChapter(previousChapter);
-      setAudioCurrentVerse(previousVerse);
       navigateToAudioVerse(previousChapter, previousVerse);
     }
   };
@@ -437,8 +434,8 @@ function App() {
         </Motion.button>}
 
         {currentView !== 'zen' && <FloatingAudioPlayer
-          currentChapter={audioCurrentChapter}
-          currentVerse={audioCurrentVerse}
+          currentChapter={currentChapter}
+          currentVerse={currentVerse}
           onNext={handleAudioNext}
           onPrevious={handleAudioPrevious}
           onClose={hideAudioPlayer}

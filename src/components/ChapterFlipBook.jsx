@@ -57,6 +57,13 @@ const ChapterFlipBook = ({
   useEffect(() => {
     pendingChapterRef.current = null;
     isFlippingRef.current = false;
+
+    const pageFlip = bookRef.current?.pageFlip?.();
+    const expectedPageIndex = chapterNumber - 1;
+
+    if (pageFlip && pageFlip.getCurrentPageIndex() !== expectedPageIndex) {
+      pageFlip.turnToPage(expectedPageIndex);
+    }
   }, [chapterNumber]);
 
   const requestChapterChange = useCallback((nextChapter) => {
