@@ -43,8 +43,20 @@ const FloatingAudioPlayer = ({
     const audio = audioRef.current;
     if (!audio || !currentAudioUrl) return;
 
+    const syncDuration = () => {
+      const nextDuration = Number.isFinite(audio.duration) && audio.duration > 0
+        ? audio.duration
+        : 0;
+
+      setDuration(nextDuration);
+    };
+
+    const syncCurrentTime = () => {
+      setCurrentTime(Number.isFinite(audio.currentTime) ? audio.currentTime : 0);
+    };
+
     const handleLoadedData = () => {
-      setDuration(audio.duration);
+      syncDuration();
       setError(null);
     };
 
@@ -63,17 +75,27 @@ const FloatingAudioPlayer = ({
     const handleWaiting = () => setIsLoading(true);
     const handleCanPlay = () => setIsLoading(false);
 
+    audio.addEventListener('loadedmetadata', syncDuration);
+    audio.addEventListener('durationchange', syncDuration);
     audio.addEventListener('loadeddata', handleLoadedData);
+    audio.addEventListener('timeupdate', syncCurrentTime);
     audio.addEventListener('error', handleError);
     audio.addEventListener('play', handlePlay);
+    audio.addEventListener('playing', handlePlay);
     audio.addEventListener('pause', handlePause);
     audio.addEventListener('waiting', handleWaiting);
     audio.addEventListener('canplay', handleCanPlay);
+    syncDuration();
+    syncCurrentTime();
 
     return () => {
+      audio.removeEventListener('loadedmetadata', syncDuration);
+      audio.removeEventListener('durationchange', syncDuration);
       audio.removeEventListener('loadeddata', handleLoadedData);
+      audio.removeEventListener('timeupdate', syncCurrentTime);
       audio.removeEventListener('error', handleError);
       audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('playing', handlePlay);
       audio.removeEventListener('pause', handlePause);
       audio.removeEventListener('waiting', handleWaiting);
       audio.removeEventListener('canplay', handleCanPlay);
@@ -105,13 +127,10 @@ const FloatingAudioPlayer = ({
     setError(null);
     setIsPlaying(false);
     setIsLoading(autoPlay);
-    audio.pause();
-    audio.load();
-
-    if (!autoPlay) return undefined;
-
+    let started = false;
     const startPlayback = async () => {
-      if (cancelled) return;
+      if (cancelled || started) return;
+      started = true;
 
       try {
         await audio.play();
@@ -127,11 +146,17 @@ const FloatingAudioPlayer = ({
       }
     };
 
-    audio.addEventListener('canplay', startPlayback, { once: true });
+    if (autoPlay) audio.addEventListener('canplay', startPlayback, { once: true });
+    audio.pause();
+    audio.load();
+
+    if (autoPlay && audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      void startPlayback();
+    }
 
     return () => {
       cancelled = true;
-      audio.removeEventListener('canplay', startPlayback);
+      if (autoPlay) audio.removeEventListener('canplay', startPlayback);
       audio.pause();
     };
   }, [currentAudioUrl, autoPlay]);
@@ -260,7 +285,7 @@ const FloatingAudioPlayer = ({
                 <div className="audio-progress-track w-full h-1 rounded-full" aria-hidden="true">
                   <div
                     className="audio-progress-fill h-full rounded-full"
-                    style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                    style={{ width: `${duration ? Math.min(100, (currentTime / duration) * 100) : 0}%` }}
                   />
                 </div>
                 <input
