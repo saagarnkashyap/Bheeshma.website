@@ -179,7 +179,7 @@ const EnhancedShlokaCard = ({
             </div>
           </div>
         )}
-        <p className="font-sanskrit text-2xl leading-[2.1] text-cosmic-blue sm:text-3xl">
+        <p className={`${selectedScript === 'devanagari' ? 'font-sanskrit' : 'font-body'} text-2xl leading-[2.1] text-cosmic-blue sm:text-3xl`}>
           {selectedScriptText}
         </p>
       </div>
