@@ -43,10 +43,22 @@ const FloatingAudioPlayer = ({
     const audio = audioRef.current;
     if (!audio || !currentAudioUrl) return;
 
+    const getKnownDuration = () => {
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        return audio.duration;
+      }
+
+      const ranges = audio.seekable.length ? audio.seekable : audio.buffered;
+      if (ranges.length) {
+        const rangeEnd = ranges.end(ranges.length - 1);
+        if (Number.isFinite(rangeEnd) && rangeEnd > audio.currentTime) return rangeEnd;
+      }
+
+      return 0;
+    };
+
     const syncDuration = () => {
-      const nextDuration = Number.isFinite(audio.duration) && audio.duration > 0
-        ? audio.duration
-        : 0;
+      const nextDuration = getKnownDuration();
 
       setDuration(nextDuration);
     };
