@@ -41,6 +41,8 @@ The intended flow is:
 
 `Gita Supersite scraper/repository -> generated source data -> normalized Bheeshma data -> React frontend`
 
+The upstream scraper currently points at `www.gitasupersite.iitk.ac.in`, which redirects to a redesigned site whose HTML does not match its selectors. The legacy endpoint Saagar originally referenced, `https://old.gitasupersite.in`, still serves the expected HTML. The Bheeshma-specific importer should therefore use the legacy endpoint while retaining the GitHub repository as the documented scraper reference.
+
 Before publishing generated content, verify source attribution, licensing/redistribution constraints, completeness, and the actual availability of the requested fields.
 
 ## Repository and data safety rules
@@ -100,7 +102,7 @@ At each milestone, record what changed, how it was verified, and any follow-up w
 ## Acceptance criteria
 
 - Existing `bhagavad_gita_complete.json` remains intact during implementation.
-- The new source data covers all 18 chapters and 700 verses, or any gaps are identified and documented.
+- The new source data covers all 18 chapters and the source's explicit chapter-count contract, or any gaps are identified and documented. The current chapter counts sum to 701 even though the common summary is 700 verses; preserve and report that discrepancy rather than silently dropping a verse.
 - The requested four verse scripts are available where expected.
 - Purohit English translation is mapped correctly.
 - Each requested Sanskrit commentary is mapped independently and accurately.
@@ -113,7 +115,10 @@ At each milestone, record what changed, how it was verified, and any follow-up w
 ## Current status
 
 - Branch created: `feature/gitasupersite-data`
-- Source-of-truth TODO file: being added as the first implementation commit.
+- Source-of-truth TODO file: committed as the first implementation commit.
 - Existing JSON: preserved.
 - Backend: not planned for this migration.
-- Implementation: not started.
+- Acquisition/normalization script added: `scripts/gitasupersite_data.py`.
+- Source dependencies documented: `scripts/requirements.txt`.
+- Raw acquisition output is ignored under `data/gitasupersite-raw/`.
+- A one-verse live test succeeded against `old.gitasupersite.in`; the requested four scripts and Purohit/commentary fields were returned. Full acquisition and validation remain to be completed.

@@ -1,2 +1,4 @@
 node_modules
 dist/
+data/gitasupersite-raw/
+__pycache__/
