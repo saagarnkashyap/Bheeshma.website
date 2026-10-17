@@ -121,4 +121,8 @@ At each milestone, record what changed, how it was verified, and any follow-up w
 - Acquisition/normalization script added: `scripts/gitasupersite_data.py`.
 - Source dependencies documented: `scripts/requirements.txt`.
 - Raw acquisition output is ignored under `data/gitasupersite-raw/`.
-- A one-verse live test succeeded against `old.gitasupersite.in`; the requested four scripts and Purohit/commentary fields were returned. Full acquisition and validation remain to be completed.
+- Full acquisition completed into `src/assets/bhagavad_gita_supersite.json`.
+- Validation passed for 18 chapters and 701 verses: all four scripts and all Purohit translations are present; 413 verses have all three Sanskrit commentaries available.
+- The old JSON remains intact and is no longer the active verse-data import path.
+- The changed feature files lint cleanly; the repository lint command now exits successfully with existing Fast Refresh warnings only.
+- Production build and runtime smoke checks remain to be completed.
