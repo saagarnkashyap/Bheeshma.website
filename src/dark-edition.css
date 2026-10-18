@@ -825,7 +825,7 @@
   right: -1.4rem;
   bottom: -2rem;
   color: rgba(214, 170, 85, 0.08);
-  content: '01';
+  content: attr(data-card-number);
   font-family: "Arial Narrow", "Roboto Condensed", sans-serif;
   font-size: 8rem;
   font-weight: 900;
@@ -847,14 +847,43 @@
 }
 
 .dark-template-audio .audio-studio {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(15rem, 0.9fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
   border-radius: 0;
   border: 1px solid #76504a;
   background: #76504a;
 }
 
-.dark-template-audio .audio-panel {
+.dark-template-audio .audio-controls-panel {
   background: #131316;
+}
+
+.dark-template-audio .audio-select-label {
+  color: #b7ada0;
+}
+
+.dark-template-audio .audio-select-step {
+  color: #d93624;
+}
+
+.dark-template-audio .audio-select-control {
+  border-color: #76504a;
+  background: #1b1b1f;
+  color: #f3eee5;
+}
+
+.dark-template-audio .audio-select-control:hover,
+.dark-template-audio .audio-select-control:focus-visible {
+  border-color: #d6aa55;
+  background: #242328;
+  box-shadow: 0 0 0 3px rgba(214, 170, 85, 0.12);
+}
+
+.dark-template-audio .audio-select-chevron {
+  color: #d6aa55;
+}
+
+.dark-template-audio .audio-select-hint {
+  color: #81786f;
 }
 
 .dark-template-audio .audio-choice {
@@ -878,9 +907,23 @@
 .dark-template-audio .audio-selection {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 1.25rem;
   border-left: 3px solid #d93624;
   background: linear-gradient(145deg, #131316, #241217);
+}
+
+.dark-template-audio .audio-selection-reference-number {
+  color: #f3eee5;
+}
+
+.dark-template-audio .audio-selection-reference {
+  border-bottom-color: rgba(243, 238, 229, 0.18);
+}
+
+.dark-template-audio .audio-selection-reference-label,
+.dark-template-audio .audio-selection-chapter {
+  color: #b7ada0;
 }
 
 .dark-template-audio .audio-selection .text-paper\/65 {
@@ -909,28 +952,24 @@
   border-top-color: #d93624;
 }
 
-.dark-template-about .about-intro {
-  position: relative;
-  padding-bottom: 4rem;
-}
-
-.dark-template-about .about-intro::after {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  color: rgba(214, 170, 85, 0.12);
-  content: 'BH';
-  font-family: "Arial Narrow", "Roboto Condensed", sans-serif;
-  font-size: clamp(7rem, 20vw, 17rem);
-  font-weight: 900;
-  line-height: 0.7;
-  pointer-events: none;
-}
-
 .dark-template-about .about-section-label {
   color: #d93624;
   font-family: "Arial Narrow", "Roboto Condensed", sans-serif;
   font-weight: 800;
+}
+
+/* The dedication card uses paper tokens in light mode; remap them to readable
+   light-on-dark values here instead of letting --paper become near-black. */
+.study-edition[data-theme="dark"] .dark-template-about .about-dedication .text-paper {
+  color: #f3eee5;
+}
+
+.study-edition[data-theme="dark"] .dark-template-about .about-dedication [class~="text-paper/65"] {
+  color: #cec5ba;
+}
+
+.study-edition[data-theme="dark"] .dark-template-about .about-dedication [class~="text-paper/45"] {
+  color: #81786f;
 }
 
 .dark-template-about .about-feature-item,
@@ -1067,6 +1106,14 @@
 }
 
 @media (max-width: 900px) {
+  .dark-template-audio .audio-studio {
+    grid-template-columns: 1fr;
+  }
+
+  .dark-template-audio .audio-selection {
+    grid-column: auto;
+  }
+
   .dark-site-topbar {
     position: sticky;
     display: flex;
@@ -1406,7 +1453,6 @@
 
 .study-edition[data-theme="dark"] .dark-template-chapters .chapter-flip-page::before,
 .study-edition[data-theme="dark"] .dark-template-emotions .emotion-tile::after,
-.study-edition[data-theme="dark"] .dark-template-about .about-intro::after,
 .study-edition[data-theme="dark"] .dark-template-audio .audio-choice,
 .study-edition[data-theme="dark"] .dark-template-about .about-section-label {
   font-family: var(--font-body);
