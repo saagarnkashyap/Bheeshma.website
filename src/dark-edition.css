@@ -915,6 +915,20 @@
   font-weight: 800;
 }
 
+/* The dedication card uses paper tokens in light mode; remap them to readable
+   light-on-dark values here instead of letting --paper become near-black. */
+.study-edition[data-theme="dark"] .dark-template-about .about-dedication .text-paper {
+  color: #f3eee5;
+}
+
+.study-edition[data-theme="dark"] .dark-template-about .about-dedication [class~="text-paper/65"] {
+  color: #cec5ba;
+}
+
+.study-edition[data-theme="dark"] .dark-template-about .about-dedication [class~="text-paper/45"] {
+  color: #81786f;
+}
+
 .dark-template-about .about-feature-item,
 .dark-template-about .about-credit-item {
   border-top-color: #3a3434;
