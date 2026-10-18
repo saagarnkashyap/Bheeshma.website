@@ -2,6 +2,7 @@ import React, { forwardRef, useCallback, useEffect, useRef } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import { useReducedMotion } from 'framer-motion';
 import ChapterExplorer from './ChapterExplorer';
+import { useIsMobile } from '../hooks/use-mobile';
 import '../App.css';
 
 const TOTAL_CHAPTERS = 18;
@@ -53,6 +54,7 @@ const ChapterFlipBook = ({
   const bookShellRef = useRef(null);
   const gestureRef = useRef(null);
   const shouldReduceMotion = useReducedMotion();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     pendingChapterRef.current = null;
@@ -204,6 +206,21 @@ const ChapterFlipBook = ({
   }, [chapterNumber]);
 
   const pageChapters = Array.from({ length: TOTAL_CHAPTERS }, (_, index) => index + 1);
+
+  if (isMobile) {
+    return (
+      <div className="chapter-mobile-reader">
+        <ChapterExplorer
+          chapterNumber={chapterNumber}
+          initialVerse={initialVerse}
+          active
+          onChapterChange={onChapterChange}
+          onVerseChange={onVerseChange}
+          onPlayAudio={onPlayAudio}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
