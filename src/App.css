@@ -2845,6 +2845,91 @@
   }
 }
 
+@media (min-width: 641px) and (max-width: 1200px) {
+  .site-topbar {
+    position: relative;
+    min-height: 4.45rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .site-brand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .site-mobile-menu-toggle {
+    display: inline-flex;
+    width: 2.75rem;
+    margin-left: 0;
+  }
+
+  .theme-toggle {
+    width: 2.75rem;
+    min-height: 2.75rem;
+    margin-left: auto;
+    padding: 0;
+  }
+
+  .theme-toggle-label {
+    display: none;
+  }
+
+  .site-main-nav {
+    position: fixed;
+    top: 4.45rem;
+    left: 0;
+    z-index: 32;
+    display: flex;
+    width: min(18rem, 86vw);
+    height: calc(100dvh - 4.45rem);
+    max-height: none;
+    margin: 0;
+    overflow-y: auto;
+    padding: 1.1rem;
+    border-top: 0;
+    border-bottom: 0;
+    border-right: 1px solid var(--line-strong);
+    background: var(--paper);
+    box-shadow: 1rem 0 3rem rgba(59, 28, 14, 0.14);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.3rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s ease, opacity 0.2s ease, visibility 0.3s ease;
+  }
+
+  .site-main-nav-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .site-mobile-nav-backdrop {
+    position: fixed;
+    inset: 4.45rem 0 0;
+    z-index: 31;
+    display: block;
+    width: 100%;
+    border: 0;
+    background: rgba(59, 28, 14, 0.2);
+    cursor: default;
+  }
+
+  .site-nav-link {
+    width: 100%;
+    justify-content: flex-start;
+    border-radius: 0.25rem;
+    padding: 0.7rem 0.8rem;
+  }
+}
+
 @media (max-width: 640px) {
   .site-topbar {
     position: relative;
