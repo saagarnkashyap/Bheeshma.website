@@ -2,6 +2,7 @@ import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from 
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import AssistantView from './components/AssistantView';
 import ChakraLoader from './components/ChakraLoader';
 import DarkAssistantView from './components/DarkAssistantView';
 import DarkEditionHeader from './components/DarkEditionHeader';
@@ -276,7 +277,7 @@ function App() {
         pageContent = <AudioView onPlayAudio={showAudioPlayer} />;
         break;
       case 'chat':
-        pageContent = theme === 'dark' ? <DarkAssistantView onViewChange={setCurrentView} /> : <ChatView />;
+        pageContent = theme === 'dark' ? <DarkAssistantView onViewChange={setCurrentView} /> : <AssistantView onViewChange={setCurrentView} />;
         break;
       case 'about':
         pageContent = <AboutView />;
@@ -548,20 +549,5 @@ const HomeView = ({ onViewChange, chapters, readingProgress }) => (
 );
 
 const EmotionsView = () => <EmotionSearch />;
-
-const ChatView = () => (
-  <div className="min-h-screen px-5 py-16 lg:px-10 xl:px-16">
-    <div className="mx-auto max-w-3xl">
-      <p className="section-kicker mb-4">Assistant</p>
-      <h2 className="font-heading text-4xl text-cosmic-blue">Ask about the text.</h2>
-      <div className="mt-8 max-w-2xl border-l border-golden-amber pl-6 sm:pl-8">
-        <p className="text-lg leading-8 text-soft-gold">
-          An assistant for questions about chapters, verses, and meanings. This feature is
-          currently being prepared.
-        </p>
-      </div>
-    </div>
-  </div>
-);
 
 export default App;

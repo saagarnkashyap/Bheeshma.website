@@ -2069,6 +2069,107 @@
   letter-spacing: -0.04em;
 }
 
+.assistant-page {
+  min-height: calc(100vh - 4.8rem);
+  padding: clamp(3rem, 8vw, 8rem) clamp(1.25rem, 8vw, 9rem);
+}
+
+.assistant-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.8fr);
+  gap: clamp(3rem, 8vw, 9rem);
+  width: min(100%, 78rem);
+  margin: 0 auto;
+}
+
+.assistant-header h1 {
+  margin-top: 1.2rem;
+  color: var(--ink);
+  font-family: var(--font-heading);
+  font-size: clamp(3.8rem, 8vw, 8rem);
+  font-weight: 800;
+  letter-spacing: -0.075em;
+  line-height: 0.86;
+}
+
+.assistant-header h1 span {
+  color: var(--terracotta);
+}
+
+.assistant-header > p:last-child {
+  max-width: 28rem;
+  margin-top: 2rem;
+  border-left: 1px solid var(--line-strong);
+  padding-left: 1rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.85;
+}
+
+.assistant-panel {
+  align-self: center;
+  border: 1px solid var(--line-strong);
+  border-top: 3px solid var(--terracotta);
+  background: rgba(255, 248, 223, 0.86);
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  box-shadow: 14px 14px 0 rgba(138, 63, 28, 0.12);
+}
+
+.assistant-symbol {
+  display: grid;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin-top: 4rem;
+  place-items: center;
+  border: 1px solid var(--terracotta);
+  color: var(--terracotta);
+  background: rgba(234, 208, 149, 0.35);
+}
+
+.assistant-panel h2 {
+  max-width: 14ch;
+  margin-top: 1.5rem;
+  color: var(--ink);
+  font-family: var(--font-heading);
+  font-size: clamp(1.9rem, 3vw, 3rem);
+  line-height: 0.98;
+}
+
+.assistant-panel > p {
+  margin-top: 1.2rem;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  line-height: 1.75;
+}
+
+.assistant-links {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 2rem;
+}
+
+.assistant-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.8rem;
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.assistant-links a svg:last-child {
+  margin-left: auto;
+  color: var(--terracotta);
+}
+
+.assistant-links a:hover {
+  color: var(--terracotta);
+}
+
 .assistant-launch {
   display: inline-flex;
   height: 2.5rem;
@@ -2699,6 +2800,20 @@
 
   .about-feature-grid {
     grid-template-columns: 1fr;
+  }
+
+  .assistant-page {
+    padding: 3rem 1.25rem 5rem;
+  }
+
+  .assistant-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .assistant-panel {
+    box-shadow: 8px 8px 0 rgba(138, 63, 28, 0.12);
   }
 }
 
