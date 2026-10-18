@@ -847,14 +847,43 @@
 }
 
 .dark-template-audio .audio-studio {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(15rem, 0.9fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
   border-radius: 0;
   border: 1px solid #76504a;
   background: #76504a;
 }
 
-.dark-template-audio .audio-panel {
+.dark-template-audio .audio-controls-panel {
   background: #131316;
+}
+
+.dark-template-audio .audio-select-label {
+  color: #b7ada0;
+}
+
+.dark-template-audio .audio-select-step {
+  color: #d93624;
+}
+
+.dark-template-audio .audio-select-control {
+  border-color: #76504a;
+  background: #1b1b1f;
+  color: #f3eee5;
+}
+
+.dark-template-audio .audio-select-control:hover,
+.dark-template-audio .audio-select-control:focus-visible {
+  border-color: #d6aa55;
+  background: #242328;
+  box-shadow: 0 0 0 3px rgba(214, 170, 85, 0.12);
+}
+
+.dark-template-audio .audio-select-chevron {
+  color: #d6aa55;
+}
+
+.dark-template-audio .audio-select-hint {
+  color: #81786f;
 }
 
 .dark-template-audio .audio-choice {
@@ -878,9 +907,23 @@
 .dark-template-audio .audio-selection {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 1.25rem;
   border-left: 3px solid #d93624;
   background: linear-gradient(145deg, #131316, #241217);
+}
+
+.dark-template-audio .audio-selection-reference-number {
+  color: #f3eee5;
+}
+
+.dark-template-audio .audio-selection-reference {
+  border-bottom-color: rgba(243, 238, 229, 0.18);
+}
+
+.dark-template-audio .audio-selection-reference-label,
+.dark-template-audio .audio-selection-chapter {
+  color: #b7ada0;
 }
 
 .dark-template-audio .audio-selection .text-paper\/65 {
@@ -1063,6 +1106,14 @@
 }
 
 @media (max-width: 900px) {
+  .dark-template-audio .audio-studio {
+    grid-template-columns: 1fr;
+  }
+
+  .dark-template-audio .audio-selection {
+    grid-column: auto;
+  }
+
   .dark-site-topbar {
     position: sticky;
     display: flex;

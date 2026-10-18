@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Headphones, Music, Play, Settings, Volume2 } from 'lucide-react';
+import { ChevronDown, Headphones, Music, Play, Settings, Volume2 } from 'lucide-react';
 import { motion as Motion } from 'framer-motion';
 import useGitaData from '../hooks/useGitaData';
 import '../App.css';
@@ -36,57 +36,80 @@ const AudioView = ({ onPlayAudio }) => {
         </header>
 
         <section className="audio-studio">
-          <div className="audio-panel">
-            <div className="mb-5 flex items-center gap-3">
+          <div className="audio-controls-panel">
+            <div className="audio-studio-intro">
               <span className="overview-icon"><Music className="h-4 w-4" /></span>
               <div>
-                <p className="text-sm font-semibold text-cosmic-blue">Choose a chapter</p>
-                <p className="mt-1 text-xs text-soft-gold">18 chapters of study</p>
+                <p className="text-sm font-semibold text-cosmic-blue">Find a passage</p>
+                <p className="mt-1 text-xs text-soft-gold">Choose a chapter, then a verse.</p>
               </div>
             </div>
-            <div className="audio-chapter-grid">
-              {Array.from({ length: 18 }, (_, index) => index + 1).map((chapter) => (
-                <button
-                  key={chapter}
-                  type="button"
-                  onClick={() => handleChapterChange(chapter)}
-                  className={`audio-choice ${selectedChapter === chapter ? 'audio-choice-active' : ''}`}
-                >
-                  {String(chapter).padStart(2, '0')}
-                </button>
-              ))}
-            </div>
-          </div>
 
-          <div className="audio-panel">
-            <div className="mb-5">
-              <p className="text-sm font-semibold text-cosmic-blue">Choose a verse</p>
-              <p className="mt-1 text-xs text-soft-gold">Chapter {selectedChapter}</p>
-            </div>
-            <div className="audio-verse-grid">
-              {chapterData?.shlokas?.map((shloka, index) => {
-                const verse = index + 1;
-                return (
-                  <button
-                    key={shloka.shloka_number}
-                    type="button"
-                    onClick={() => setSelectedVerse(verse)}
-                    className={`audio-choice ${selectedVerse === verse ? 'audio-choice-active' : ''}`}
+            <div className="audio-select-grid">
+              <label className="audio-select-field">
+                <span className="audio-select-label">
+                  <span className="audio-select-step">01</span>
+                  <span>Chapter</span>
+                </span>
+                <span className="audio-select-control-wrap">
+                  <select
+                    className="audio-select-control"
+                    value={selectedChapter}
+                    onChange={(event) => handleChapterChange(Number(event.target.value))}
+                    aria-label="Choose a chapter"
                   >
-                    {String(verse).padStart(2, '0')}
-                  </button>
-                );
-              })}
+                    {Array.from({ length: 18 }, (_, index) => index + 1).map((chapter) => {
+                      const optionChapter = getChapterData(chapter);
+                      return (
+                        <option key={chapter} value={chapter}>
+                          {String(chapter).padStart(2, '0')} · {optionChapter?.name || `Chapter ${chapter}`}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <ChevronDown className="audio-select-chevron" aria-hidden="true" />
+                </span>
+                <span className="audio-select-hint">{chapterData?.name}</span>
+              </label>
+
+              <label className="audio-select-field">
+                <span className="audio-select-label">
+                  <span className="audio-select-step">02</span>
+                  <span>Verse</span>
+                </span>
+                <span className="audio-select-control-wrap">
+                  <select
+                    className="audio-select-control"
+                    value={selectedVerse}
+                    onChange={(event) => setSelectedVerse(Number(event.target.value))}
+                    aria-label="Choose a verse"
+                  >
+                    {chapterData?.shlokas?.map((shloka, index) => {
+                      const verse = index + 1;
+                      return (
+                        <option key={shloka.shloka_number} value={verse}>
+                          {String(verse).padStart(2, '0')} · Verse {verse}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <ChevronDown className="audio-select-chevron" aria-hidden="true" />
+                </span>
+                <span className="audio-select-hint">{chapterData?.shlokas?.length || 0} verses available</span>
+              </label>
             </div>
           </div>
 
           <div className="audio-selection">
-            <p className="section-kicker mb-4">Ready to hear</p>
-            <p className="font-heading text-3xl text-paper">{selectedChapter}.{selectedVerse}</p>
-            <p className="mt-3 line-clamp-2 text-sm leading-6 text-paper/65">
+            <p className="section-kicker">Ready to hear</p>
+            <div className="audio-selection-reference">
+              <p className="audio-selection-reference-number">{String(selectedChapter).padStart(2, '0')}.{String(selectedVerse).padStart(2, '0')}</p>
+              <p className="audio-selection-reference-label">Selected passage</p>
+            </div>
+            <p className="audio-selection-chapter">
               {chapterData?.name || chapterData?.chapter_name}
             </p>
-            <button type="button" onClick={handlePlayVerse} className="audio-play-button mt-8">
+            <button type="button" onClick={handlePlayVerse} className="audio-play-button">
               <Play className="h-4 w-4 fill-current" />
               Play recitation
             </button>

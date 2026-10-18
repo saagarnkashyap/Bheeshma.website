@@ -1767,7 +1767,7 @@
 
 .audio-studio {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(13rem, 0.8fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
   gap: 1px;
   overflow: hidden;
   border: 1px solid var(--line-strong);
@@ -1776,51 +1776,139 @@
   box-shadow: 0 12px 30px rgba(67, 57, 44, 0.06);
 }
 
-.audio-panel {
+.audio-controls-panel {
   min-width: 0;
   background: rgba(255, 253, 248, 0.7);
   padding: 1.5rem;
 }
 
-.audio-chapter-grid,
-.audio-verse-grid {
+.audio-studio-intro {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.audio-select-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.4rem;
-  max-height: 15rem;
-  overflow-y: auto;
-  padding-right: 0.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
-.audio-verse-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+.audio-select-field {
+  display: grid;
+  gap: 0.6rem;
+  min-width: 0;
 }
 
-.audio-choice {
-  border: 1px solid var(--line);
-  border-radius: 0.35rem;
-  min-height: 2.75rem;
-  padding: 0.55rem 0.2rem;
+.audio-select-label {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
   color: var(--ink-soft);
-  font-family: "Inter", "Segoe UI", sans-serif;
-  font-size: 0.7rem;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-.audio-choice:hover,
-.audio-choice-active {
+.audio-select-step {
+  color: var(--terracotta);
+  font-variant-numeric: tabular-nums;
+}
+
+.audio-select-control-wrap {
+  position: relative;
+  display: block;
+}
+
+.audio-select-control {
+  width: 100%;
+  min-height: 3.5rem;
+  appearance: none;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 0.75rem 2.5rem 0.75rem 0.9rem;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 650;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.audio-select-control:hover,
+.audio-select-control:focus-visible {
   border-color: var(--saffron);
-  background: var(--saffron);
-  color: #fffaf1;
+  box-shadow: 0 0 0 3px rgba(185, 120, 24, 0.12);
+}
+
+.audio-select-chevron {
+  position: absolute;
+  top: 50%;
+  right: 0.85rem;
+  width: 1rem;
+  height: 1rem;
+  color: var(--terracotta);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.audio-select-hint {
+  min-height: 1.25rem;
+  overflow: hidden;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .audio-selection {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
   background: var(--ink);
   padding: 1.5rem;
 }
 
 .audio-selection .section-kicker {
   color: var(--saffron-light);
+}
+
+.audio-selection-reference {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(245, 229, 181, 0.22);
+  padding-bottom: 1rem;
+}
+
+.audio-selection-reference-number {
+  color: var(--paper);
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 750;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+}
+
+.audio-selection-reference-label,
+.audio-selection-chapter {
+  color: rgba(245, 229, 181, 0.68);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.audio-selection-chapter {
+  min-height: 2.25rem;
+  line-height: 1.6;
+  text-transform: none;
 }
 
 .audio-play-button {
@@ -2591,6 +2679,14 @@
     grid-template-columns: 1fr;
   }
 
+  .audio-select-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .audio-selection {
+    grid-column: auto;
+  }
+
   .about-feature-grid {
     grid-template-columns: 1fr;
   }
@@ -2616,11 +2712,11 @@
   }
 
   .audio-studio {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1.25fr) minmax(15rem, 0.75fr);
   }
 
   .audio-selection {
-    grid-column: 1 / -1;
+    grid-column: auto;
   }
 }
 
