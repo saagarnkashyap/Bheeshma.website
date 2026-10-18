@@ -2312,10 +2312,14 @@
 .study-edition[data-theme="dark"] .site-topbar,
 .study-edition[data-theme="dark"] .home-page,
 .study-edition[data-theme="dark"] .reading-shell,
-.study-edition[data-theme="dark"] .bookmarks-view,
-.study-edition[data-theme="dark"] .assistant-launch {
+.study-edition[data-theme="dark"] .bookmarks-view {
   position: relative;
   z-index: 1;
+}
+
+.study-edition[data-theme="dark"] .assistant-launch {
+  position: fixed;
+  z-index: 30;
 }
 
 .study-edition[data-theme="dark"] .audio-player-floating {
