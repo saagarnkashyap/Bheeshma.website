@@ -825,7 +825,7 @@
   right: -1.4rem;
   bottom: -2rem;
   color: rgba(214, 170, 85, 0.08);
-  content: '01';
+  content: attr(data-card-number);
   font-family: "Arial Narrow", "Roboto Condensed", sans-serif;
   font-size: 8rem;
   font-weight: 900;

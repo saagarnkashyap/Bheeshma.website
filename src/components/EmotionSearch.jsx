@@ -118,6 +118,7 @@ const EmotionSearch = () => {
                 key={emotion.key}
                 type="button"
                 className="emotion-tile text-left"
+                data-card-number={String(index + 1).padStart(2, '0')}
                 onClick={() => setSelectedEmotion(emotion)}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
