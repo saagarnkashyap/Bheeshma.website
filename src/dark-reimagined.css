@@ -64,23 +64,25 @@
 }
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-brand-name {
   color: var(--ink);
-  font-size: 1.05rem;
-  font-weight: 780;
-  letter-spacing: 0.09em;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.055em;
 }
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-brand-subtitle {
   margin-top: 0.33rem;
   color: var(--ink-soft);
-  font-size: 0.57rem;
-  letter-spacing: 0.12em;
+  font-size: 0.64rem;
+  font-weight: 560;
+  letter-spacing: 0.08em;
 }
+.study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-nav { gap: clamp(0.1rem, 0.55vw, 0.55rem); }
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-nav-link {
   border-radius: 99px;
-  padding: 0.68rem 0.82rem;
+  padding: 0.66rem 0.72rem;
   color: var(--ink-soft);
-  font-size: 0.72rem;
-  font-weight: 670;
-  letter-spacing: 0.015em;
+  font-size: 0.875rem;
+  font-weight: 550;
+  letter-spacing: 0;
   text-transform: none;
 }
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-nav-link:hover,
@@ -96,6 +98,11 @@
   border-radius: 99px;
   background: #122e37;
   color: var(--ink);
+}
+.study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-actions .theme-toggle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
 }
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-actions .theme-toggle:hover,
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-actions .theme-toggle[aria-pressed="true"] {
@@ -616,8 +623,8 @@
 }
 @media (max-width: 600px) {
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-topbar { padding-inline: 1rem; }
-  .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-brand-name { font-size: 0.9rem; }
-  .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-brand-subtitle { font-size: 0.48rem; }
+  .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-brand-name { font-size: 1rem; }
+  .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-brand-subtitle { font-size: 0.6rem; }
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-hero-grid { gap: 3rem; padding: 3rem 1.25rem 2rem; }
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-title { font-size: clamp(3.6rem, 17vw, 5.4rem); }
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-title span:last-child { margin-left: 1.4rem; }
