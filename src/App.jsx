@@ -6,6 +6,7 @@ import AssistantView from './components/AssistantView';
 import ChakraLoader from './components/ChakraLoader';
 import DarkAssistantView from './components/DarkAssistantView';
 import DarkEditionHeader from './components/DarkEditionHeader';
+import DarkHomeClassicView from './components/DarkHomeClassicView';
 import DarkHomeView from './components/DarkHomeView';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
@@ -19,6 +20,7 @@ import krishnaArjunaChariot from './assets/images/krishna-arjuna-chariot.webp';
 import './App.css';
 import './dark-edition.css';
 import './dark-reimagined.css';
+import './dark-compare.css';
 
 const ChapterFlipBook = lazy(() => import('./components/ChapterFlipBook'));
 const EmotionSearch = lazy(() => import('./components/EmotionSearch'));
@@ -38,6 +40,24 @@ const NAV_ITEMS = [
 ];
 
 const THEME_STORAGE_KEY = 'bheeshma-theme';
+const DARK_VERSION_STORAGE_KEY = 'bheeshma-dark-version';
+
+const readInitialAppearance = () => {
+  if (typeof window === 'undefined') return { theme: 'light', darkVersion: '2' };
+
+  const requestedVersion = new URLSearchParams(window.location.search).get('dark');
+  const storedVersion = window.localStorage.getItem(DARK_VERSION_STORAGE_KEY);
+  const darkVersion = requestedVersion === '1' || requestedVersion === '2'
+    ? requestedVersion
+    : storedVersion === '1' ? '1' : '2';
+
+  return {
+    theme: requestedVersion === '1' || requestedVersion === '2' || window.localStorage.getItem(THEME_STORAGE_KEY) === 'dark'
+      ? 'dark'
+      : 'light',
+    darkVersion,
+  };
+};
 
 const fadeVariants = {
   initial: { opacity: 0, y: 8 },
@@ -77,12 +97,14 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [audioShouldPlay, setAudioShouldPlay] = useState(false);
-  const [theme, setTheme] = useState(() => {
-    if (typeof window === 'undefined') return 'light';
-
-    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-    return savedTheme === 'dark' ? 'dark' : 'light';
-  });
+  const [appearance, setAppearance] = useState(readInitialAppearance);
+  const { theme, darkVersion } = appearance;
+  const isReimaginedDark = theme === 'dark' && darkVersion === '2';
+  const toggleTheme = () => setAppearance((current) => ({
+    ...current,
+    theme: current.theme === 'light' ? 'dark' : 'light',
+  }));
+  const selectDarkVersion = (version) => setAppearance({ theme: 'dark', darkVersion: version });
   const shouldReduceMotion = useReducedMotion();
   const chapterName = chapterCatalog.find((chapter) => chapter.number === currentChapter)?.name;
   const mainContentRef = useRef(null);
@@ -103,6 +125,8 @@ function App() {
         if (view === 'zen') params.set('verse', String(verse));
       }
     }
+
+    if (theme === 'dark') params.set('dark', darkVersion);
 
     const nextUrl = params.toString() ? `/?${params.toString()}` : '/';
     window.history[replace ? 'replaceState' : 'pushState']({}, '', nextUrl);
@@ -139,6 +163,10 @@ function App() {
   useEffect(() => {
     const handlePopState = () => {
       const nextViewState = getViewState();
+      const requestedVersion = new URLSearchParams(window.location.search).get('dark');
+      setAppearance((current) => requestedVersion === '1' || requestedVersion === '2'
+        ? { theme: 'dark', darkVersion: requestedVersion }
+        : { ...current, theme: 'light' });
       if (nextViewState.currentView === 'chapters' && currentView === 'chapters') {
         setPageDirection(nextViewState.currentChapter >= currentChapter ? 1 : -1);
       }
@@ -171,7 +199,16 @@ function App() {
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme;
     window.localStorage.setItem(THEME_STORAGE_KEY, theme);
-  }, [theme]);
+    window.localStorage.setItem(DARK_VERSION_STORAGE_KEY, darkVersion);
+
+    const url = new URL(window.location.href);
+    if (theme === 'dark') url.searchParams.set('dark', darkVersion);
+    else url.searchParams.delete('dark');
+    const nextUrl = `${url.pathname}${url.search}${url.hash}`;
+    if (nextUrl !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
+      window.history.replaceState(window.history.state, '', nextUrl);
+    }
+  }, [theme, darkVersion]);
 
   useEffect(() => {
     if (currentView !== 'chapters') return;
@@ -243,11 +280,12 @@ function App() {
 
   const renderMainContent = () => {
     let pageContent;
+    const DarkHomeComponent = isReimaginedDark ? DarkHomeView : DarkHomeClassicView;
 
     switch (currentView) {
       case 'home':
         pageContent = theme === 'dark' ? (
-          <DarkHomeView
+          <DarkHomeComponent
             onViewChange={setCurrentView}
             chapters={chapterCatalog}
             readingProgress={readingProgress}
@@ -265,7 +303,7 @@ function App() {
           <ChapterFlipBook
             chapterNumber={currentChapter}
             initialVerse={currentVerse}
-            darkEdition={theme === 'dark'}
+            darkEdition={isReimaginedDark}
             onChapterChange={setCurrentChapter}
             onVerseChange={setCurrentVerse}
             onPlayAudio={showAudioPlayer}
@@ -279,7 +317,7 @@ function App() {
         pageContent = <AudioView onPlayAudio={showAudioPlayer} />;
         break;
       case 'chat':
-        pageContent = theme === 'dark' ? <DarkAssistantView onViewChange={setCurrentView} /> : <AssistantView onViewChange={setCurrentView} />;
+        pageContent = theme === 'dark' ? <DarkAssistantView onViewChange={setCurrentView} darkVersion={darkVersion} /> : <AssistantView onViewChange={setCurrentView} />;
         break;
       case 'about':
         pageContent = <AboutView />;
@@ -328,6 +366,7 @@ function App() {
       <div
         className={`study-edition divine-bg sacred-pattern relative min-h-screen ${audioPlayerVisible ? 'audio-player-open' : ''} ${currentView === 'zen' ? 'zen-edition' : ''}`}
         data-theme={theme}
+        data-dark-version={theme === 'dark' ? darkVersion : undefined}
       >
         {currentView !== 'zen' && theme === 'dark' && (
           <div className="theme-atmosphere" aria-hidden="true">
@@ -346,7 +385,9 @@ function App() {
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
             theme={theme}
-            onToggleTheme={() => setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light')}
+            darkVersion={darkVersion}
+            onSelectDarkVersion={selectDarkVersion}
+            onToggleTheme={toggleTheme}
           />
         ) : (
         <header className="site-topbar">
@@ -395,7 +436,7 @@ function App() {
           </nav>
           <ThemeToggle
             theme={theme}
-            onToggle={() => setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light')}
+            onToggle={toggleTheme}
           />
           {isMenuOpen && (
             <button
@@ -434,9 +475,9 @@ function App() {
           </AnimatePresence>
         </main>
 
-        {currentView !== 'zen' && !(theme === 'dark' && currentView === 'chat') && <Motion.button
+        {currentView !== 'zen' && !(isReimaginedDark && currentView === 'chat') && <Motion.button
           type="button"
-          aria-label={theme === 'dark' ? 'Ask, open assistant' : 'Open assistant'}
+          aria-label={isReimaginedDark ? 'Ask, open assistant' : 'Open assistant'}
           onClick={() => setCurrentView('chat')}
           className={`assistant-launch fixed right-6 z-30 ${audioPlayerVisible ? 'assistant-launch-with-player' : ''}`}
           whileTap={{ scale: 0.94 }}
