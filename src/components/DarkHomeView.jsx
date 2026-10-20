@@ -56,7 +56,7 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
           <div className="dark-home-art-frame">
             <img src={krishnaArtwork} width="736" height="736" fetchPriority="high" alt="Contemporary blue and gold illustration of Krishna" />
           </div>
-          <figcaption>Art / Krishna in blue and gold <span>01 — 18</span></figcaption>
+          <figcaption><span>01 — 18</span></figcaption>
         </figure>
       </div>
       <div className="dark-home-hero-footer" aria-hidden="true"><span>18 chapters · Read at your pace</span><MoveDownRight size={18} /><span>Scroll to explore</span></div>
