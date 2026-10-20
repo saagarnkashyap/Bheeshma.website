@@ -1,9 +1,10 @@
 import React from 'react';
-import { ArrowRight, Circle } from 'lucide-react';
+import { ArrowRight, MoveDownRight } from 'lucide-react';
 import { motion as Motion } from 'framer-motion';
 import { getViewHref } from '../lib/viewUrls';
-import krishnaArjunaChariot from '../assets/images/krishna-arjuna-chariot.webp';
 import '../App.css';
+
+const krishnaArtwork = '/other%20pics/dark%20theme/840377761_1084744031133592_1741248250194744511_n.jpg';
 
 const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
   <div className="dark-home-page">
@@ -15,17 +16,14 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
     >
       <div className="dark-home-hero-grid">
         <div className="dark-home-copy">
-          <p className="dark-home-kicker">Bhagavad Gita / Study edition</p>
+          <p className="dark-home-kicker"><span className="dark-home-kicker-mark" aria-hidden="true" /> A study edition for right now</p>
           <h1 className="dark-home-title">
             <span>Bhagavad</span>
             <span>Gita</span>
           </h1>
-          <div className="dark-home-rule" aria-hidden="true"><span /> <Circle className="h-2 w-2 fill-current" /> <span /></div>
-          <p className="dark-home-sanskrit font-sanskrit">यत् भावो, तत् भवति</p>
-          <p className="dark-home-translation">You become what you believe.</p>
           <p className="dark-home-description">
-            A living study edition for the moment before action — read the verse, face the conflict,
-            and choose your dharma.
+            An ancient dialogue for the questions you carry today. Read a passage, hear its recitation,
+            and find room to reflect.
           </p>
           <div className="dark-home-actions">
             <a
@@ -36,7 +34,7 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
                 onViewChange('chapters');
               }}
             >
-              Enter the text
+              Start reading
               <ArrowRight className="h-4 w-4" />
             </a>
             {readingProgress && (
@@ -55,19 +53,22 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
         </div>
 
         <figure className="dark-home-art">
-          <div className="dark-home-art-frame" />
-          <img src={krishnaArjunaChariot} alt="Illustration of Krishna and Arjuna in the chariot" />
+          <div className="dark-home-art-frame">
+            <img src={krishnaArtwork} width="736" height="736" fetchPriority="high" alt="Contemporary blue and gold illustration of Krishna" />
+          </div>
+          <figcaption>Art / Krishna in blue and gold <span>01 — 18</span></figcaption>
         </figure>
       </div>
+      <div className="dark-home-hero-footer" aria-hidden="true"><span>18 chapters · 701 verses</span><MoveDownRight size={18} /><span>Scroll to explore</span></div>
     </Motion.section>
 
     <section className="dark-home-chapters">
       <div className="dark-home-section-heading">
         <div>
-          <p className="dark-home-kicker">The field of action</p>
-          <h2>Choose your chapter.</h2>
+          <p className="dark-home-kicker">The reading path / 01—18</p>
+          <h2>Explore the chapters<span>.</span></h2>
         </div>
-        <p>Sanskrit, transliteration, and English.</p>
+        <p>Every chapter opens the same text in Sanskrit, transliteration, and English.</p>
       </div>
       <div className="dark-home-chapter-grid">
         {chapters.map((chapter) => (
@@ -80,13 +81,15 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
               onViewChange('chapters', chapter.number);
             }}
           >
-            <span className="dark-home-chapter-number">{chapter.number}</span>
-            <span className="dark-home-chapter-name">{chapter.name.replace(/ Yoga$/, '')}</span>
+            <span className="dark-home-chapter-number">{String(chapter.number).padStart(2, '0')}</span>
+            <span className="dark-home-chapter-name">{chapter.name}</span>
+            <span className="dark-home-chapter-action">Read chapter</span>
             <ArrowRight className="h-4 w-4" />
           </a>
         ))}
       </div>
     </section>
+    <footer className="dark-home-footer"><span>Bheeshma / Bhagavad Gita study edition</span><span>Read · Reflect · Return</span></footer>
   </div>
 );
 

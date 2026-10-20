@@ -26,6 +26,7 @@ const DarkEditionHeader = ({
       <span className="dark-site-brand-mark" aria-hidden="true">ॐ</span>
       <span>
         <span className="dark-site-brand-name">Bheeshma</span>
+        <span className="dark-site-brand-subtitle">The Gita, in focus</span>
       </span>
     </a>
 
