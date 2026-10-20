@@ -303,15 +303,28 @@
   transform: translateY(-4px);
 }
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-chapter-number {
-  position: static;
-  color: var(--saffron-light);
-  font-size: 0.82rem;
-  font-weight: 750;
-  letter-spacing: 0.1em;
-  line-height: 1;
+  position: absolute;
+  right: -0.65rem;
+  bottom: -1.05rem;
+  z-index: 0;
+  color: rgba(255, 218, 160, 0.14);
+  font-family: var(--font-heading);
+  font-size: clamp(7.5rem, 11vw, 10.5rem);
+  font-weight: 800;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.095em;
+  line-height: 0.8;
+  pointer-events: none;
+  user-select: none;
+  transition: color 220ms ease, transform 220ms ease;
+}
+.study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-chapter-card:is(:hover, :focus-visible) .dark-home-chapter-number {
+  color: rgba(255, 218, 160, 0.21);
+  transform: translate(-0.25rem, -0.2rem);
 }
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-chapter-title-slot {
   position: relative;
+  z-index: 1;
   display: grid;
   align-items: end;
   min-height: 3.6rem;
@@ -378,6 +391,7 @@
   position: absolute;
   right: 1.3rem;
   bottom: 1.25rem;
+  z-index: 1;
   color: var(--saffron);
   transition: transform 220ms ease;
 }
@@ -617,6 +631,7 @@
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-section-heading h2 { font-size: clamp(2.6rem, 12vw, 4rem); }
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-chapter-grid { gap: 0.55rem; }
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-chapter-card { min-height: 12rem; padding: 1rem; }
+  .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-chapter-number { right: -0.45rem; bottom: -0.55rem; font-size: 6.5rem; }
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-chapter-name { font-size: 1.05rem; }
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-chapter-card > svg { right: 0.9rem; bottom: 0.95rem; }
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-footer { flex-direction: column; padding-inline: 1.25rem; }
@@ -629,4 +644,5 @@
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-art img { animation: none !important; }
   .study-edition[data-theme="dark"]:not(.zen-edition) :is(a, button) { transition-duration: 0.01ms !important; }
   .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-chapter-card :is(.dark-home-chapter-name, .dark-home-chapter-reveal, svg) { transition-duration: 0.01ms !important; }
+  .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-chapter-number { transition-duration: 0.01ms !important; }
 }
