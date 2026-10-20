@@ -434,7 +434,7 @@ function App() {
           </AnimatePresence>
         </main>
 
-        {currentView !== 'zen' && <Motion.button
+        {currentView !== 'zen' && !(theme === 'dark' && currentView === 'chat') && <Motion.button
           type="button"
           aria-label={theme === 'dark' ? 'Ask, open assistant' : 'Open assistant'}
           onClick={() => setCurrentView('chat')}
