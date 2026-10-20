@@ -13,15 +13,15 @@ const DarkAssistantView = ({ onViewChange }) => {
     <div className="dark-assistant-grid">
       <header className="dark-assistant-header">
         <p className="dark-home-kicker">The inner battlefield</p>
-        <h1>Ask the text<br /><span>what moves you.</span></h1>
+        <h1>A question can<br /><span>open a path.</span></h1>
         <p>
-          A guided space for questions about chapters, verses, and life.
+          Begin with a feeling, a question, or a passage you want to understand.
         </p>
       </header>
 
       <section className="dark-assistant-panel" aria-label="Assistant preparation notice">
         <div className="dark-assistant-symbol"><Brain className="h-12 w-12" /></div>
-        <h2>Start with the question beneath the question.</h2>
+        <h2>Explore while the assistant is being built.</h2>
         <p>
           Assistant coming soon. Until then, use Guidance to enter through a feeling or challenge.
         </p>

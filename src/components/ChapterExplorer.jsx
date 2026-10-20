@@ -8,6 +8,7 @@ import '../App.css';
 const ChapterExplorer = ({
   chapterNumber,
   initialVerse = 1,
+  darkEdition = false,
   active = true,
   onChapterChange,
   onVerseChange,
@@ -161,7 +162,7 @@ const ChapterExplorer = ({
                     onClick={goToPreviousChapter}
                     disabled={chapterNumber <= 1}
                     className="reading-nav-button"
-                    aria-label="Previous chapter"
+                    aria-label={darkEdition ? 'Prev, previous chapter' : 'Previous chapter'}
                     title="Previous chapter"
                   >
                     <ArrowLeft className="h-4 w-4" />

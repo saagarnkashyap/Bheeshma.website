@@ -265,6 +265,7 @@ function App() {
           <ChapterFlipBook
             chapterNumber={currentChapter}
             initialVerse={currentVerse}
+            darkEdition={theme === 'dark'}
             onChapterChange={setCurrentChapter}
             onVerseChange={setCurrentVerse}
             onPlayAudio={showAudioPlayer}
@@ -435,7 +436,7 @@ function App() {
 
         {currentView !== 'zen' && <Motion.button
           type="button"
-          aria-label="Open assistant"
+          aria-label={theme === 'dark' ? 'Ask, open assistant' : 'Open assistant'}
           onClick={() => setCurrentView('chat')}
           className={`assistant-launch fixed right-6 z-30 ${audioPlayerVisible ? 'assistant-launch-with-player' : ''}`}
           whileTap={{ scale: 0.94 }}

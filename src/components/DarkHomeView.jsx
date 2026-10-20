@@ -59,7 +59,7 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
           <figcaption>Art / Krishna in blue and gold <span>01 — 18</span></figcaption>
         </figure>
       </div>
-      <div className="dark-home-hero-footer" aria-hidden="true"><span>18 chapters · 701 verses</span><MoveDownRight size={18} /><span>Scroll to explore</span></div>
+      <div className="dark-home-hero-footer" aria-hidden="true"><span>18 chapters · Read at your pace</span><MoveDownRight size={18} /><span>Scroll to explore</span></div>
     </Motion.section>
 
     <section className="dark-home-chapters">

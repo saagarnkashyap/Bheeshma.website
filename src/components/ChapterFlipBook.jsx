@@ -44,6 +44,7 @@ FlipPage.displayName = 'FlipPage';
 const ChapterFlipBook = ({
   chapterNumber,
   initialVerse = 1,
+  darkEdition = false,
   onChapterChange,
   onVerseChange,
   onPlayAudio,
@@ -213,6 +214,7 @@ const ChapterFlipBook = ({
         <ChapterExplorer
           chapterNumber={chapterNumber}
           initialVerse={initialVerse}
+          darkEdition={darkEdition}
           active
           onChapterChange={onChapterChange}
           onVerseChange={onVerseChange}
@@ -265,6 +267,7 @@ const ChapterFlipBook = ({
             <ChapterExplorer
               chapterNumber={pageChapter}
               initialVerse={pageChapter === chapterNumber ? initialVerse : 1}
+              darkEdition={darkEdition}
               active={pageChapter === chapterNumber}
               onChapterChange={requestChapterChange}
               onVerseChange={pageChapter === chapterNumber ? onVerseChange : undefined}
