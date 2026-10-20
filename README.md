@@ -1,101 +1,58 @@
-# <img src="Bheeshma%20logo.png" alt="Bheeshma Logo" width="25" height="25"> Bheeshma - Divine Bhagavad Gita
+# Bheeshma — Bhagavad Gita study edition
 
-A modern, interactive React web application that brings the timeless wisdom of the Bhagavad Gita to the digital age. Named after the great warrior-sage Bhishma, this platform offers an immersive spiritual experience for exploring the 18 chapters and 700 verses of this sacred text.
 <p align="center">
-  <img src="Bheeshma%20logo.png" alt="Bheeshma Logo" width="150" height="150">
+  <img src="Bheeshma%20logo.png" alt="Bheeshma logo" width="140" height="140">
 </p>
 
-## Features
+Bheeshma is a React web app for reading and listening to the Bhagavad Gita. It has 18 chapters, chapter context, verse text in four scripts, an English translation, subject-based guidance, bookmarks, and Sanskrit recitation. The bundled reading dataset contains **701 verse records**.
 
-### Complete Sacred Text
-- All 18 chapters with 700 verses
-- Sanskrit text with accurate transliterations
-- English meanings and interpretations
-- Life applications for practical wisdom
+## What you can do
 
-### Emotion-Based Guidance
-- Search verses by emotions and life challenges
-- 20+ categories including Fear, Anger, Depression, Confusion
-- Personalized spiritual guidance for modern problems
-- Interactive emotion cards with verse recommendations
+| View | Experience |
+| --- | --- |
+| **Home** | Start reading from the chapter index or resume the last verse opened in the reader. The light and dark themes have different home layouts. |
+| **Chapters** | Read one verse at a time with chapter summaries and themes, chapter and verse navigation, a verse jump field, and left/right keyboard navigation. Larger screens use a page flip chapter reader; mobile uses a standard reader. |
+| **Guidance** | Browse 20 subjects, including fear, anger, loneliness, and seeking peace. Search filters subject names and descriptions; selecting a subject shows its mapped verses. |
+| **Audio** | Choose a chapter and verse, read its text and translation, and start its Sanskrit recitation in the floating player. The player stays available outside Zen mode, repeats the selected verse, and provides previous/next, seeking, and volume controls. |
+| **Assistant** | A coming-soon page with links to Guidance and Chapters. There is no working chat assistant yet. |
+| **About** | Read the project's purpose and source acknowledgments. |
+| **Bookmarks** | Revisit and remove verses saved in this browser. |
+| **Zen** | Follow the text in a focused, full-screen continuous recitation view. It shows the Sanskrit verse and transliteration, advances to the next verse when audio ends, and provides playback, seeking, and verse controls. |
 
-### Audio Experience
-- High-quality Sanskrit recitations from Gita Supersite
-- Full-featured audio player with controls
-- Chapter and verse navigation
-- Download audio for offline listening
+### Reading and appearance modes
 
-### Divine Aesthetics
-- Floating sacred particles and Om symbols
-- Chakra-themed color palette
-- Glass morphism effects and smooth animations
-- Responsive design for all devices
-- Custom Sanskrit typography
+- **Light and dark themes** change the site's appearance. The selected theme is saved in the browser and applies to the main views; each theme has its own Home and Assistant layout.
+- **Chapter reader** is the study view. It presents chapter context and a verse card with Devanagari, Roman transliteration, Kannada, and Telugu script options when available, plus the Purohit Swami English translation. A Sanskrit commentary section appears only when the Shankaracharya, Madhvacharya, and Ramanujacharya commentaries are all available for that verse.
+- **Zen mode** is a separate, minimal listening view. It plays verse recitations in sequence and has its own player. Its presentation is independent of the light/dark theme and it does not show the English translation or chapter study panels.
 
-### Interactive Features
-- Progress tracking with localStorage
-- Bookmarking favorite verses
-- Share verses on social media
-- Quick navigation between chapters
-- Expandable life application sections
+The chapter verse card can play audio, bookmark a verse, and share its text and direct link. Sharing uses the browser's share menu when available and otherwise copies the text and link. Chapter and Zen locations can be linked with URL parameters, for example `/?view=chapters&chapter=2&verse=47` and `/?view=zen&chapter=2&verse=47`.
 
-## Technology Stack
+Bookmarks, reading position, and theme preference use browser `localStorage`. They stay on the same browser and device; the app has no account sync. Audio is streamed from Gita Supersite, so listening requires access to that service.
 
-- **Frontend**: React 19 with Vite
-- **Styling**: TailwindCSS with custom divine theme
-- **Animations**: Framer Motion + AOS
-- **Icons**: Lucide React
-- **Audio**: HTML5 Audio API
-- **Data**: JSON-based verse database
-- **Deployment**: Vercel/Netlify ready
+Audio download and offline listening are not features of the current interface.
 
-## Quick Start
+## Where the data comes from
 
-### Prerequisites
-- Node.js 18+ 
-- pnpm (recommended) or npm
+The app loads checked-in JSON at runtime. It does not scrape Gita Supersite in the browser and does not need an application backend.
 
-### Installation
+| File or service | Role |
+| --- | --- |
+| [`src/assets/bhagavad_gita_supersite.json`](src/assets/bhagavad_gita_supersite.json) | Main reading dataset used by Chapters, Guidance, Audio, Bookmarks, and Zen. It contains 18 chapters, 701 verse records, and 20 predefined subject mappings. Verse records include source URLs. |
+| [IIT Kanpur Gita Supersite](https://old.gitasupersite.in/srimad) | Source fetched by `scripts/gitasupersite_data.py` for verse text in Devanagari, Roman, Kannada, and Telugu; the Purohit Swami English translation; and available Sanskrit commentaries by Shankaracharya, Madhvacharya, and Ramanujacharya. |
+| [`src/assets/bhagavad_gita_complete.json`](src/assets/bhagavad_gita_complete.json) | Older local dataset. The importer carries over chapter details, subject-to-verse mappings, and fields such as keywords, interpretations, and life applications. It is an input to normalization, **not** a runtime fallback. The repository does not document the original provenance of these added fields. |
+| [`src/assets/bhagavad_gita_meta_data.json`](src/assets/bhagavad_gita_meta_data.json) | Separate local chapter and topic metadata loaded by the data hook. |
+| [`src/assets/bhagavad_gita_chapter_catalog.json`](src/assets/bhagavad_gita_chapter_catalog.json) | Lightweight chapter names for the home page and navigation. |
+| [Gita Supersite audio](https://www.gitasupersite.in/books/audio/bhagavad_gita/) | Remote MP3 files used by the floating player and Zen mode. The app constructs URLs like `https://www.gitasupersite.in/books/audio/bhagavad_gita/CHAP2/2-47.MP3`. Audio files are not bundled with the app. |
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd bheeshma-divine
-   ```
+Guidance is based on the `problem_solutions_map` in the main JSON file. The search box filters the 20 subject cards by their names and descriptions; it does not search all verse text or calculate semantic relevance scores. Each subject's predefined references determine the verses shown.
 
-2. **Install dependencies**
-   ```bash
-   pnpm install
-   # or
-   npm install
-   ```
+The available subjects are anger, depression, confusion, dealing with envy, death of a loved one, feeling demotivated, feeling discriminated against, fear, feeling sinful, forgetfulness, greed, laziness, loneliness, losing hope, lust, practicing forgiveness, pride, seeking peace, temptation, and an uncontrolled mind.
 
-3. **Start development server**
-   ```bash
-   pnpm dev
-   # or
-   npm run dev
-   ```
+The main JSON also retains `life_application` and `interpretation` fields from the older dataset. The current verse card does not display a life application panel. Similarly, commentaries can be present in the data without appearing in the reader when the full set of three is unavailable.
 
-## Responsive Design
+### Refreshing the verse dataset
 
-Bheeshma is fully responsive and optimized for:
-- 📱 Mobile devices (375px+)
-- 📟 Tablets (768px+)
-- 💻 Laptops (1024px+)
-- 🖥️ Desktop (1440px+)
-
-
-## Data Structure
-
-The Supersite migration uses a repeatable, build-time data workflow. It does not
-scrape the website at runtime and does not require a backend:
-
-```text
-IIT Kanpur Gita Supersite -> scripts/gitasupersite_data.py -> normalized JSON -> React app
-```
-
-Install the Python acquisition dependencies when refreshing the source data:
+The importer fetches source pages into ignored, resumable files in `data/gitasupersite-raw/`, combines them with the older local dataset, and writes the app-facing JSON. Refreshing data is a development task; it is not required to run the checked-in app.
 
 ```bash
 python -m pip install -r scripts/requirements.txt
@@ -104,100 +61,28 @@ pnpm data:normalize
 pnpm data:validate
 ```
 
-The importer uses the legacy endpoint referenced by the project requirements,
-`https://old.gitasupersite.in`, and records source URLs and field mappings in
-the generated data. Raw acquisition files are resumable and ignored by Git.
-The existing `bhagavad_gita_complete.json` is intentionally preserved as a
-fallback/reference during the migration.
+`data:fetch` contacts the legacy Gita Supersite endpoint. `data:normalize` writes `src/assets/bhagavad_gita_supersite.json`. `data:validate` checks the generated dataset for all 18 chapters and required verse fields. The importer and its exact source-field mappings are in [`scripts/gitasupersite_data.py`](scripts/gitasupersite_data.py).
 
-The comprehensive JSON database:
+## Run locally
 
-```json
-{
-  "chapter_number": 1,
-  "chapter_name": "Arjuna Visada Yoga",
-  "shlokas": [
-    {
-      "shloka_number": 1,
-      "sanskrit_text": "धृतराष्ट्र उवाच...",
-      "transliteration": "dhṛtarāṣṭra uvāca...",
-      "meaning": "Dhritarashtra said...",
-      "life_application": "Practical wisdom...",
-      "keywords": ["dharma", "conflict"],
-      "addresses_problems": ["fear", "confusion"]
-    }
-  ]
-}
+Install Node.js and use pnpm (the repository pins pnpm 10) or npm. Python is needed only to refresh the dataset.
+
+```bash
+pnpm install
+pnpm dev
 ```
 
-## Audio Integration
+With npm, use `npm install` and `npm run dev`. Other available commands are `pnpm build` for a production build, `pnpm preview` to serve that build locally, and `pnpm lint` for ESLint.
 
-Audio recitations are sourced from the prestigious **Gita Supersite (IIT Kanpur)**:
-- URL Pattern: `https://www.gitasupersite.iitk.ac.in/srimad/sloka/audio/{chapter}/{chapter}_{verse}.mp3`
-- High-quality Sanskrit pronunciation
-- Chapter-wise organization
-- Graceful fallback for unavailable audio
+## Technology
 
-## Emotion-Based Search
+React 19 and Vite power the frontend. The interface uses Tailwind CSS, custom CSS, Framer Motion, Lucide icons, and `react-pageflip` for the larger-screen chapter reader. Playback uses the browser's HTML audio element.
 
-The application maps verses to human emotions and challenges:
+## License and contributions
 
-### Supported Emotions
-- **Negative**: Anger, Fear, Depression, Anxiety, Confusion, Doubt
-- **Challenges**: Death of loved one, Discrimination, Loneliness, Pride
-- **Positive**: Seeking peace, Practicing forgiveness, Spiritual growth
+This repository currently has no license file. If you want to contribute, open an issue or pull request in the project repository.
 
-### Search Algorithm
-1. Keywords extracted from verse content
-2. Semantic mapping to emotional categories  
-3. Relevance scoring based on context
-4. Filtered results with explanations
+## Contact
 
-
-## Contributing 🤝
-
-We welcome contributions to make Bheeshma even more divine! Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-
-## License 📄 
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Credits & Acknowledgments 🙏 
-
-### Data Sources
-- **Gita Supersite (IIT Kanpur)** - Sanskrit audio recitations and verse data
-- **Traditional Sanskrit Texts** - Authentic verses and translations
-
-### Inspiration
-This project is dedicated to Lord Krishna and all the great teachers who have preserved and shared the wisdom of the Bhagavad Gita throughout the ages.
-
-## Support 📞
-
-For questions, suggestions, or spiritual discussions:
-- Create an issue on GitHub
 - Email: saagarcourses@gmail.com
-- Linkedin: [[@saagarnkashyap](https://www.linkedin.com/in/saagar-n-kashyap/)]
-
----
-
-
-> *"You have the right to perform your actions, but never to the fruits of action"*  
-> — Bhagavad Gita 2.47
-
-This digital offering is created with devotion and offered freely to all seekers. May it serve as a bridge between ancient wisdom and modern hearts.
-
-**सर्वे भवन्तु सुखिनः सर्वे सन्तु निरामयाः**  
-*May all beings be happy, may all beings be free from illness*
-
----
-
-Made with Bhakti and Devotion towards Lord Krishna
-
-Sarva Loka Sukhino Bhavantu 🙏
+- LinkedIn: [Saagar N. Kashyap](https://www.linkedin.com/in/saagar-n-kashyap/)
