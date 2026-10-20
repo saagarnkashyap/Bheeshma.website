@@ -145,14 +145,6 @@
   letter-spacing: 0.1em;
 }
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-kicker::before { display: none; }
-.study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-kicker-mark {
-  display: inline-block;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  background: var(--saffron);
-  box-shadow: 0 0 0 5px rgba(238, 191, 120, 0.13);
-}
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-home-title {
   margin: 1.4rem 0 0;
   color: var(--ink);

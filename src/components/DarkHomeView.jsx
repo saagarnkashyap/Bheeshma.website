@@ -16,7 +16,7 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
     >
       <div className="dark-home-hero-grid">
         <div className="dark-home-copy">
-          <p className="dark-home-kicker"><span className="dark-home-kicker-mark" aria-hidden="true" /> A study edition for right now</p>
+          <p className="dark-home-kicker">A study edition for right now</p>
           <h1 className="dark-home-title">
             <span>Bhagavad</span>
             <span>Gita</span>
