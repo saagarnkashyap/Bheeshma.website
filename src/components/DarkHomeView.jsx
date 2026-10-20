@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, MoveDownRight } from 'lucide-react';
+import { ArrowRight, ChevronsRight, MoveDownRight } from 'lucide-react';
 import { motion as Motion } from 'framer-motion';
 import { getViewHref } from '../lib/viewUrls';
 import '../App.css';
@@ -82,9 +82,11 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
             }}
           >
             <span className="dark-home-chapter-number">{String(chapter.number).padStart(2, '0')}</span>
-            <span className="dark-home-chapter-name">{chapter.name}</span>
-            <span className="dark-home-chapter-action">Read chapter</span>
-            <ArrowRight className="h-4 w-4" />
+            <span className="dark-home-chapter-title-slot">
+              <span className="dark-home-chapter-name">{chapter.name}</span>
+              <span className="dark-home-chapter-reveal" aria-hidden="true">Read <ChevronsRight className="h-5 w-5" /></span>
+            </span>
+            <ArrowRight className="dark-home-chapter-arrow h-4 w-4" aria-hidden="true" />
           </a>
         ))}
       </div>
