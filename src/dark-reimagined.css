@@ -89,13 +89,6 @@
   background: #17333d;
   color: var(--ink);
 }
-.study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-nav-link-active::before {
-  width: 0.32rem;
-  height: 0.32rem;
-  border-radius: 50%;
-  background: var(--saffron);
-  content: '';
-}
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-actions .theme-toggle,
 .study-edition[data-theme="dark"]:not(.zen-edition) .dark-site-menu-toggle {
   min-height: 2.65rem;
