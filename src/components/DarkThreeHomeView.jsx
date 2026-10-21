@@ -7,7 +7,7 @@ const DarkThreeHomeView = ({ onViewChange, chapters, readingProgress }) => (
   <div className="dark-three-home">
     <section className="dark-three-hero">
       <div className="dark-three-hero-copy">
-        <div className="dark-three-hero-topline"><span>BHAGAVAD GITA / THE FIELD AFTER DUSK</span><span>01 — 18</span></div>
+        <div className="dark-three-hero-topline"><span>BHAGAVAD GITA</span><span>01 — 18</span></div>
         <p className="dark-three-eyebrow">A study edition for the moment before action</p>
         <h1><span>FACE THE</span><strong>QUESTION.</strong></h1>
         <p className="dark-three-hero-description">Eighteen chapters. A dialogue that stays with you. Read the text, hear each verse, and return when you need it.</p>
