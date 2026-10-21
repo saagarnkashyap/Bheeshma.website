@@ -18,25 +18,23 @@ const ChapterExplorer = ({
   const [currentShlokaIndex, setCurrentShlokaIndex] = useState(0);
   const [showChapterInfo, setShowChapterInfo] = useState(true);
   const [verseInput, setVerseInput] = useState('1');
-  const verseSectionRef = useRef(null);
+  const readingShellRef = useRef(null);
   const chapterData = getChapterData(chapterNumber);
   const totalShlokas = chapterData?.shlokas?.length ?? 0;
 
-  const goToVerse = useCallback((index, revealText = false) => {
+  const goToVerse = useCallback((index) => {
     const nextIndex = Math.min(Math.max(index, 0), Math.max(totalShlokas - 1, 0));
+    const readingShell = readingShellRef.current;
+    if (readingShell) {
+      // Keep a shorter mobile verse from reducing the page below the current viewport.
+      const currentHeight = Math.ceil(readingShell.getBoundingClientRect().height);
+      const minimumHeight = Number.parseFloat(readingShell.style.getPropertyValue('--reader-min-height')) || 0;
+      if (currentHeight > minimumHeight) {
+        readingShell.style.setProperty('--reader-min-height', `${currentHeight}px`);
+      }
+    }
     setCurrentShlokaIndex(nextIndex);
     onVerseChange?.(nextIndex + 1);
-    if (revealText) {
-      requestAnimationFrame(() => {
-        const verseText = verseSectionRef.current?.querySelector('.shloka-text');
-        if (verseText) {
-          window.scrollTo({
-            top: verseText.getBoundingClientRect().top + window.scrollY - 24,
-            behavior: 'auto',
-          });
-        }
-      });
-    }
   }, [onVerseChange, totalShlokas]);
 
   useEffect(() => {
@@ -59,12 +57,15 @@ const ChapterExplorer = ({
     const handleKeyDown = (event) => {
       const targetTag = event.target?.tagName;
       if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON'].includes(targetTag)) return;
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
 
       if (event.key === 'ArrowLeft' && currentShlokaIndex > 0) {
+        event.preventDefault();
         goToVerse(currentShlokaIndex - 1);
       }
 
       if (event.key === 'ArrowRight' && currentShlokaIndex < totalShlokas - 1) {
+        event.preventDefault();
         goToVerse(currentShlokaIndex + 1);
       }
     };
@@ -91,7 +92,7 @@ const ChapterExplorer = ({
     const requestedVerse = Number.parseInt(verseInput, 10);
 
     if (requestedVerse >= 1 && requestedVerse <= totalShlokas) {
-      goToVerse(requestedVerse - 1, true);
+      goToVerse(requestedVerse - 1);
       return;
     }
 
@@ -119,7 +120,7 @@ const ChapterExplorer = ({
       <div className="verse-reader-actions">
         <button
           type="button"
-          onClick={() => goToVerse(currentShlokaIndex - 1, true)}
+          onClick={() => goToVerse(currentShlokaIndex - 1)}
           disabled={!hasPreviousVerse}
           className="icon-button"
           aria-label="Previous verse"
@@ -145,7 +146,7 @@ const ChapterExplorer = ({
         </form>
         <button
           type="button"
-          onClick={() => goToVerse(currentShlokaIndex + 1, true)}
+          onClick={() => goToVerse(currentShlokaIndex + 1)}
           disabled={!hasNextVerse}
           className="icon-button"
           aria-label="Next verse"
@@ -158,7 +159,7 @@ const ChapterExplorer = ({
   );
 
   return (
-    <div className="reading-shell px-5 py-10 lg:px-10 lg:py-14 xl:px-16">
+    <div ref={readingShellRef} className="reading-shell px-5 py-10 lg:px-10 lg:py-14 xl:px-16">
       <div className="mx-auto max-w-5xl">
         <header className="reading-header">
           <div className="reading-header-copy">
@@ -259,7 +260,7 @@ const ChapterExplorer = ({
           </AnimatePresence>
         </section>
 
-        <section ref={verseSectionRef} className="mt-14">
+        <section className="mt-14">
           <EnhancedShlokaCard
             shloka={currentShloka}
             chapterNumber={chapterNumber}

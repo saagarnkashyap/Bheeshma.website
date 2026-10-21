@@ -1207,6 +1207,7 @@
 .chapter-mobile-reader {
   width: min(100%, 68.75rem);
   margin: 0 auto;
+  overflow-anchor: none;
 }
 
 .chapter-flip-book-shell .stf__parent {
@@ -3100,8 +3101,8 @@
 }
 
 @media (max-width: 767px) {
-  .chapter-mobile-reader .reading-shell {
-    min-height: 0;
+  .study-edition[data-theme] .chapter-mobile-reader .reading-shell {
+    min-height: var(--reader-min-height, 0px);
     padding-top: 1.25rem !important;
     padding-bottom: 2.5rem !important;
   }
