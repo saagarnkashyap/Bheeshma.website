@@ -370,6 +370,7 @@ function App() {
         currentChapter={currentChapter}
         currentVerse={currentVerse}
         chapterName={chapterName}
+        darkThree={theme === 'dark' && darkVersion === '3'}
       />
       <div
         className={`study-edition divine-bg sacred-pattern relative min-h-screen ${audioPlayerVisible ? 'audio-player-open' : ''} ${currentView === 'zen' ? 'zen-edition' : ''}`}

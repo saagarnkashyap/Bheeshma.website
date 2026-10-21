@@ -7,11 +7,11 @@ const DEFAULT_METADATA = {
     'Explore the complete Bhagavad Gita with Sanskrit verses, transliterations, meanings, life guidance, and recitations.',
 };
 
-const getMetadata = (view, chapterNumber, chapterName) => {
+const getMetadata = (view, chapterNumber, chapterName, darkThree = false) => {
   switch (view) {
     case 'chapters':
       return {
-        title: `Chapter ${chapterNumber}${chapterName ? ` — ${chapterName}` : ''} | Bhagavad Gita | Bheeshma`,
+        title: `Chapter ${chapterNumber}${chapterName ? ` ${darkThree ? '-' : '—'} ${chapterName}` : ''} | Bhagavad Gita | Bheeshma`,
         description: `Read Bhagavad Gita Chapter ${chapterNumber}${chapterName ? `, ${chapterName},` : ''} with Sanskrit verses, transliteration, English meaning, context, and recitation.`,
       };
     case 'emotions':
@@ -58,9 +58,9 @@ const updateMeta = (selector, content) => {
   if (element) element.setAttribute('content', content);
 };
 
-const SeoMetadata = ({ currentView, currentChapter, currentVerse, chapterName }) => {
+const SeoMetadata = ({ currentView, currentChapter, currentVerse, chapterName, darkThree = false }) => {
   useEffect(() => {
-    const metadata = getMetadata(currentView, currentChapter, chapterName);
+    const metadata = getMetadata(currentView, currentChapter, chapterName, darkThree);
     const pageUrl = getViewUrl(currentView, currentChapter, currentVerse);
 
     document.title = metadata.title;
@@ -73,7 +73,7 @@ const SeoMetadata = ({ currentView, currentChapter, currentVerse, chapterName })
     updateMeta('meta[name="twitter:url"]', pageUrl);
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.setAttribute('href', pageUrl);
-  }, [chapterName, currentChapter, currentVerse, currentView]);
+  }, [chapterName, currentChapter, currentVerse, currentView, darkThree]);
 
   return null;
 };
