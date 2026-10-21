@@ -1,7 +1,15 @@
 import React from 'react';
-import { ArrowDownRight, ArrowRight, ChevronsRight } from 'lucide-react';
+import { ArrowDownRight, ArrowRight, ArrowUpRight, ChevronsRight } from 'lucide-react';
 import { getViewHref } from '../lib/viewUrls';
 import { darkArtwork } from '../lib/darkArtwork';
+
+const getArtworkHref = (view) => `${getViewHref(view)}&dark=3`;
+
+const openArtwork = (event, view, onViewChange) => {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  onViewChange(view);
+};
 
 const DarkThreeHomeView = ({ onViewChange, chapters, readingProgress }) => (
   <div className="dark-three-home">
@@ -17,10 +25,10 @@ const DarkThreeHomeView = ({ onViewChange, chapters, readingProgress }) => (
         </div>
         <div className="dark-three-hero-bottom"><span>READ / LISTEN / REFLECT</span><ArrowDownRight size={22} aria-hidden="true" /></div>
       </div>
-      <figure className="dark-three-hero-art">
+      <a className="dark-three-hero-art" href={getArtworkHref(darkArtwork[0].view)} onClick={(event) => openArtwork(event, darkArtwork[0].view, onViewChange)}>
         <img src={darkArtwork[0].src} alt={darkArtwork[0].alt} width="735" height="978" fetchPriority="high" />
-        <figcaption>ARTWORK / THE FIELD <span>001</span></figcaption>
-      </figure>
+        <span className="dark-three-hero-art-caption">ARTWORK / THE FIELD <span>Saved verses <ArrowUpRight size={16} aria-hidden="true" /></span></span>
+      </a>
     </section>
 
     <section className="dark-three-artwork-section" aria-labelledby="dark-three-artwork-heading">
@@ -30,10 +38,10 @@ const DarkThreeHomeView = ({ onViewChange, chapters, readingProgress }) => (
       </div>
       <div className="dark-three-artwork-track">
         {darkArtwork.slice(1).map((artwork, index) => (
-          <figure className={`dark-three-artwork-card dark-three-artwork-card-${index + 2}`} key={artwork.src}>
-            <div className="dark-three-artwork-image"><img src={artwork.src} alt={artwork.alt} loading="lazy" decoding="async" /></div>
-            <figcaption>{String(index + 2).padStart(2, '0')} / {artwork.label}</figcaption>
-          </figure>
+          <a className={`dark-three-artwork-card dark-three-artwork-card-${index + 2}`} key={artwork.src} href={getArtworkHref(artwork.view)} onClick={(event) => openArtwork(event, artwork.view, onViewChange)}>
+            <span className="dark-three-artwork-image"><img src={artwork.src} alt={artwork.alt} loading="lazy" decoding="async" /></span>
+            <span className="dark-three-artwork-caption"><span>{String(index + 2).padStart(2, '0')} / {artwork.label}</span><span className="dark-three-artwork-cue">{artwork.pageLabel} <ArrowUpRight size={14} aria-hidden="true" /></span></span>
+          </a>
         ))}
       </div>
     </section>

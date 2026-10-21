@@ -217,6 +217,7 @@
   margin: 0;
   border-left: 1px solid #67392f;
   background: #1b0b0c;
+  cursor: pointer;
 }
 .dark-three-hero-art img {
   display: block;
@@ -227,10 +228,14 @@
   object-fit: cover;
   object-position: center 33%;
   filter: saturate(0.91) contrast(1.08);
+  transition: filter 250ms ease;
 }
-.dark-three-hero-art figcaption {
+.dark-three-hero-art:is(:hover, :focus-visible) img { filter: saturate(1.08) contrast(1.1); }
+.dark-three-hero-art-caption {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   border-top: 1px solid #67392f;
   padding: 0.8rem 1.1rem;
   color: #efd7c8;
@@ -238,6 +243,9 @@
   font-weight: 800;
   letter-spacing: 0.13em;
 }
+.dark-three-hero-art-caption span { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--terracotta); text-transform: uppercase; }
+.dark-three-hero-art-caption svg { transition: transform 180ms ease; }
+.dark-three-hero-art:is(:hover, :focus-visible) .dark-three-hero-art-caption svg { transform: translate(0.15rem, -0.15rem); }
 .dark-three-artwork-section,
 .dark-three-chapters { padding: clamp(4rem, 7vw, 7rem) clamp(1.25rem, 5vw, 6rem); }
 .dark-three-artwork-section { background: #141112; border-bottom: 1px solid #51302d; }
@@ -267,11 +275,15 @@
   gap: clamp(0.55rem, 1vw, 1rem);
   margin-top: 1.25rem;
 }
-.dark-three-artwork-card { min-width: 0; margin: 0; }
-.dark-three-artwork-image { height: clamp(13rem, 24vw, 24rem); overflow: hidden; border: 1px solid #634b44; background: #080808; }
+.dark-three-artwork-card { display: block; min-width: 0; margin: 0; cursor: pointer; }
+.dark-three-artwork-image { display: block; height: clamp(13rem, 24vw, 24rem); overflow: hidden; border: 1px solid #634b44; background: #080808; }
 .dark-three-artwork-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(0.82); transition: filter 350ms ease, transform 500ms cubic-bezier(.22,1,.36,1); }
-.dark-three-artwork-card:hover img { filter: saturate(1.15) contrast(1.06); transform: scale(1.035); }
-.dark-three-artwork-card figcaption { border-bottom: 1px solid #4f3b36; padding: 0.75rem 0; color: #d9cabc; font-size: 0.62rem; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
+.dark-three-artwork-card:is(:hover, :focus-visible) img { filter: saturate(1.15) contrast(1.06); transform: scale(1.035); }
+.dark-three-artwork-card:is(:hover, :focus-visible) .dark-three-artwork-image { border-color: var(--terracotta); }
+.dark-three-artwork-caption { display: flex; justify-content: space-between; align-items: center; gap: 0.35rem; border-bottom: 1px solid #4f3b36; padding: 0.75rem 0; color: #d9cabc; font-size: 0.66rem; font-weight: 750; letter-spacing: 0.05em; text-transform: uppercase; }
+.dark-three-artwork-cue { display: inline-flex; align-items: center; gap: 0.1rem; flex: none; color: var(--terracotta); }
+.dark-three-artwork-cue svg { transition: transform 180ms ease; }
+.dark-three-artwork-card:is(:hover, :focus-visible) .dark-three-artwork-cue svg { transform: translate(0.15rem, -0.15rem); }
 .dark-three-chapters { background: linear-gradient(160deg, #0a0a0b, #191011 80%); }
 .dark-three-chapter-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 1.4rem; border: 1px solid #604740; background: #604740; }
 .dark-three-chapter-card {
@@ -398,5 +410,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .study-edition[data-theme="dark"][data-dark-version="3"]:not(.zen-edition) .dark-template { animation: none; }
-  .study-edition[data-theme="dark"][data-dark-version="3"]:not(.zen-edition) :is(.dark-three-artwork-image img, .dark-three-chapter-number, .dark-three-chapter-cue svg, .dark-three-action-primary, .dark-three-action-secondary, .dark-three-chapter-card, .emotion-tile) { transition: none; transform: none; }
+  .study-edition[data-theme="dark"][data-dark-version="3"]:not(.zen-edition) :is(.dark-three-hero-art img, .dark-three-hero-art-caption svg, .dark-three-artwork-image img, .dark-three-artwork-cue svg, .dark-three-chapter-number, .dark-three-chapter-cue svg, .dark-three-action-primary, .dark-three-action-secondary, .dark-three-chapter-card, .emotion-tile) { transition: none; transform: none; }
 }
