@@ -54,7 +54,7 @@ const DarkThreeHomeView = ({ onViewChange, chapters, readingProgress }) => (
         ))}
       </div>
     </section>
-    <footer className="dark-three-footer"><span>BHEESHMA / BHAGAVAD GITA STUDY EDITION</span><span>READ · REFLECT · RETURN</span></footer>
+    <footer className="dark-three-footer"><span>BHEESHMA</span><span>READ · REFLECT · RETURN</span></footer>
   </div>
 );
 
