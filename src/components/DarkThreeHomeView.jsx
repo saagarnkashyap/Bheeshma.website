@@ -29,7 +29,7 @@ const DarkThreeHomeView = ({ onViewChange, chapters, readingProgress }) => (
       </div>
       <a className="dark-three-hero-art" href={getArtworkHref(darkArtwork[0].view)} onClick={(event) => openArtwork(event, darkArtwork[0].view, onViewChange)}>
         <img src={darkArtwork[0].src} alt={darkArtwork[0].alt} width="735" height="978" fetchPriority="high" />
-        <span className="dark-three-hero-art-caption">ARTWORK / THE FIELD <span>Saved verses <ArrowUpRight size={16} aria-hidden="true" /></span></span>
+        <span className="dark-three-hero-art-caption">THE FIELD / THE CHARIOT <span>Saved verses <ArrowUpRight size={16} aria-hidden="true" /></span></span>
       </a>
     </section>
 
