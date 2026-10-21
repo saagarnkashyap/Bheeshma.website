@@ -1,7 +1,9 @@
 import React from 'react';
 import { ArrowDownRight, ArrowRight, ArrowUpRight, ChevronsRight } from 'lucide-react';
 import { getViewHref } from '../lib/viewUrls';
-import { darkArtwork } from '../lib/darkArtwork';
+import { darkArtwork, darkPageArtwork } from '../lib/darkArtwork';
+
+const galleryArtwork = ['chapters', 'emotions', 'audio', 'chat', 'about'].map((view) => darkPageArtwork[view]);
 
 const getArtworkHref = (view) => `${getViewHref(view)}&dark=3`;
 
@@ -33,14 +35,14 @@ const DarkThreeHomeView = ({ onViewChange, chapters, readingProgress }) => (
 
     <section className="dark-three-artwork-section" aria-labelledby="dark-three-artwork-heading">
       <div className="dark-three-section-intro">
-        <div><p className="dark-three-eyebrow">Visual archive / 02 - 06</p><h2 id="dark-three-artwork-heading">One text.<br /><em>Many ways in.</em></h2></div>
+        <div><p className="dark-three-eyebrow">Visual archive / 01 - 05</p><h2 id="dark-three-artwork-heading">One text.<br /><em>Many ways in.</em></h2></div>
         <p>The same verses across every edition. These original artworks set the atmosphere around the reading, while the text stays clear.</p>
       </div>
       <div className="dark-three-artwork-track">
-        {darkArtwork.slice(1).map((artwork, index) => (
-          <a className={`dark-three-artwork-card dark-three-artwork-card-${index + 2}`} key={artwork.src} href={getArtworkHref(artwork.view)} onClick={(event) => openArtwork(event, artwork.view, onViewChange)}>
+        {galleryArtwork.map((artwork) => (
+          <a className="dark-three-artwork-card" key={artwork.src} href={getArtworkHref(artwork.view)} onClick={(event) => openArtwork(event, artwork.view, onViewChange)}>
             <span className="dark-three-artwork-image"><img src={artwork.src} alt={artwork.alt} loading="lazy" decoding="async" /></span>
-            <span className="dark-three-artwork-caption"><span>{String(index + 2).padStart(2, '0')} / {artwork.label}</span><span className="dark-three-artwork-cue">{artwork.pageLabel} <ArrowUpRight size={14} aria-hidden="true" /></span></span>
+            <span className="dark-three-artwork-caption"><span>{artwork.index} / {artwork.label}</span><span className="dark-three-artwork-cue">{artwork.pageLabel} <ArrowUpRight size={14} aria-hidden="true" /></span></span>
           </a>
         ))}
       </div>
