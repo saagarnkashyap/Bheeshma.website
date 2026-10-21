@@ -30,3 +30,12 @@ No license metadata or attribution file was found in the repository. These were 
 ## Isolation
 
 Dark 3 is selected with `?dark=3` and `data-dark-version="3"`. New styling lives in its own scoped stylesheet. Dark 1 and Dark 2 remain switchable. Light and Zen continue through their existing rendering paths and do not receive the artwork banner or Dark 3 CSS.
+
+## Validation
+
+- Desktop (1440 px), tablet (768 px), and mobile (390 px) rendered without horizontal overflow or JavaScript page errors. All six original images loaded when brought into view; the remaining mobile images use native lazy loading.
+- Home lists all 18 chapters. Every non-Zen content view (Chapters, Guidance, Audio, Assistant, About, Bookmarks) displays its assigned original artwork. The generated extension was removed from the project; Dark 2 now displays the uncropped original square image.
+- Deep link `?dark=3&view=chapters&chapter=2&verse=47` opened the requested passage. Dark 1, Dark 2 and Dark 3 switching retained that location.
+- On mobile, bookmarking 2.47 produced one saved entry, verse audio opened the floating player, and searching Guidance for `fear` filtered to one tile. The mobile menu exposed all three dark choices.
+- Fresh Light and Zen sessions rendered their original headers and had no Dark 3 artwork banner or JavaScript errors. No content data, Light stylesheet or Zen component changed.
+- `npm run build` succeeded; `npm run lint` reported zero errors and the six pre-existing React Refresh warnings in UI primitives.
