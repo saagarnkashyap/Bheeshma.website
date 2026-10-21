@@ -4,7 +4,7 @@ import { motion as Motion } from 'framer-motion';
 import { getViewHref } from '../lib/viewUrls';
 import '../App.css';
 
-const krishnaArtwork = '/other%20pics/dark%20theme/krishna-blue-gold-extended.webp';
+const krishnaArtwork = '/other%20pics/dark%20theme/840377761_1084744031133592_1741248250194744511_n.jpg';
 
 const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
   <div className="dark-home-page">
@@ -54,7 +54,7 @@ const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
 
         <figure className="dark-home-art">
           <div className="dark-home-art-frame">
-            <img src={krishnaArtwork} width="1024" height="1536" fetchPriority="high" alt="Contemporary blue and gold illustration of Krishna" />
+            <img src={krishnaArtwork} width="736" height="736" fetchPriority="high" alt="Blue and gold artwork of Krishna in motion" />
           </div>
           <figcaption><span>01 — 18</span></figcaption>
         </figure>

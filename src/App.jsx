@@ -8,6 +8,8 @@ import DarkAssistantView from './components/DarkAssistantView';
 import DarkEditionHeader from './components/DarkEditionHeader';
 import DarkHomeClassicView from './components/DarkHomeClassicView';
 import DarkHomeView from './components/DarkHomeView';
+import DarkThreeHomeView from './components/DarkThreeHomeView';
+import DarkThreePageBanner from './components/DarkThreePageBanner';
 import FloatingAudioPlayer from './components/FloatingAudioPlayer';
 import SeoMetadata from './components/SeoMetadata';
 import ThemeToggle from './components/ThemeToggle';
@@ -21,6 +23,7 @@ import './App.css';
 import './dark-edition.css';
 import './dark-reimagined.css';
 import './dark-compare.css';
+import './dark-three.css';
 
 const ChapterFlipBook = lazy(() => import('./components/ChapterFlipBook'));
 const EmotionSearch = lazy(() => import('./components/EmotionSearch'));
@@ -41,18 +44,19 @@ const NAV_ITEMS = [
 
 const THEME_STORAGE_KEY = 'bheeshma-theme';
 const DARK_VERSION_STORAGE_KEY = 'bheeshma-dark-version';
+const DARK_VERSIONS = ['1', '2', '3'];
 
 const readInitialAppearance = () => {
   if (typeof window === 'undefined') return { theme: 'light', darkVersion: '2' };
 
   const requestedVersion = new URLSearchParams(window.location.search).get('dark');
   const storedVersion = window.localStorage.getItem(DARK_VERSION_STORAGE_KEY);
-  const darkVersion = requestedVersion === '1' || requestedVersion === '2'
+  const darkVersion = DARK_VERSIONS.includes(requestedVersion)
     ? requestedVersion
-    : storedVersion === '1' ? '1' : '2';
+    : DARK_VERSIONS.includes(storedVersion) ? storedVersion : '2';
 
   return {
-    theme: requestedVersion === '1' || requestedVersion === '2' || window.localStorage.getItem(THEME_STORAGE_KEY) === 'dark'
+    theme: DARK_VERSIONS.includes(requestedVersion) || window.localStorage.getItem(THEME_STORAGE_KEY) === 'dark'
       ? 'dark'
       : 'light',
     darkVersion,
@@ -100,6 +104,7 @@ function App() {
   const [appearance, setAppearance] = useState(readInitialAppearance);
   const { theme, darkVersion } = appearance;
   const isReimaginedDark = theme === 'dark' && darkVersion === '2';
+  const isModernDark = theme === 'dark' && darkVersion !== '1';
   const toggleTheme = () => setAppearance((current) => ({
     ...current,
     theme: current.theme === 'light' ? 'dark' : 'light',
@@ -164,7 +169,7 @@ function App() {
     const handlePopState = () => {
       const nextViewState = getViewState();
       const requestedVersion = new URLSearchParams(window.location.search).get('dark');
-      setAppearance((current) => requestedVersion === '1' || requestedVersion === '2'
+      setAppearance((current) => DARK_VERSIONS.includes(requestedVersion)
         ? { theme: 'dark', darkVersion: requestedVersion }
         : { ...current, theme: 'light' });
       if (nextViewState.currentView === 'chapters' && currentView === 'chapters') {
@@ -280,7 +285,9 @@ function App() {
 
   const renderMainContent = () => {
     let pageContent;
-    const DarkHomeComponent = isReimaginedDark ? DarkHomeView : DarkHomeClassicView;
+    const DarkHomeComponent = darkVersion === '3'
+      ? DarkThreeHomeView
+      : isReimaginedDark ? DarkHomeView : DarkHomeClassicView;
 
     switch (currentView) {
       case 'home':
@@ -303,7 +310,7 @@ function App() {
           <ChapterFlipBook
             chapterNumber={currentChapter}
             initialVerse={currentVerse}
-            darkEdition={isReimaginedDark}
+            darkEdition={isModernDark}
             onChapterChange={setCurrentChapter}
             onVerseChange={setCurrentVerse}
             onPlayAudio={showAudioPlayer}
@@ -349,6 +356,7 @@ function App() {
 
     return theme === 'dark' ? (
       <div className={`dark-template dark-template-${currentView}`}>
+        {darkVersion === '3' && <DarkThreePageBanner view={currentView} />}
         {pageContent}
       </div>
     ) : pageContent;
@@ -475,7 +483,7 @@ function App() {
           </AnimatePresence>
         </main>
 
-        {currentView !== 'zen' && !(isReimaginedDark && currentView === 'chat') && <Motion.button
+        {currentView !== 'zen' && !(isModernDark && currentView === 'chat') && <Motion.button
           type="button"
           aria-label={isReimaginedDark ? 'Ask, open assistant' : 'Open assistant'}
           onClick={() => setCurrentView('chat')}

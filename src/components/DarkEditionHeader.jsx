@@ -6,7 +6,7 @@ import ThemeToggle from './ThemeToggle';
 const DarkVersionSwitch = ({ darkVersion, onSelect, placement }) => (
   <div className={`dark-version-switch dark-version-switch-${placement}`} role="group" aria-label="Dark mode design">
     <span className="dark-version-switch-label" aria-hidden="true">Dark mode</span>
-    {['1', '2'].map((version) => (
+    {['1', '2', '3'].map((version) => (
       <button
         key={version}
         type="button"
@@ -47,6 +47,7 @@ const DarkEditionHeader = ({
       <span>
         <span className="dark-site-brand-name">Bheeshma</span>
         {darkVersion === '2' && <span className="dark-site-brand-subtitle">The Gita, in focus</span>}
+        {darkVersion === '3' && <span className="dark-site-brand-subtitle">The field after dusk</span>}
       </span>
     </a>
 
