@@ -1,41 +1,23 @@
 import { useState, useEffect } from 'react';
 import gitaMetaData from '../assets/bhagavad_gita_meta_data.json';
 
-let cachedGitaData = null;
-let cachedError = null;
-let dataPromise = null;
-
-const loadGitaData = () => {
-  if (!dataPromise) {
-    dataPromise = import('../assets/bhagavad_gita_supersite.json')
-      .then(({ default: data }) => {
-        cachedGitaData = data;
-        return data;
-      })
-      .catch((error) => {
-        cachedError = error.message;
-        throw error;
-      });
-  }
-
-  return dataPromise;
-};
-
 export const useGitaData = () => {
-  const [gitaData, setGitaData] = useState(() => cachedGitaData);
-  const [loading, setLoading] = useState(() => !cachedGitaData && !cachedError);
-  const [error, setError] = useState(() => cachedError);
-  const metaData = gitaData ? gitaMetaData : null;
+  const [gitaData, setGitaData] = useState(null);
+  const [metaData, setMetaData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!loading) return undefined;
     let isActive = true;
 
-    loadGitaData()
-      .then((data) => {
+    Promise.all([
+      import('../assets/bhagavad_gita_supersite.json'),
+    ])
+      .then(([gitaDataModule]) => {
         if (!isActive) return;
 
-        setGitaData(data);
+        setGitaData(gitaDataModule.default);
+        setMetaData(gitaMetaData);
         setLoading(false);
       })
       .catch((err) => {
@@ -48,7 +30,7 @@ export const useGitaData = () => {
     return () => {
       isActive = false;
     };
-  }, [loading]);
+  }, []);
 
   const getChapterData = (chapterNumber) => {
     if (!gitaData) return null;
