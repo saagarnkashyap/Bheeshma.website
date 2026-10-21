@@ -3,24 +3,6 @@ import { Menu, X } from 'lucide-react';
 import { getViewHref } from '../lib/viewUrls';
 import ThemeToggle from './ThemeToggle';
 
-const DarkVersionSwitch = ({ darkVersion, onSelect, placement }) => (
-  <div className={`dark-version-switch dark-version-switch-${placement}`} role="group" aria-label="Dark mode design">
-    <span className="dark-version-switch-label" aria-hidden="true">Dark mode</span>
-    {['1', '2', '3'].map((version) => (
-      <button
-        key={version}
-        type="button"
-        className="dark-version-switch-button"
-        onClick={() => onSelect(version)}
-        aria-pressed={darkVersion === version}
-        title={`Show Dark ${version} design`}
-      >
-        Dark {version}
-      </button>
-    ))}
-  </div>
-);
-
 const DarkEditionHeader = ({
   navItems,
   currentView,
@@ -30,8 +12,6 @@ const DarkEditionHeader = ({
   isMenuOpen,
   setIsMenuOpen,
   theme,
-  darkVersion,
-  onSelectDarkVersion,
   onToggleTheme,
 }) => (
   <header className="dark-site-topbar">
@@ -46,8 +26,7 @@ const DarkEditionHeader = ({
       <span className="dark-site-brand-mark" aria-hidden="true">ॐ</span>
       <span>
         <span className="dark-site-brand-name">Bheeshma</span>
-        {darkVersion === '2' && <span className="dark-site-brand-subtitle">The Gita, in focus</span>}
-        {darkVersion === '3' && <span className="dark-site-brand-subtitle">The field after dusk</span>}
+        <span className="dark-site-brand-subtitle">The field after dusk</span>
       </span>
     </a>
 
@@ -67,14 +46,6 @@ const DarkEditionHeader = ({
       className={`dark-site-nav ${isMenuOpen ? 'dark-site-nav-open' : ''}`}
       aria-label="Primary navigation"
     >
-      <DarkVersionSwitch
-        darkVersion={darkVersion}
-        onSelect={(version) => {
-          onSelectDarkVersion(version);
-          setIsMenuOpen(false);
-        }}
-        placement="menu"
-      />
       {navItems.map(({ id, label }) => (
         <a
           key={id}
@@ -93,7 +64,6 @@ const DarkEditionHeader = ({
     </nav>
 
     <div className="dark-site-actions">
-      <DarkVersionSwitch darkVersion={darkVersion} onSelect={onSelectDarkVersion} placement="header" />
       <ThemeToggle theme={theme} onToggle={onToggleTheme} compact />
     </div>
 

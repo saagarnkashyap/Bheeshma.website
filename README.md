@@ -21,7 +21,7 @@ Bheeshma is a React web app for reading and listening to the Bhagavad Gita. It h
 
 ### Reading and appearance modes
 
-- **Light and dark themes** change the site's appearance. The selected theme is saved in the browser and applies to the main views; each theme has its own Home and Assistant layout.
+- **Light and Dark Mode** change the site's appearance. There is one Dark Mode across every main view, and the selected theme is saved in the browser. Older versioned dark links open the current Dark Mode and are rewritten without the old version parameter.
 - **Chapter reader** is the study view. It presents chapter context and a verse card with Devanagari, Roman transliteration, Kannada, and Telugu script options when available, plus the Purohit Swami English translation. A Sanskrit commentary section appears only when the Shankaracharya, Madhvacharya, and Ramanujacharya commentaries are all available for that verse.
 - **Zen mode** is a separate, minimal listening view. It plays verse recitations in sequence and has its own player. Its presentation is independent of the light/dark theme and it does not show the English translation or chapter study panels.
 

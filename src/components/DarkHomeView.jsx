@@ -1,97 +1,68 @@
 import React from 'react';
-import { ArrowRight, ChevronsRight, MoveDownRight } from 'lucide-react';
-import { motion as Motion } from 'framer-motion';
+import { ArrowDownRight, ArrowRight, ArrowUpRight, ChevronsRight } from 'lucide-react';
 import { getViewHref } from '../lib/viewUrls';
-import '../App.css';
+import { darkArtwork, darkPageArtwork } from '../lib/darkArtwork';
 
-const krishnaArtwork = '/other%20pics/dark%20theme/840377761_1084744031133592_1741248250194744511_n.jpg';
+const galleryArtwork = ['chapters', 'emotions', 'audio', 'chat', 'about'].map((view) => darkPageArtwork[view]);
+
+const openArtwork = (event, view, onViewChange) => {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  onViewChange(view);
+};
 
 const DarkHomeView = ({ onViewChange, chapters, readingProgress }) => (
-  <div className="dark-home-page">
-    <Motion.section
-      className="dark-home-hero"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.65, ease: 'easeOut' }}
-    >
-      <div className="dark-home-hero-grid">
-        <div className="dark-home-copy">
-          <p className="dark-home-kicker">A study edition for right now</p>
-          <h1 className="dark-home-title">
-            <span>Bhagavad</span>
-            <span>Gita</span>
-          </h1>
-          <p className="dark-home-description">
-            An ancient dialogue for the questions you carry today. Read a passage, hear its recitation,
-            and find room to reflect.
-          </p>
-          <div className="dark-home-actions">
-            <a
-              href={getViewHref('chapters')}
-              className="dark-home-primary-action"
-              onClick={(event) => {
-                event.preventDefault();
-                onViewChange('chapters');
-              }}
-            >
-              Start reading
-              <ArrowRight className="h-4 w-4" />
-            </a>
-            {readingProgress && (
-              <a
-                href={getViewHref('chapters', readingProgress.chapter, readingProgress.verse)}
-                className="dark-home-secondary-action"
-                onClick={(event) => {
-                  event.preventDefault();
-                  onViewChange('chapters', readingProgress.chapter, readingProgress.verse);
-                }}
-              >
-                Resume {String(readingProgress.chapter).padStart(2, '0')}.{String(readingProgress.verse).padStart(2, '0')}
-              </a>
-            )}
-          </div>
+  <div className="dark-mode-home">
+    <section className="dark-mode-hero">
+      <div className="dark-mode-hero-copy">
+        <div className="dark-mode-hero-topline"><span>BHAGAVAD GITA</span><span>01 - 18</span></div>
+        <p className="dark-mode-eyebrow">A study edition for the moment before action</p>
+        <h1><span>FACE THE</span><strong>QUESTION.</strong></h1>
+        <p className="dark-mode-hero-description">Eighteen chapters. A dialogue that stays with you. Read the text, hear each verse, and return when you need it.</p>
+        <div className="dark-mode-hero-actions">
+          <a href={getViewHref('chapters')} onClick={(event) => { event.preventDefault(); onViewChange('chapters'); }} className="dark-mode-action-primary">Enter the chapters <ArrowRight size={20} /></a>
+          {readingProgress && <a href={getViewHref('chapters', readingProgress.chapter, readingProgress.verse)} onClick={(event) => { event.preventDefault(); onViewChange('chapters', readingProgress.chapter, readingProgress.verse); }} className="dark-mode-action-secondary">Resume {String(readingProgress.chapter).padStart(2, '0')}.{String(readingProgress.verse).padStart(2, '0')} <ArrowRight size={17} /></a>}
         </div>
-
-        <figure className="dark-home-art">
-          <div className="dark-home-art-frame">
-            <img src={krishnaArtwork} width="736" height="736" fetchPriority="high" alt="Blue and gold artwork of Krishna in motion" />
-          </div>
-          <figcaption><span>01 — 18</span></figcaption>
-        </figure>
+        <div className="dark-mode-hero-bottom"><span>READ / LISTEN / REFLECT</span><ArrowDownRight size={22} aria-hidden="true" /></div>
       </div>
-      <div className="dark-home-hero-footer" aria-hidden="true"><span>18 chapters · Read at your pace</span><MoveDownRight size={18} /><span>Scroll to explore</span></div>
-    </Motion.section>
+      <a className="dark-mode-hero-art" href={getViewHref(darkArtwork[0].view)} onClick={(event) => openArtwork(event, darkArtwork[0].view, onViewChange)}>
+        <img src={darkArtwork[0].src} alt={darkArtwork[0].alt} width="735" height="978" fetchPriority="high" />
+        <span className="dark-mode-hero-art-caption">THE FIELD / THE CHARIOT <span>Saved verses <ArrowUpRight size={16} aria-hidden="true" /></span></span>
+      </a>
+    </section>
 
-    <section className="dark-home-chapters">
-      <div className="dark-home-section-heading">
-        <div>
-          <p className="dark-home-kicker">The reading path / 01—18</p>
-          <h2>Explore the chapters<span>.</span></h2>
-        </div>
-        <p>Every chapter opens the same text in Sanskrit, transliteration, and English.</p>
+    <section className="dark-mode-artwork-section" aria-labelledby="dark-mode-artwork-heading">
+      <div className="dark-mode-section-intro">
+        <div><p className="dark-mode-eyebrow">Visual archive / 01 - 05</p><h2 id="dark-mode-artwork-heading">One text.<br /><em>Many ways in.</em></h2></div>
+        <p>The Gita begins as Arjuna faces a crisis on the battlefield. Krishna's dialogue with him explores action, knowledge, devotion, and the self.</p>
       </div>
-      <div className="dark-home-chapter-grid">
-        {chapters.map((chapter) => (
-          <a
-            key={chapter.number}
-            href={getViewHref('chapters', chapter.number)}
-            className="dark-home-chapter-card"
-            onClick={(event) => {
-              event.preventDefault();
-              onViewChange('chapters', chapter.number);
-            }}
-          >
-            <span className="dark-home-chapter-number">{String(chapter.number).padStart(2, '0')}</span>
-            <span className="dark-home-chapter-title-slot">
-              <span className="dark-home-chapter-name">{chapter.name}</span>
-              <span className="dark-home-chapter-reveal" aria-hidden="true">Read <ChevronsRight className="h-5 w-5" /></span>
-            </span>
-            <ArrowRight className="dark-home-chapter-arrow h-4 w-4" aria-hidden="true" />
+      <div className="dark-mode-artwork-track">
+        {galleryArtwork.map((artwork) => (
+          <a className="dark-mode-artwork-card" key={artwork.src} href={getViewHref(artwork.view)} onClick={(event) => openArtwork(event, artwork.view, onViewChange)}>
+            <span className="dark-mode-artwork-image"><img src={artwork.src} alt={artwork.alt} loading="lazy" decoding="async" /></span>
+            <span className="dark-mode-artwork-caption"><span>{artwork.index} / {artwork.label}</span><span className="dark-mode-artwork-cue">{artwork.pageLabel} <ArrowUpRight size={14} aria-hidden="true" /></span></span>
           </a>
         ))}
       </div>
     </section>
-    <footer className="dark-home-footer"><span>Bheeshma / Bhagavad Gita study edition</span><span>Read · Reflect · Return</span></footer>
+
+    <section className="dark-mode-chapters" aria-labelledby="dark-mode-chapters-heading">
+      <div className="dark-mode-section-intro">
+        <div><p className="dark-mode-eyebrow">The reading path / 01 - 18</p><h2 id="dark-mode-chapters-heading">Every chapter<br /><em>opens a door.</em></h2></div>
+        <p>Move through the Bhagavad Gita at your pace. Each chapter leads to its verse reader, recitation, and context.</p>
+      </div>
+      <div className="dark-mode-chapter-grid">
+        {chapters.map((chapter) => (
+          <a key={chapter.number} href={getViewHref('chapters', chapter.number)} onClick={(event) => { event.preventDefault(); onViewChange('chapters', chapter.number); }} className="dark-mode-chapter-card">
+            <span className="dark-mode-chapter-index">CHAPTER / {String(chapter.number).padStart(2, '0')}</span>
+            <span className="dark-mode-chapter-number" aria-hidden="true">{String(chapter.number).padStart(2, '0')}</span>
+            <span className="dark-mode-chapter-name">{chapter.name}</span>
+            <span className="dark-mode-chapter-cue" aria-hidden="true">Read <ChevronsRight size={20} /></span>
+          </a>
+        ))}
+      </div>
+    </section>
+    <footer className="dark-mode-footer"><span>BHEESHMA</span><span>READ · REFLECT · RETURN</span></footer>
   </div>
 );
 
