@@ -32,7 +32,7 @@ const DarkThreeHomeView = ({ onViewChange, chapters, readingProgress }) => (
         {darkArtwork.slice(1).map((artwork, index) => (
           <figure className={`dark-three-artwork-card dark-three-artwork-card-${index + 2}`} key={artwork.src}>
             <div className="dark-three-artwork-image"><img src={artwork.src} alt={artwork.alt} loading="lazy" decoding="async" /></div>
-            <figcaption><span>{String(index + 2).padStart(2, '0')} / {artwork.label}</span><span>ARCHIVE</span></figcaption>
+            <figcaption>{String(index + 2).padStart(2, '0')} / {artwork.label}</figcaption>
           </figure>
         ))}
       </div>
