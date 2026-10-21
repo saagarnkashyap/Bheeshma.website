@@ -2019,32 +2019,6 @@
   text-align: center;
 }
 
-.loader-screen {
-  display: grid;
-  min-height: 100vh;
-  place-items: center;
-  background: var(--paper);
-  padding: 1.5rem;
-}
-
-.loader-content {
-  text-align: center;
-}
-
-.loader-mark {
-  color: var(--saffron);
-  font-size: 4rem;
-  line-height: 1;
-  opacity: 0.8;
-}
-
-.loader-rule {
-  width: 2.5rem;
-  height: 1px;
-  margin: 1.5rem auto;
-  background: var(--line-strong);
-}
-
 .home-hero-index {
   border-left: 1px solid var(--line-strong);
   padding-left: 2rem;
@@ -2426,10 +2400,6 @@
 .study-edition[data-theme="dark"] .about-dedication {
   background: #050506;
   box-shadow: inset 0 0 0 1px rgba(115, 80, 64, 0.55), 0 18px 48px rgba(0, 0, 0, 0.3);
-}
-
-.study-edition[data-theme="dark"] .loader-screen {
-  background: var(--paper);
 }
 
 .study-edition[data-theme="dark"] .assistant-launch {

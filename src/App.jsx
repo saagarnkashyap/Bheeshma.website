@@ -3,7 +3,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import AssistantView from './components/AssistantView';
-import ChakraLoader from './components/ChakraLoader';
 import DarkAssistantView from './components/DarkAssistantView';
 import DarkEditionHeader from './components/DarkEditionHeader';
 import DarkHomeView from './components/DarkHomeView';
@@ -439,7 +438,7 @@ function App() {
           tabIndex="-1"
           className="relative z-10 min-h-screen min-w-0"
         >
-          <AnimatePresence mode="wait" initial={false} custom={pageDirection}>
+          <AnimatePresence mode="popLayout" initial={false} custom={pageDirection}>
             <Motion.div
               key={currentView}
               className="page-turn-stage"
@@ -451,7 +450,7 @@ function App() {
               animate="animate"
               exit="exit"
             >
-              <Suspense fallback={<ChakraLoader isLoading={true} message="Opening the text..." />}>
+              <Suspense fallback={null}>
                 {renderMainContent()}
               </Suspense>
             </Motion.div>
