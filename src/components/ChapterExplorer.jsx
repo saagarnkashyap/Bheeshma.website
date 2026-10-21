@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, Lightbulb, Target } from 'lucide-react';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import EnhancedShlokaCard from './EnhancedShlokaCard';
@@ -18,13 +18,25 @@ const ChapterExplorer = ({
   const [currentShlokaIndex, setCurrentShlokaIndex] = useState(0);
   const [showChapterInfo, setShowChapterInfo] = useState(true);
   const [verseInput, setVerseInput] = useState('1');
+  const verseSectionRef = useRef(null);
   const chapterData = getChapterData(chapterNumber);
   const totalShlokas = chapterData?.shlokas?.length ?? 0;
 
-  const goToVerse = useCallback((index) => {
+  const goToVerse = useCallback((index, revealText = false) => {
     const nextIndex = Math.min(Math.max(index, 0), Math.max(totalShlokas - 1, 0));
     setCurrentShlokaIndex(nextIndex);
     onVerseChange?.(nextIndex + 1);
+    if (revealText) {
+      requestAnimationFrame(() => {
+        const verseText = verseSectionRef.current?.querySelector('.shloka-text');
+        if (verseText) {
+          window.scrollTo({
+            top: verseText.getBoundingClientRect().top + window.scrollY - 24,
+            behavior: 'auto',
+          });
+        }
+      });
+    }
   }, [onVerseChange, totalShlokas]);
 
   useEffect(() => {
@@ -79,7 +91,7 @@ const ChapterExplorer = ({
     const requestedVerse = Number.parseInt(verseInput, 10);
 
     if (requestedVerse >= 1 && requestedVerse <= totalShlokas) {
-      goToVerse(requestedVerse - 1);
+      goToVerse(requestedVerse - 1, true);
       return;
     }
 
@@ -107,7 +119,7 @@ const ChapterExplorer = ({
       <div className="verse-reader-actions">
         <button
           type="button"
-          onClick={() => goToVerse(currentShlokaIndex - 1)}
+          onClick={() => goToVerse(currentShlokaIndex - 1, true)}
           disabled={!hasPreviousVerse}
           className="icon-button"
           aria-label="Previous verse"
@@ -133,7 +145,7 @@ const ChapterExplorer = ({
         </form>
         <button
           type="button"
-          onClick={() => goToVerse(currentShlokaIndex + 1)}
+          onClick={() => goToVerse(currentShlokaIndex + 1, true)}
           disabled={!hasNextVerse}
           className="icon-button"
           aria-label="Next verse"
@@ -247,7 +259,7 @@ const ChapterExplorer = ({
           </AnimatePresence>
         </section>
 
-        <section className="mt-14">
+        <section ref={verseSectionRef} className="mt-14">
           <EnhancedShlokaCard
             shloka={currentShloka}
             chapterNumber={chapterNumber}

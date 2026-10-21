@@ -226,7 +226,7 @@ function App() {
   useEffect(() => {
     if (currentView === 'zen') return;
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  }, [currentChapter, currentView]);
+  }, [currentView]);
 
   useEffect(() => {
     if (currentView === 'zen') return;
