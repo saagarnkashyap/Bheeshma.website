@@ -36,7 +36,7 @@ const DarkThreeHomeView = ({ onViewChange, chapters, readingProgress }) => (
     <section className="dark-three-artwork-section" aria-labelledby="dark-three-artwork-heading">
       <div className="dark-three-section-intro">
         <div><p className="dark-three-eyebrow">Visual archive / 01 - 05</p><h2 id="dark-three-artwork-heading">One text.<br /><em>Many ways in.</em></h2></div>
-        <p>The same verses across every edition. These original artworks set the atmosphere around the reading, while the text stays clear.</p>
+        <p>The Gita begins as Arjuna faces a crisis on the battlefield. Krishna's dialogue with him explores action, knowledge, devotion, and the self.</p>
       </div>
       <div className="dark-three-artwork-track">
         {galleryArtwork.map((artwork) => (
